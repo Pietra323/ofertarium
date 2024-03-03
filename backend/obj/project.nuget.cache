@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "m77e+KOjgHKtVR4zKq6BWWWMFj6jrZDZOhZ29kr+QevjSwm00qVnkbVwAJDW5AZDrmacZVCzYRdC5N3AQo063w==",
+  "success": true,
+  "projectFilePath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.csproj",
+  "expectedPackageFiles": [
+    "/Users/lijapietryczuk/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "/Users/lijapietryczuk/.nuget/packages/microsoft.openapi/1.2.3/microsoft.openapi.1.2.3.nupkg.sha512",
+    "/Users/lijapietryczuk/.nuget/packages/swashbuckle.aspnetcore/6.5.0/swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "/Users/lijapietryczuk/.nuget/packages/swashbuckle.aspnetcore.swagger/6.5.0/swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "/Users/lijapietryczuk/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.5.0/swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "/Users/lijapietryczuk/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.5.0/swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
