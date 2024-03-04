@@ -107,6 +107,16 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "backend.Data/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/backend.Data.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/backend.Data.dll": {}
+        }
       }
     }
   },
@@ -460,12 +470,18 @@
         "swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
+    },
+    "backend.Data/1.0.0": {
+      "type": "project",
+      "path": "../backend.Data/backend.Data.csproj",
+      "msbuildProject": "../backend.Data/backend.Data.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
       "Microsoft.AspNetCore.OpenApi >= 7.0.16",
-      "Swashbuckle.AspNetCore >= 6.5.0"
+      "Swashbuckle.AspNetCore >= 6.5.0",
+      "backend.Data >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -474,11 +490,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backenDotNet/backendDotNet.api/backendDotNet.api.csproj",
-      "projectName": "backendDotNet.api",
-      "projectPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backenDotNet/backendDotNet.api/backendDotNet.api.csproj",
+      "projectUniqueName": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Api/backend.Api.csproj",
+      "projectName": "backend.Api",
+      "projectPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Api/backend.Api.csproj",
       "packagesPath": "/Users/lijapietryczuk/.nuget/packages/",
-      "outputPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backenDotNet/backendDotNet.api/obj/",
+      "outputPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/lijapietryczuk/.nuget/NuGet/NuGet.Config"
@@ -494,7 +510,11 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Data/backend.Data.csproj": {
+              "projectPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Data/backend.Data.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

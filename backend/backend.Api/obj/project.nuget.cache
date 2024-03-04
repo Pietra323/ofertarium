@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Y7cj1gEO5SCJ1/tnBKgydSSt7hSmV66lWqeVe/4vHbDwA0lmhk1hkoCdO8n3u8kqcSrTGXrCxBCv9PMa86t8Pw==",
+  "dgSpecHash": "5lspzHEXjkgBEHKtbHTcCdeF7Jn8s7tuQ4tp1NnqDn5yFNQJKMJ5UomyM8jjKrW8QpKlB2l/qyI64D+DoIFH8A==",
   "success": true,
-  "projectFilePath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backenDotNet/backendDotNet.api/backendDotNet.api.csproj",
+  "projectFilePath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Api/backend.Api.csproj",
   "expectedPackageFiles": [
     "/Users/lijapietryczuk/.nuget/packages/microsoft.aspnetcore.openapi/7.0.16/microsoft.aspnetcore.openapi.7.0.16.nupkg.sha512",
     "/Users/lijapietryczuk/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",

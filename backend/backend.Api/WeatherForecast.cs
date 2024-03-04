@@ -1,4 +1,4 @@
-namespace backendDotNet.api;
+namespace backend.Api;
 
 public class WeatherForecast
 {
