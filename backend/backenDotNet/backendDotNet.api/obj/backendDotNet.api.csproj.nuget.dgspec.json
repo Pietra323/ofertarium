@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.api/backend.api.csproj": {}
+    "/Users/lijapietryczuk/Desktop/ofertarium/backend/backenDotNet/backendDotNet.api/backendDotNet.api.csproj": {}
   },
   "projects": {
-    "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.api/backend.api.csproj": {
+    "/Users/lijapietryczuk/Desktop/ofertarium/backend/backenDotNet/backendDotNet.api/backendDotNet.api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.api/backend.api.csproj",
-        "projectName": "backend.api",
-        "projectPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.api/backend.api.csproj",
+        "projectUniqueName": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backenDotNet/backendDotNet.api/backendDotNet.api.csproj",
+        "projectName": "backendDotNet.api",
+        "projectPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backenDotNet/backendDotNet.api/backendDotNet.api.csproj",
         "packagesPath": "/Users/lijapietryczuk/.nuget/packages/",
-        "outputPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.api/obj/",
+        "outputPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backenDotNet/backendDotNet.api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/lijapietryczuk/.nuget/NuGet/NuGet.Config"

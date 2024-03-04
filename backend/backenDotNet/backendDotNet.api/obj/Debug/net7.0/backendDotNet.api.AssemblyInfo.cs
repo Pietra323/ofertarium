@@ -10,12 +10,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("backend.api")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("backendDotNet.api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
-[assembly: System.Reflection.AssemblyProductAttribute("backend.api")]
-[assembly: System.Reflection.AssemblyTitleAttribute("backend.api")]
+[assembly: System.Reflection.AssemblyProductAttribute("backendDotNet.api")]
+[assembly: System.Reflection.AssemblyTitleAttribute("backendDotNet.api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Wygenerowane przez klasę WriteCodeFragment programu MSBuild.
