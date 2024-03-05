@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/lijapietryczuk/Desktop/ofertarium/backend2/backend.Data/backend.Data.csproj": {}
+    "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Data/backend.Data.csproj": {}
   },
   "projects": {
-    "/Users/lijapietryczuk/Desktop/ofertarium/backend2/backend.Data/backend.Data.csproj": {
+    "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Data/backend.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/lijapietryczuk/Desktop/ofertarium/backend2/backend.Data/backend.Data.csproj",
+        "projectUniqueName": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Data/backend.Data.csproj",
         "projectName": "backend.Data",
-        "projectPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend2/backend.Data/backend.Data.csproj",
+        "projectPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Data/backend.Data.csproj",
         "packagesPath": "/Users/lijapietryczuk/.nuget/packages/",
-        "outputPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend2/backend.Data/obj/",
+        "outputPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Data/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/lijapietryczuk/.nuget/NuGet/NuGet.Config"
