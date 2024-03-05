@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "M937UxjCGXTelcNqic0RhUoiz5Cr2roAuNSRitlH/W8r1CSsqiEpehwG0pAX8/9P09a9I6muP/yMK4y+5NGCsg==",
+  "dgSpecHash": "KkZXivl1Xfb4yZAy2fPpNsUyDwhH0TgIrQx2ozipuB1jZunA3Gg35vOsPGS+UUo2zcPxuXXqohdhwkXxFQpwvQ==",
   "success": true,
-  "projectFilePath": "/Users/lijapietryczuk/Desktop/ofertarium/backend2/backend.Data/backend.Data.csproj",
+  "projectFilePath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Data/backend.Data.csproj",
   "expectedPackageFiles": [
     "/Users/lijapietryczuk/.nuget/packages/bouncycastle.cryptography/2.2.1/bouncycastle.cryptography.2.2.1.nupkg.sha512",
     "/Users/lijapietryczuk/.nuget/packages/google.protobuf/3.25.1/google.protobuf.3.25.1.nupkg.sha512",
