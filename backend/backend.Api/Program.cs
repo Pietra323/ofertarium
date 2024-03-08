@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddTransient<UserContext>();
+builder.Services.AddTransient<DataBase>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 
 // Add the missing line to add controller services

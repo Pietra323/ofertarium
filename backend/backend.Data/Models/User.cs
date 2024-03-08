@@ -12,4 +12,15 @@ public class User
     
     [Required]
     public string? Name { get; set; }
+    
+    [Required]
+    public string? LastName { get; set; }
+    
+    [Required]
+    public string? Username { get; set; }
+
+    [Required]
+    public string? email { get; set; }
+    
+    public List<Product> Products { get; set; }
 }
