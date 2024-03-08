@@ -5,9 +5,9 @@ namespace backend.Data.Repositories;
 
 public class UserRepository : IUserRepository
 {
-    private readonly UserContext _ctx;
+    private readonly DataBase _ctx;
     
-    public UserRepository(UserContext ctx)
+    public UserRepository(DataBase ctx)
     {
         _ctx = ctx;
     }

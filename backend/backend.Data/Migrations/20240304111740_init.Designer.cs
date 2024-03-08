@@ -9,7 +9,7 @@ using backend.Data.Models;
 
 namespace backend.Data.Migrations
 {
-    [DbContext(typeof(UserContext))]
+    [DbContext(typeof(DataBase))]
     [Migration("20240304111740_init")]
     partial class init
     {
