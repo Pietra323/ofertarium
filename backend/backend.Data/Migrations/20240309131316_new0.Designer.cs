@@ -10,8 +10,8 @@ using backend.Data.Models;
 namespace backend.Data.Migrations
 {
     [DbContext(typeof(DataBase))]
-    [Migration("20240308153733_new")]
-    partial class @new
+    [Migration("20240309131316_new0")]
+    partial class new0
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
