@@ -21,6 +21,4 @@ public class User
 
     [Required]
     public string? email { get; set; }
-    
-    public List<Product> Products { get; set; }
 }

@@ -9,7 +9,4 @@ public class Product
     
     [Required]
     public string? ProductName { get; set; }
-    
-    public int UserId { get; set; }
-    public User User { get; set; }
 }
