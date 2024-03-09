@@ -17,7 +17,17 @@ public class DataBase : DbContext
     }
     
     public DbSet<User> Users { get; set; }
+    public DbSet<Product> Products { get; set; }
 
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>()
+            .HasMany(e => e.Products)
+            .WithOne(e => e.User)
+            .HasForeignKey(e => e.UserId)
+            .IsRequired(false);
+    }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseMySQL(_ConnectionString);

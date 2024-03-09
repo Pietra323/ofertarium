@@ -7,14 +7,11 @@ namespace backend.Data.Models;
 public class Product
 {
     [Key] 
-    public int ProductId { get; set; }
+    public int Id { get; set; }
     
     [Required] 
     public string ProductName { get; set; }
-
-    /*
-    [ForeignKey("User")]
+    
     public int UserId { get; set; }
     public User User { get; set; }
-    */
 }
