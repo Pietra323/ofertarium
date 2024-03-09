@@ -10,8 +10,8 @@ using backend.Data.Models;
 namespace backend.Data.Migrations
 {
     [DbContext(typeof(DataBase))]
-    [Migration("20240304111740_init")]
-    partial class init
+    [Migration("20240309131536_new1`")]
+    partial class new1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,7 +27,19 @@ namespace backend.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("email")
                         .IsRequired()
                         .HasColumnType("longtext");
 

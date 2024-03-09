@@ -9,7 +9,7 @@ using backend.Data.Models;
 namespace backend.Data.Migrations
 {
     [DbContext(typeof(DataBase))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    partial class DataBaseModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -17,26 +17,6 @@ namespace backend.Data.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
-
-            modelBuilder.Entity("backend.Data.Models.Product", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ProductId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Product");
-                });
 
             modelBuilder.Entity("backend.Data.Models.User", b =>
                 {
@@ -63,22 +43,6 @@ namespace backend.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
-                });
-
-            modelBuilder.Entity("backend.Data.Models.Product", b =>
-                {
-                    b.HasOne("backend.Data.Models.User", "User")
-                        .WithMany("Products")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("backend.Data.Models.User", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

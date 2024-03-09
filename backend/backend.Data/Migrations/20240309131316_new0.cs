@@ -6,28 +6,30 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace backend.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class @new : Migration
+    public partial class new0 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "LastName",
-                table: "User",
-                type: "longtext",
-                nullable: false);
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySQL:Charset", "utf8mb4");
 
-            migrationBuilder.AddColumn<string>(
-                name: "Username",
-                table: "User",
-                type: "longtext",
-                nullable: false);
-
-            migrationBuilder.AddColumn<string>(
-                name: "email",
-                table: "User",
-                type: "longtext",
-                nullable: false);
+            migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: false),
+                    LastName = table.Column<string>(type: "longtext", nullable: false),
+                    Username = table.Column<string>(type: "longtext", nullable: false),
+                    email = table.Column<string>(type: "longtext", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.Id);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "Product",
@@ -62,17 +64,8 @@ namespace backend.Data.Migrations
             migrationBuilder.DropTable(
                 name: "Product");
 
-            migrationBuilder.DropColumn(
-                name: "LastName",
-                table: "User");
-
-            migrationBuilder.DropColumn(
-                name: "Username",
-                table: "User");
-
-            migrationBuilder.DropColumn(
-                name: "email",
-                table: "User");
+            migrationBuilder.DropTable(
+                name: "User");
         }
     }
 }
