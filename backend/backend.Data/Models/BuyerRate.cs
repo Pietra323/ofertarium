@@ -8,5 +8,7 @@ namespace backend.Data.Models;
 public class BuyerRate
 {
     [Key]
-    public int Id { get; set; } 
+    public int Id { get; set; }
+    
+    public Rate Rate { get; set; }
 }

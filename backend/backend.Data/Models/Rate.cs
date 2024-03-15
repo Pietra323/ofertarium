@@ -1,13 +1,18 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
+
 
 namespace backend.Data.Models;
 
-[Table("Comment")]
-public class Comment
+[Table("Rate")]
+public class Rate
 {
     [Key]
-    public int Id { get; set; } 
+    public int Id { get; set; }
+    
+    [Required]
+    public int OverallRate { get; set; }
     
     [Required]
     public string Content { get; set; }
@@ -17,7 +22,10 @@ public class Comment
     
     [Required]
     public TimeSpan Time { get; set; }
+    
+    public BuyerRate BuyerRate { get; set; }
+    public SellerRate SellerRate { get; set; }
 
     public int UserId;
-    public User User = new User();
+    public User User;
 }

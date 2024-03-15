@@ -26,5 +26,5 @@ public class Location
     public int PostalCode { get; set; }
     
     public int UserId { get; set; }
-    public User User { get; set; }
+    public AccountSettings AccountSettings { get; set; }
 }

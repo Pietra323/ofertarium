@@ -36,8 +36,7 @@ public class DataBase : DbContext
     public DbSet<Receipt> Receipts { get; set; }
     public DbSet<Report> Reports { get; set; }
     public DbSet<SellerRate> SellerRates { get; set; }
-    public DbSet<Tag> Tags { get; set; }
-    public DbSet<WishList> WishLists { get; set; }
+    public DbSet<Rate> Rates { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -49,13 +48,43 @@ public class DataBase : DbContext
             .IsRequired(false)
             .OnDelete(DeleteBehavior.Cascade);
         
-        //relacja User,Location - one to many
+        // Konfiguracja relacji między Rate a BuyerRate
+        modelBuilder.Entity<AccountSettings>()
+            .HasOne(r => r.User)
+            .WithOne(br => br.AccountSettings)
+            .HasForeignKey<User>(br => br.Id);
+        
+        // Konfiguracja relacji między Rate a BuyerRate
+        modelBuilder.Entity<Rate>()
+            .HasOne(r => r.BuyerRate)
+            .WithOne(br => br.Rate)
+            .HasForeignKey<BuyerRate>(br => br.Id);
+
+        // Konfiguracja relacji między Rate a SellerRate
+        modelBuilder.Entity<Rate>()
+            .HasOne(r => r.SellerRate)
+            .WithOne(sr => sr.Rate)
+            .HasForeignKey<SellerRate>(sr => sr.Id);
+        
+        //costam
+        modelBuilder.Entity<Order>()
+            .HasOne(r => r.Receipt)
+            .WithOne(sr => sr.Order)
+            .HasForeignKey<Receipt>(sr => sr.Id);
+        
+        //relacja AccountSettings,Location - one to many
         modelBuilder.Entity<Location>()
-            .HasOne(o => o.User)
+            .HasOne(o => o.AccountSettings)
             .WithMany(u => u.Locations)
             .HasForeignKey(o => o.UserId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
+        
+        modelBuilder.Entity<Delivery>()
+            .HasOne(o => o.User)
+            .WithMany(u => u.Deliveries)
+            .HasForeignKey(o => o.UserId)
+            .IsRequired();
         
         //relacja Order,User - one to many
         modelBuilder.Entity<Order>()
@@ -76,6 +105,21 @@ public class DataBase : DbContext
         modelBuilder.Entity<OrderProduct>()
             .HasOne(op => op.Product)
             .WithMany(p => p.OrderProducts)
+            .HasForeignKey(op => op.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        //relacja OrderProduct(Product,Order) - many to many
+        modelBuilder.Entity<CategoryProduct>()
+            .HasKey(op => new { op.CategoryId, op.ProductId });
+        
+        modelBuilder.Entity<CategoryProduct>()
+            .HasOne(op => op.Category)
+            .WithMany(o => o.CategoryProducts)
+            .HasForeignKey(op => op.CategoryId);
+
+        modelBuilder.Entity<CategoryProduct>()
+            .HasOne(op => op.Product)
+            .WithMany(p => p.CategoryProducts)
             .HasForeignKey(op => op.ProductId)
             .OnDelete(DeleteBehavior.Cascade);
     }

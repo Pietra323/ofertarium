@@ -11,11 +11,14 @@ public class Delivery
     public int Id { get; set; } 
     
     [Required]
-    public int deliveryName { get; set; }
+    public string deliveryName { get; set; }
     
     [Required]
     public double Price { get; set; }
 
     [Required]
     public string Address { get; set; }
+
+    public int UserId;
+    public User User = new User();
 }

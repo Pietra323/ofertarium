@@ -9,6 +9,7 @@ public class AccountSettings
     [Key] 
     public int Id { get; set; }
     
-    public int UserId { get; set; }
-    public User User { get; set; }
+    public ICollection<Location> Locations { get; set; } = new List<Location>();
+    
+    public User User { get; set; } = new User();
 }
