@@ -1,20 +1,19 @@
 using backend.Data.Models;
 using backend.Data.Repositories;
+using backend.Data.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddTransient<DataBase>();
-builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<DataBase>();
+builder.Services.AddSingleton<IUserRepository, UserRepository>();
+builder.Services.AddSingleton<IProductRepository, ProductRepository>();
 
-// Add the missing line to add controller services
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

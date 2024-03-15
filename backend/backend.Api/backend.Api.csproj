@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
+      <_ContentIncludedByDefault Remove="Views\examplePage.cshtml" />
     </ItemGroup>
 
 </Project>
