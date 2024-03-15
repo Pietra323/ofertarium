@@ -23,4 +23,8 @@ public class User
     public string? email { get; set; }
     
     public ICollection<Product> Products { get; set; } = new List<Product>();
+    public ICollection<Order> Orders { get; set; } = new List<Order>();
+    public ICollection<Location> Locations { get; set; } = new List<Location>();
+    
+    public AccountSettings AccountSettings { get; set; }
 }
