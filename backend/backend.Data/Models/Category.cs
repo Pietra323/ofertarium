@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using backend.Data.Models.ManyToManyConnections;
 
 
 namespace backend.Data.Models;
@@ -8,5 +9,7 @@ namespace backend.Data.Models;
 public class Category
 {
     [Key]
-    public int Id { get; set; } 
+    public int Id { get; set; }
+
+    public ICollection<CategoryProduct> CategoryProducts { get; set; }
 }

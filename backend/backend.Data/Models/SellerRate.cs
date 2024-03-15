@@ -5,8 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace backend.Data.Models;
 
 [Table("SellerRate")]
-public class SellerRate
+public class SellerRate : Rate
 {
     [Key]
-    public int Id { get; set; } 
+    public int Id { get; set; }
+    
+    public Rate Rate { get; set; }
 }

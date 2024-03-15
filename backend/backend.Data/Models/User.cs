@@ -24,7 +24,12 @@ public class User
     
     public ICollection<Product> Products { get; set; } = new List<Product>();
     public ICollection<Order> Orders { get; set; } = new List<Order>();
-    public ICollection<Location> Locations { get; set; } = new List<Location>();
+
+    public AccountSettings AccountSettings { get; set; } = new AccountSettings();
     
-    public AccountSettings AccountSettings { get; set; }
+    public ICollection<Delivery> Deliveries { get; set; } = new List<Delivery>();
+    
+    public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+    
+    public ICollection<Rate> Rates { get; set; } = new List<Rate>();
 }

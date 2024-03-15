@@ -20,4 +20,6 @@ public class Order
     
     public int UserId { get; set; }
     public User User { get; set; }
+    
+    public Receipt Receipt { get; set; }
 }
