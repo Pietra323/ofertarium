@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+debug/
+*.pdb
+backend/backend.Api/bin/Debug/net8.0/backend.Api.dll
+
+
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
