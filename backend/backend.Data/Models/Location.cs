@@ -25,6 +25,6 @@ public class Location
     [Required]
     public int PostalCode { get; set; }
     
-    public int UserId { get; set; }
-    public AccountSettings AccountSettings { get; set; }
+    public int AccountSettingsId { get; set; }
+    public virtual AccountSettings AccountSettings { get; set; }
 }

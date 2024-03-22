@@ -1,4 +1,5 @@
 using backend.Data.Models;
+using backend.Data.Models.DataBase;
 using backend.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,7 +29,26 @@ public class UserRepository : IUserRepository
     {
         _ctx.Users.Add(person);
         await _ctx.SaveChangesAsync();
+
+        AccountSettings NewAccountSettings = new AccountSettings()
+        {
+            User = person,
+            Id = person.Id
+        };
+
+        _ctx.AccountSettings.Add(NewAccountSettings);
+        await _ctx.SaveChangesAsync();
         return person;
+    }
+    
+    public async Task<User> LoginUser(string username, string password)
+    {
+        var user = await _ctx.Users.FirstOrDefaultAsync(u => u.Username == username);
+        if (user.Password == password)
+        {
+            return user;
+        }
+        return null;
     }
     
     public async Task UpdatePersonAsync(User person)

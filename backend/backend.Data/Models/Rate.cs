@@ -23,9 +23,9 @@ public class Rate
     [Required]
     public TimeSpan Time { get; set; }
     
-    public BuyerRate BuyerRate { get; set; }
-    public SellerRate SellerRate { get; set; }
+    public virtual BuyerRate BuyerRate { get; set; }
+    public virtual SellerRate SellerRate { get; set; }
 
-    public int UserId;
-    public User User;
+    public int UserId { get; set; }
+    public virtual User User { get; set; }
 }

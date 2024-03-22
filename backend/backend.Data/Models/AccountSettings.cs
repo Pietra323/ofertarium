@@ -9,7 +9,11 @@ public class AccountSettings
     [Key] 
     public int Id { get; set; }
     
-    public ICollection<Location> Locations { get; set; } = new List<Location>();
+    public virtual ICollection<Location>? Locations { get; set; }
     
-    public User User { get; set; } = new User();
+    public virtual User? User { get; set; }
+    
+    public virtual ICollection<Discount>? Discounts { get; set; }
+    
+    public virtual ICollection<Payment>? Payments { get; set; }
 }

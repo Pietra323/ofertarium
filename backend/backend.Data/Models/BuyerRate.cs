@@ -10,5 +10,5 @@ public class BuyerRate
     [Key]
     public int Id { get; set; }
     
-    public Rate Rate { get; set; }
+    public virtual Rate Rate { get; set; }
 }

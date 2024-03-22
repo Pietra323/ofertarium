@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "sEY9PER84145g8jSOtZOKiVEw6U0sL2uyWGOZfU3rmOD0NF2EO6E27VjofGHdWsFdo1EKlLdHsNR6pO/Y6kRyQ==",
+  "dgSpecHash": "E3Dnqyp0JTSdhhfLWXbtesd/sRAf6NBG+l9eyEVldmKLvu8lXuNuL2IkFwWNpviQt/skOL24uQ5ChD/bvA+Oaw==",
   "success": true,
   "projectFilePath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Data/backend.Data.csproj",
   "expectedPackageFiles": [
     "/Users/lijapietryczuk/.nuget/packages/bouncycastle.cryptography/2.2.1/bouncycastle.cryptography.2.2.1.nupkg.sha512",
+    "/Users/lijapietryczuk/.nuget/packages/castle.core/5.1.1/castle.core.5.1.1.nupkg.sha512",
     "/Users/lijapietryczuk/.nuget/packages/google.protobuf/3.25.1/google.protobuf.3.25.1.nupkg.sha512",
     "/Users/lijapietryczuk/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/lijapietryczuk/.nuget/packages/k4os.compression.lz4/1.3.5/k4os.compression.lz4.1.3.5.nupkg.sha512",
@@ -20,6 +21,7 @@
     "/Users/lijapietryczuk/.nuget/packages/microsoft.entityframeworkcore.abstractions/8.0.2/microsoft.entityframeworkcore.abstractions.8.0.2.nupkg.sha512",
     "/Users/lijapietryczuk/.nuget/packages/microsoft.entityframeworkcore.analyzers/8.0.2/microsoft.entityframeworkcore.analyzers.8.0.2.nupkg.sha512",
     "/Users/lijapietryczuk/.nuget/packages/microsoft.entityframeworkcore.design/8.0.2/microsoft.entityframeworkcore.design.8.0.2.nupkg.sha512",
+    "/Users/lijapietryczuk/.nuget/packages/microsoft.entityframeworkcore.proxies/8.0.2/microsoft.entityframeworkcore.proxies.8.0.2.nupkg.sha512",
     "/Users/lijapietryczuk/.nuget/packages/microsoft.entityframeworkcore.relational/8.0.2/microsoft.entityframeworkcore.relational.8.0.2.nupkg.sha512",
     "/Users/lijapietryczuk/.nuget/packages/microsoft.entityframeworkcore.tools/8.0.2/microsoft.entityframeworkcore.tools.8.0.2.nupkg.sha512",
     "/Users/lijapietryczuk/.nuget/packages/microsoft.extensions.caching.abstractions/8.0.0/microsoft.extensions.caching.abstractions.8.0.0.nupkg.sha512",
@@ -49,6 +51,7 @@
     "/Users/lijapietryczuk/.nuget/packages/system.composition.typedparts/6.0.0/system.composition.typedparts.6.0.0.nupkg.sha512",
     "/Users/lijapietryczuk/.nuget/packages/system.configuration.configurationmanager/4.4.1/system.configuration.configurationmanager.4.4.1.nupkg.sha512",
     "/Users/lijapietryczuk/.nuget/packages/system.diagnostics.diagnosticsource/7.0.2/system.diagnostics.diagnosticsource.7.0.2.nupkg.sha512",
+    "/Users/lijapietryczuk/.nuget/packages/system.diagnostics.eventlog/6.0.0/system.diagnostics.eventlog.6.0.0.nupkg.sha512",
     "/Users/lijapietryczuk/.nuget/packages/system.drawing.common/4.7.0/system.drawing.common.4.7.0.nupkg.sha512",
     "/Users/lijapietryczuk/.nuget/packages/system.io/4.3.0/system.io.4.3.0.nupkg.sha512",
     "/Users/lijapietryczuk/.nuget/packages/system.io.pipelines/6.0.3/system.io.pipelines.6.0.3.nupkg.sha512",

@@ -490,3 +490,11 @@
 /Users/lijapietryczuk/Desktop/ofertarium/backend2/backend.Api/obj/Debug/net8.0/backend.Api.pdb
 /Users/lijapietryczuk/Desktop/ofertarium/backend2/backend.Api/obj/Debug/net8.0/backend.Api.genruntimeconfig.cache
 /Users/lijapietryczuk/Desktop/ofertarium/backend2/backend.Api/obj/Debug/net8.0/ref/backend.Api.dll
+/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Api/bin/Debug/net8.0/Castle.Core.dll
+/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Api/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Proxies.dll
+/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Api/bin/Debug/net8.0/Swashbuckle.AspNetCore.Annotations.dll
+/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Api/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Api/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Api/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Api/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Api/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll

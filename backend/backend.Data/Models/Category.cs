@@ -11,5 +11,5 @@ public class Category
     [Key]
     public int Id { get; set; }
 
-    public ICollection<CategoryProduct> CategoryProducts { get; set; }
+    public virtual ICollection<CategoryProduct> CategoryProducts { get; set; }
 }

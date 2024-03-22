@@ -5,10 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace backend.Data.Models;
 
 [Table("SellerRate")]
-public class SellerRate : Rate
+public class SellerRate
 {
     [Key]
     public int Id { get; set; }
     
-    public Rate Rate { get; set; }
+    public virtual Rate? Rate { get; set; }
 }

@@ -4,9 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Data.Models;
 
-[Table("Buckets")]
+[Table("Bucket")]
 public class Bucket
 {
     [Key]
-    public int Id { get; set; } 
+    public int Id { get; set; }
+    
+    public virtual User User { get; set; }
+
+    public virtual ICollection<Product> Products { get; set; }
 }

@@ -19,5 +19,5 @@ public class Comment
     public TimeSpan Time { get; set; }
 
     public int UserId;
-    public User User = new User();
+    public virtual User User { get; set; }
 }

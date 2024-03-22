@@ -8,5 +8,7 @@ namespace backend.Data.Models;
 public class OnSale
 {
     [Key]
-    public int Id { get; set; } 
+    public int Id { get; set; }
+    
+    public virtual Product Product { get; set; }
 }
