@@ -30,6 +30,7 @@ import HelloWorld from './components/HelloWorld.vue'
       <button type="submit">Zaloguj się</button>
     </form>
     <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+    <button @click="handleLogout">Wyloguj</button>
   </div>
 </template>
 
@@ -51,6 +52,9 @@ export default defineComponent({
       if (!success) {
         this.errorMessage = 'Nieprawidłowa nazwa użytkownika lub hasło.';
       }
+    },
+    async handleLogout() {
+      localStorage.removeItem('jwtToken');
     }
   }
 });

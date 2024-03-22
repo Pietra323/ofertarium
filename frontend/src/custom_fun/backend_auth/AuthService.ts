@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 interface LoginResponse {
-    Token: string;
+    token: string;
 }
 
 export async function login(username: string, password: string): Promise<boolean> {
     try {
         const response = await axios.post<LoginResponse>('http://localhost:5004/api/users/login', { username, password });
-        const token = response.data.Token;
+        const token = response.data.token;
         localStorage.setItem('jwtToken', token);
         return true;
     } catch (error) {
