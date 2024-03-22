@@ -12,7 +12,50 @@ import HelloWorld from './components/HelloWorld.vue'
     </a>
   </div>
   <HelloWorld msg="Vite + Vue" />
+
+
+
+
+  <div class="login-form">
+    <h2>Logowanie</h2>
+    <form @submit.prevent="handleSubmit">
+      <div class="form-group">
+        <label for="username">Nazwa użytkownika:</label>
+        <input type="text" id="username" v-model="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Hasło:</label>
+        <input type="password" id="password" v-model="password" required>
+      </div>
+      <button type="submit">Zaloguj się</button>
+    </form>
+    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+  </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { login } from "./custom_fun/backend_auth/AuthService.ts";
+
+export default defineComponent({
+  data() {
+    return {
+      username: '',
+      password: '',
+      errorMessage: ''
+    };
+  },
+  methods: {
+    async handleSubmit() {
+      const success = await login(this.username, this.password);
+      if (!success) {
+        this.errorMessage = 'Nieprawidłowa nazwa użytkownika lub hasło.';
+      }
+    }
+  }
+});
+</script>
+
 
 <style scoped>
 .logo {

@@ -148,11 +148,11 @@ namespace backend.Api.Controllers
         
         
         [HttpPost("login")]
-        public async Task<IActionResult> Login(string username, string password)
+        public async Task<IActionResult> Login([FromBody] LoginRequest loginModel)
         {
             try
             {
-                var user = await _userRepo.LoginUser(username, password);
+                var user = await _userRepo.LoginUser(loginModel.Username, loginModel.Password);
                 if (user != null)
                 {
                     var token = GenerateJwtToken(user);
@@ -166,7 +166,7 @@ namespace backend.Api.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
+                return StatusCode(500); // Internal Server Error
             }
         }
         
