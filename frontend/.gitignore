@@ -14,8 +14,7 @@ dist-ssr
 
 debug/
 *.pdb
-.//backend/backend.Api/bin/Debug/net8.0/backend.Api.dll
-
+../backend
 
 
 # Editor directories and files
