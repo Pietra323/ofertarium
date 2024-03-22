@@ -22,7 +22,6 @@ public class Payment
     [Required]
     public int SecureCode { get; set; }
 
-    public int UserId;
-    public User User = new User();
-    public AccountSettings AccountSettings { get; set; } = new AccountSettings();
+    public int AccountSettingsId { get; set; }
+    public virtual AccountSettings AccountSettings { get; set; }
 }

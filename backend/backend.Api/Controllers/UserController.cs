@@ -1,9 +1,11 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using backend.Data.Models;
-using backend.Data.Repositories;
 using backend.Data.Repositories.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol.Plugins;
+using Microsoft.IdentityModel.Tokens;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace backend.Api.Controllers
 {
@@ -22,8 +24,9 @@ namespace backend.Api.Controllers
             _userRepo = userRepo;
             _logger = logger;
         }
-
+        
         [HttpPost]
+        [SwaggerOperation(Summary = "Dodaj nowego użytkownika")]
         public async Task<IActionResult> AddUser(User user)
         {
             try
@@ -142,5 +145,48 @@ namespace backend.Api.Controllers
             }
         }
 
+        
+        
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(string username, string password)
+        {
+            try
+            {
+                var user = await _userRepo.LoginUser(username, password);
+                if (user != null)
+                {
+                    var token = GenerateJwtToken(user);
+                    return Ok(new { Token = token });
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        
+        
+        private string GenerateJwtToken(User user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("a5ff671c7b8b5dbe3ed056bbafe8edae9fe86e53845b6d32707ee96e99feb5bb"); // Sekretny klucz do podpisywania tokena
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, user.Username),
+                    // Tutaj możesz dodać więcej roszczeń (claims) w zależności od potrzeb
+                }),
+                Expires = DateTime.UtcNow.AddHours(1), // Czas wygaśnięcia tokena (np. 1 godzina)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
     }
 }

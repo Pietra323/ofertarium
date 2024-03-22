@@ -1,35 +1,45 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using backend.Data.Models.ManyToManyConnections;
 
-namespace backend.Data.Models;
-
-[Table("User")]
-public class User
+namespace backend.Data.Models
 {
-    [Key]
-    public int Id { get; set; } 
-    
-    [Required]
-    public string? Name { get; set; }
-    
-    [Required]
-    public string? LastName { get; set; }
-    
-    [Required]
-    public string? Username { get; set; }
+    [Table("User")]
+    public class User
+    {
+        [Key]
+        public int Id { get; set; } 
+        
+        [Required]
+        public string Name { get; set; }
+        
+        [Required]
+        public string LastName { get; set; }
+        
+        [Required]
+        public string Username { get; set; }
 
-    [Required]
-    public string? email { get; set; }
-    
-    public ICollection<Product> Products { get; set; } = new List<Product>();
-    public ICollection<Order> Orders { get; set; } = new List<Order>();
+        [Required]
+        public string Email { get; set; }
+        
+        [Required]
+        public string Password { get; set; }
+        
+        public virtual ICollection<Product>? Products { get; set; }
+        public virtual ICollection<Order>? Orders { get; set; }
 
-    public AccountSettings AccountSettings { get; set; } = new AccountSettings();
-    
-    public ICollection<Delivery> Deliveries { get; set; } = new List<Delivery>();
-    
-    public ICollection<Comment> Comments { get; set; } = new List<Comment>();
-    
-    public ICollection<Rate> Rates { get; set; } = new List<Rate>();
+        public virtual AccountSettings? AccountSettings { get; set; }
+        
+        public virtual ICollection<Comment>? Comments { get; set; }
+        
+        public virtual ICollection<Rate>? Rates { get; set; }
+        
+        public virtual ICollection<UserFavourite>? UserFavourite { get; set; }
+        
+        public virtual Bucket? Bucket { get; set; }
+        
+        public virtual ICollection<AuctionUser>? AuctionUsers { get; set; }
+    }
 }

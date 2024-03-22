@@ -18,7 +18,6 @@ public class Delivery
 
     [Required]
     public string Address { get; set; }
-
-    public int UserId;
-    public User User = new User();
+    
+    public virtual Order Order { get; set; }
 }

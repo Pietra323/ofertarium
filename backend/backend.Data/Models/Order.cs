@@ -15,11 +15,13 @@ public class Order
     [Required]
     public string Name { get; set; }
     
-    [Required]
-    public ICollection<OrderProduct> OrderProducts { get; set; }
+    public virtual ICollection<OrderProduct> OrderProducts { get; set; }
     
     public int UserId { get; set; }
-    public User User { get; set; }
+    public virtual User User { get; set; }
     
-    public Receipt Receipt { get; set; }
+    public virtual Receipt Receipt { get; set; }
+    
+    public virtual Delivery Delivery { get; set; }
+
 }

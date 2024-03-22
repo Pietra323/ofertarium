@@ -1,16 +1,21 @@
+using System.Text.Json.Serialization;
 using backend.Data.Models;
+using backend.Data.Models.DataBase;
 using backend.Data.Repositories;
 using backend.Data.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c=>{c.EnableAnnotations();});
 builder.Services.AddSingleton<DataBase>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<IProductRepository, ProductRepository>();
 
-builder.Services.AddControllers();
+
+
+builder.Services.AddControllers().AddJsonOptions(x =>
+    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
 var app = builder.Build();
 
