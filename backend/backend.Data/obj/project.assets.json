@@ -3870,19 +3870,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/lijapietryczuk/.nuget/packages/": {}
+    "/Users/pietra/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Data/backend.Data.csproj",
+      "projectUniqueName": "/Users/pietra/WebstormProjects/ofertarium/backend/backend.Data/backend.Data.csproj",
       "projectName": "backend.Data",
-      "projectPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Data/backend.Data.csproj",
-      "packagesPath": "/Users/lijapietryczuk/.nuget/packages/",
-      "outputPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Data/obj/",
+      "projectPath": "/Users/pietra/WebstormProjects/ofertarium/backend/backend.Data/backend.Data.csproj",
+      "packagesPath": "/Users/pietra/.nuget/packages/",
+      "outputPath": "/Users/pietra/WebstormProjects/ofertarium/backend/backend.Data/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/lijapietryczuk/.nuget/NuGet/NuGet.Config"
+        "/Users/pietra/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -3901,11 +3901,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -3951,7 +3946,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

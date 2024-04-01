@@ -8354,19 +8354,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/lijapietryczuk/.nuget/packages/": {}
+    "/Users/pietra/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Api/backend.Api.csproj",
+      "projectUniqueName": "/Users/pietra/WebstormProjects/ofertarium/backend/backend.Api/backend.Api.csproj",
       "projectName": "backend.Api",
-      "projectPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Api/backend.Api.csproj",
-      "packagesPath": "/Users/lijapietryczuk/.nuget/packages/",
-      "outputPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Api/obj/",
+      "projectPath": "/Users/pietra/WebstormProjects/ofertarium/backend/backend.Api/backend.Api.csproj",
+      "packagesPath": "/Users/pietra/.nuget/packages/",
+      "outputPath": "/Users/pietra/WebstormProjects/ofertarium/backend/backend.Api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/lijapietryczuk/.nuget/NuGet/NuGet.Config"
+        "/Users/pietra/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -8379,8 +8379,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Data/backend.Data.csproj": {
-              "projectPath": "/Users/lijapietryczuk/Desktop/ofertarium/backend/backend.Data/backend.Data.csproj"
+            "/Users/pietra/WebstormProjects/ofertarium/backend/backend.Data/backend.Data.csproj": {
+              "projectPath": "/Users/pietra/WebstormProjects/ofertarium/backend/backend.Data/backend.Data.csproj"
             }
           }
         }
@@ -8389,11 +8389,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -8450,7 +8445,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
