@@ -1,17 +1,23 @@
 using System.Text.Json.Serialization;
-using backend.Data.Models;
 using backend.Data.Models.DataBase;
 using backend.Data.Repositories;
 using backend.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c=>{c.EnableAnnotations();});
+builder.Services.AddSwaggerGen(c => { c.EnableAnnotations(); });
 builder.Services.AddSingleton<DataBase>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<IProductRepository, ProductRepository>();
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie();
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddControllers().AddJsonOptions(x =>
     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
@@ -31,6 +37,11 @@ app.UseCors(builder =>
 );
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

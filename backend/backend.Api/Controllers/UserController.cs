@@ -1,10 +1,15 @@
-using System.IdentityModel.Tokens.Jwt;
+using backend.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using backend.Data.Models;
-using backend.Data.Repositories.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace backend.Api.Controllers
@@ -15,16 +20,16 @@ namespace backend.Api.Controllers
     {
         private readonly IUserRepository _userRepo;
         private readonly ILogger<UserController> _logger;
-        
+
         public UserController(
             IUserRepository userRepo,
             ILogger<UserController> logger
-            )
+        )
         {
             _userRepo = userRepo;
             _logger = logger;
         }
-        
+
         [HttpPost]
         [SwaggerOperation(Summary = "Dodaj nowego użytkownika")]
         public async Task<IActionResult> AddUser(User user)
@@ -41,18 +46,20 @@ namespace backend.Api.Controllers
                     e.Message);
             }
         }
-        
+
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> UpdateUser(User userToUpdate)
         {
             try
             {
-                var existingUser = await _userRepo.GetPeopleByIdAsync (userToUpdate.Id);
-                if (existingUser.Equals(null))
+                var existingUser = await _userRepo.GetPeopleByIdAsync(userToUpdate.Id);
+                if (existingUser == null)
                 {
                     return NotFound(new
                     {
-                        statusCode=404, message="record not found"
+                        statusCode = 404,
+                        message = "record not found"
                     });
                 }
 
@@ -66,22 +73,25 @@ namespace backend.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new
                     {
-                        statusCode=500, message=e.Message
+                        statusCode = 500,
+                        message = e.Message
                     });
             }
         }
-        
+
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteUser(int id)
         {
             try
             {
-                var existingUser = await _userRepo.GetPeopleByIdAsync (id);
-                if (existingUser.Equals(null))
+                var existingUser = await _userRepo.GetPeopleByIdAsync(id);
+                if (existingUser == null)
                 {
                     return NotFound(new
                     {
-                        statusCode=404, message="record not found"
+                        statusCode = 404,
+                        message = "record not found"
                     });
                 }
 
@@ -94,12 +104,14 @@ namespace backend.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new
                     {
-                        statusCode=500, message=e.Message
+                        statusCode = 500,
+                        message = e.Message
                     });
             }
         }
-        
+
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetUsers()
         {
             try
@@ -113,22 +125,25 @@ namespace backend.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new
                     {
-                        statusCode=500, message=e.Message
+                        statusCode = 500,
+                        message = e.Message
                     });
             }
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetUserById(int id)
         {
             try
             {
                 var user = await _userRepo.GetPeopleByIdAsync(id);
-                if (user.Equals(null))
+                if (user == null)
                 {
                     return NotFound(new
                     {
-                        statusCode=404, message="record not found"
+                        statusCode = 404,
+                        message = "record not found"
                     });
                 }
 
@@ -140,14 +155,14 @@ namespace backend.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new
                     {
-                        statusCode=500, message=e.Message
+                        statusCode = 500,
+                        message = e.Message
                     });
             }
         }
 
-        
-        
         [HttpPost("login")]
+        [SwaggerOperation(Summary = "Logowanie użytkownika")]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginModel)
         {
             try
@@ -155,38 +170,36 @@ namespace backend.Api.Controllers
                 var user = await _userRepo.LoginUser(loginModel.Username, loginModel.Password);
                 if (user != null)
                 {
-                    var token = GenerateJwtToken(user);
-                    return Ok(new { Token = token });
+                    var claims = new[]
+                    {
+                        new Claim(ClaimTypes.Name, user.Username),
+                        new Claim(ClaimTypes.Role, "UserRole")
+                    };
+
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                    return Ok(new { message = "Logged in successfully." });
                 }
                 else
                 {
-                    return Unauthorized();
+                    return Unauthorized(new { message = "Invalid username or password." });
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                return StatusCode(500); // Internal Server Error
+                _logger.LogError(e, "An error occurred during login");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
             }
         }
-        
-        
-        private string GenerateJwtToken(User user)
+
+        [HttpGet("logout")]
+        [Authorize]
+        public async Task<IActionResult> Logout()
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes("a5ff671c7b8b5dbe3ed056bbafe8edae9fe86e53845b6d32707ee96e99feb5bb"); // Sekretny klucz do podpisywania tokena
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.Username),
-                    // Tutaj możesz dodać więcej roszczeń (claims) w zależności od potrzeb
-                }),
-                Expires = DateTime.UtcNow.AddHours(1), // Czas wygaśnięcia tokena (np. 1 godzina)
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Ok(new { message = "Logged out successfully." });
         }
     }
 }
