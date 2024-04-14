@@ -111,7 +111,7 @@ namespace backend.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> GetUsers()
         {
             try
@@ -170,11 +170,16 @@ namespace backend.Api.Controllers
                 var user = await _userRepo.LoginUser(loginModel.Username, loginModel.Password);
                 if (user != null)
                 {
-                    var claims = new[]
+                    var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, user.Username),
-                        new Claim(ClaimTypes.Role, "UserRole")
+                        new Claim(ClaimTypes.Role, "Użytkownik")
                     };
+
+                    if (user.isAdmin)
+                    {
+                        claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
+                    }
 
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);
@@ -193,6 +198,7 @@ namespace backend.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
             }
         }
+
 
         [HttpGet("logout")]
         [Authorize]

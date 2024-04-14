@@ -27,10 +27,13 @@ namespace backend.Data.Models
         [Required]
         public string Password { get; set; }
         
+        [Required]
+        public bool isAdmin { get; set; }
+        
         public virtual ICollection<Product>? Products { get; set; }
         public virtual ICollection<Order>? Orders { get; set; }
 
-        public virtual AccountSettings? AccountSettings { get; set; }
+        public virtual AccountSettings AccountSettings { get; set; }
         
         public virtual ICollection<Comment>? Comments { get; set; }
         
