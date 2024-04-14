@@ -239,8 +239,9 @@ public class DataBase : DbContext
         
         //SEED
         modelBuilder.Entity<User>().HasData(
-            new User() { Id = 1, Name = "Joanna", LastName = "Przybysz", Username = "JPrzybysz", Email = "JPrzybysz@mail.com", Password = "JPrzybysz123." }
-        );
+            new User() { Id = 1, Name = "Joanna", LastName = "Przybysz", Username = "JPrzybysz", Email = "JPrzybysz@mail.com", Password = "JPrzybysz123.", isAdmin = false},
+            new User() { Id = 2, Name = "Anna", LastName = "Utna", Username = "AUtna", Email = "AUtna@mail.com", Password = "AUtna123.", isAdmin = true}
+            );
         
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
