@@ -10,6 +10,15 @@ public class Category
 {
     [Key]
     public int Id { get; set; }
+    
+    [Required]
+    public string Nazwa { get; set; }
+    
+    [Required]
+    public string Description { get; set; }
+    
+    [Required]
+    public string ImageUrl { get; set; }
 
-    public virtual ICollection<CategoryProduct> CategoryProducts { get; set; }
+    public virtual ICollection<CategoryProduct>? CategoryProducts { get; set; }
 }

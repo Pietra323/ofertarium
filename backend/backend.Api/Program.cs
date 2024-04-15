@@ -13,11 +13,16 @@ builder.Services.AddSwaggerGen(c => { c.EnableAnnotations(); });
 builder.Services.AddSingleton<DataBase>();
 builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<IProductRepository, ProductRepository>();
+builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
+builder.Services.AddSingleton<IBasketRepository, BasketRepository>();
+
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie();
 
 builder.Services.AddAuthorization();
+builder.Services.AddHttpClient();
+
 
 builder.Services.AddControllers().AddJsonOptions(x =>
     x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);

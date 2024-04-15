@@ -29,14 +29,24 @@ public class UserRepository : IUserRepository
     {
         _ctx.Users.Add(person);
         await _ctx.SaveChangesAsync();
+        
+        var userId = person.Id;
 
         AccountSettings NewAccountSettings = new AccountSettings()
         {
             User = person,
-            Id = person.Id
+            Id = userId
+        };
+        
+        Basket newBasket = new Basket()
+        {
+            User = person,
+            Id = userId
         };
 
         _ctx.AccountSettings.Add(NewAccountSettings);
+        await _ctx.SaveChangesAsync();
+        _ctx.Baskets.Add(newBasket);
         await _ctx.SaveChangesAsync();
         return person;
     }
@@ -54,6 +64,14 @@ public class UserRepository : IUserRepository
     public async Task UpdatePersonAsync(User person)
     {
         _ctx.Users.Update(person);
+        await _ctx.SaveChangesAsync();
+    }
+    
+    public async Task UpdatePasswordAsync(string password)
+    {
+        var newUser = new User();
+        newUser.Password = password;
+        _ctx.Users.Update(newUser);
         await _ctx.SaveChangesAsync();
     }
     
