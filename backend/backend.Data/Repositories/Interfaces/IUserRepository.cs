@@ -1,6 +1,6 @@
 using backend.Data.Models;
 
-namespace backend.Data.Repositories;
+namespace backend.Data.Repositories.Interfaces;
 
 public interface IUserRepository
 {
@@ -9,4 +9,6 @@ public interface IUserRepository
     Task<User> CreatePersonAsync(User person);
     Task UpdatePersonAsync(User person);
     Task DeletePersonAsync(User person);
+    Task<User> LoginUser(string username, string password);
+    Task UpdatePasswordAsync(string password);
 }
