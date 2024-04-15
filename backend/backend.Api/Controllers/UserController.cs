@@ -30,6 +30,37 @@ namespace backend.Api.Controllers
             _logger = logger;
         }
 
+        
+        [HttpPost("seed")]
+        [SwaggerOperation(Summary = "Seedowanie użytkowników")]
+        public async Task<IActionResult> SeedUsers(int count)
+        {
+            try
+            {
+                for (int i = 1; i <= count; i++)
+                {
+                    var user = new User
+                    {
+                        Name = $"FirstName{i}",
+                        LastName = $"LastName{i}",
+                        Username = $"user{i}",
+                        Email = $"user{i}@example.com",
+                        Password = $"password{i}{i}{i}.",
+                        isAdmin = false
+                    };
+
+                    await _userRepo.CreatePersonAsync(user);
+                }
+
+                return Ok("Użytkownicy zostali dodani.");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+        
         [HttpPost]
         [SwaggerOperation(Summary = "Dodaj nowego użytkownika")]
         public async Task<IActionResult> AddUser(User user)
@@ -46,14 +77,19 @@ namespace backend.Api.Controllers
                     e.Message);
             }
         }
-
+        
         [HttpPut]
         [Authorize]
         public async Task<IActionResult> UpdateUser(User userToUpdate)
         {
             try
             {
-                var existingUser = await _userRepo.GetPeopleByIdAsync(userToUpdate.Id);
+                int? userId = Auth.GetUserId(HttpContext);
+                if (userId == null)
+                {
+                    Unauthorized();
+                }
+                var existingUser = await _userRepo.GetPeopleByIdAsync(userId.Value);
                 if (existingUser == null)
                 {
                     return NotFound(new
@@ -64,6 +100,9 @@ namespace backend.Api.Controllers
                 }
 
                 existingUser.Name = userToUpdate.Name;
+                existingUser.Password = userToUpdate.Password;
+                existingUser.Username = userToUpdate.Username;
+                existingUser.Email = userToUpdate.Email;
                 await _userRepo.UpdatePersonAsync(existingUser);
                 return NoContent();
             }
@@ -80,7 +119,7 @@ namespace backend.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             try
@@ -111,7 +150,6 @@ namespace backend.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> GetUsers()
         {
             try
@@ -131,7 +169,7 @@ namespace backend.Api.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("Id")]
         [Authorize]
         public async Task<IActionResult> GetUserById(int id)
         {
@@ -172,6 +210,7 @@ namespace backend.Api.Controllers
                 {
                     var claims = new List<Claim>
                     {
+                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                         new Claim(ClaimTypes.Name, user.Username),
                         new Claim(ClaimTypes.Role, "Użytkownik")
                     };

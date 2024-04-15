@@ -2,6 +2,7 @@ using backend.Data.Models.ManyToManyConnections;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
+
 namespace backend.Data.Models.DataBase;
 
 public class DataBase : DbContext
@@ -24,7 +25,7 @@ public class DataBase : DbContext
     public DbSet<AccountSettings> AccountSettings { get; set; }
     public DbSet<Delivery> Deliveries { get; set; }
     public DbSet<Auction> Auctions { get; set; }
-    public DbSet<Bucket> Buckets { get; set; }
+    public DbSet<Basket> Baskets { get; set; }
     public DbSet<BuyerRate> BuyerRates { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Comment> Comments { get; set; }
@@ -75,7 +76,19 @@ public class DataBase : DbContext
             .HasForeignKey(o => o.AccountSettingsId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
-        
+        /*
+        modelBuilder.Entity<Product>()
+            .HasOne(r => r.OnSale)
+            .WithOne(sr => sr.Product)
+            .HasForeignKey<Product>(sr => sr.IdProduct)
+            .IsRequired(false);
+        */
+        modelBuilder.Entity<Product>()
+            .HasOne(o => o.Bucket)
+            .WithMany(u => u.Products)
+            .HasForeignKey(o => o.BucketId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired(false);
         
         
 
@@ -107,17 +120,13 @@ public class DataBase : DbContext
             .IsRequired(false);
         
         //costam2
-        modelBuilder.Entity<Product>()
-            .HasOne(r => r.OnSale)
-            .WithOne(sr => sr.Product)
-            .HasForeignKey<Product>(sr => sr.Id)
-            .IsRequired(false);
+
         
         //costam3
-        modelBuilder.Entity<Bucket>()
+        modelBuilder.Entity<Basket>()
             .HasOne(r => r.User)
             .WithOne(sr => sr.Bucket)
-            .HasForeignKey<Bucket>(sr => sr.Id)
+            .HasForeignKey<Basket>(sr => sr.Id)
             .IsRequired(false);
         
         //costam32
@@ -134,10 +143,10 @@ public class DataBase : DbContext
             .HasForeignKey<Auction>(sr => sr.Id)
             .IsRequired(false);
         
-        modelBuilder.Entity<Bucket>()
+        modelBuilder.Entity<Basket>()
             .HasOne(r => r.User)
             .WithOne(sr => sr.Bucket)
-            .HasForeignKey<Bucket>(sr => sr.Id)
+            .HasForeignKey<Basket>(sr => sr.Id)
             .IsRequired(false);
         
         //relacja OrderProduct(Product,Order) - many to many
@@ -150,8 +159,8 @@ public class DataBase : DbContext
             .HasForeignKey(op => op.AuctionId)
             .IsRequired(false);
 
-        // Dodaj relację między Bucket a Product
-        modelBuilder.Entity<Bucket>()
+        // Dodaj relację między Basket a Product
+        modelBuilder.Entity<Basket>()
             .HasMany(b => b.Products)
             .WithOne(p => p.Bucket)
             .HasForeignKey(p => p.BucketId)
@@ -161,15 +170,6 @@ public class DataBase : DbContext
             .HasOne(op => op.User)
             .WithMany(p => p.AuctionUsers)
             .HasForeignKey(op => op.UserId)
-            .OnDelete(DeleteBehavior.Cascade)
-            .IsRequired(false);
-        
-        
-        //relacja AccountSettings,Location - one to many
-        modelBuilder.Entity<Product>()
-            .HasOne(o => o.Bucket)
-            .WithMany(u => u.Products)
-            .HasForeignKey(o => o.BucketId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
         
@@ -231,17 +231,6 @@ public class DataBase : DbContext
             .HasForeignKey(op => op.FavouriteId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
-        
-        
-        
-        
-        
-        
-        //SEED
-        modelBuilder.Entity<User>().HasData(
-            new User() { Id = 1, Name = "Joanna", LastName = "Przybysz", Username = "JPrzybysz", Email = "JPrzybysz@mail.com", Password = "JPrzybysz123.", isAdmin = false},
-            new User() { Id = 2, Name = "Anna", LastName = "Utna", Username = "AUtna", Email = "AUtna@mail.com", Password = "AUtna123.", isAdmin = true}
-            );
         
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

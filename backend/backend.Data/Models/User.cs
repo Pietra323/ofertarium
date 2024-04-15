@@ -33,7 +33,7 @@ namespace backend.Data.Models
         public virtual ICollection<Product>? Products { get; set; }
         public virtual ICollection<Order>? Orders { get; set; }
 
-        public virtual AccountSettings AccountSettings { get; set; }
+        public virtual AccountSettings? AccountSettings { get; set; }
         
         public virtual ICollection<Comment>? Comments { get; set; }
         
@@ -41,7 +41,7 @@ namespace backend.Data.Models
         
         public virtual ICollection<UserFavourite>? UserFavourite { get; set; }
         
-        public virtual Bucket? Bucket { get; set; }
+        public virtual Basket? Bucket { get; set; }
         
         public virtual ICollection<AuctionUser>? AuctionUsers { get; set; }
     }

@@ -1,3 +1,4 @@
+using System.Data.Common;
 using backend.Data.Models;
 using backend.Data.Models.DataBase;
 using backend.Data.Repositories.Interfaces;
@@ -14,7 +15,7 @@ public class ProductRepository : IProductRepository
         _ctx = ctx;
     }
     
-    public async Task<IEnumerable<Product>> GetAllProducts(int userId)
+    public async Task<IEnumerable<Product>> GetAllUserProducts(int userId)
     {
         var userProducts = await _ctx.Users
             .Where(u => u.Id == userId)
@@ -23,14 +24,33 @@ public class ProductRepository : IProductRepository
         return userProducts;
     }
     
+    public async Task<IEnumerable<Product>> GetAllProducts()
+    {
+        var products = await _ctx.Products.ToListAsync();
+        return products;
+    }
+
+    
+    public async Task<IEnumerable<Product>> GetAllProductsByCategory(string category)
+    {
+        var productsInCategory = await _ctx.Products
+            .Where(p => p.CategoryProducts.Any(cp => cp.Category.Nazwa == category))
+            .ToListAsync();
+
+        return productsInCategory;
+    }
+
+    
     public async Task<Product> GetProductById(int userId, int productId)
     {
         var userProductById = await _ctx.Users
             .Where(u => u.Id == userId)
             .SelectMany(u => u.Products)
-            .FirstOrDefaultAsync(p => p.Id == productId);
+            .FirstOrDefaultAsync(p => p.IdProduct == productId);
         return userProductById;
     }
+    
+    
     
     public async Task<Product> CreateProduct(int userId, Product product)
     {
