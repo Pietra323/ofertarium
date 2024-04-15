@@ -12,13 +12,13 @@ public class CategoryController : ControllerBase
     
     private readonly IProductRepository _productRepo;
     private readonly ICategoryRepository _categoryRepo;
-    private readonly ILogger<ProductRepository> _logger;
+    private readonly ILogger<CategoryController> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
 
     public CategoryController(
         ICategoryRepository categoryRepo,
         IProductRepository productRepo,
-        ILogger<ProductRepository> logger,
+        ILogger<CategoryController> logger,
         IHttpClientFactory httpClientFactory
     )
     {

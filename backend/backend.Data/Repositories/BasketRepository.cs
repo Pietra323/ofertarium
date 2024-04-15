@@ -19,6 +19,7 @@ public class BasketRepository : IBasketRepository
 
     public async Task AddToBasket(int userId, int productId)
     {
-        
+        var user = _userRepository.GetPeopleByIdAsync(userId);
+        var produ
     }
 }

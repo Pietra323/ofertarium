@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "bTdilnWTI1LfAr+fw6Dns8Z5sCEgV2kyXPbzNiTlIbUy7Ld7tmlN4Yw6Ixm/XA4IgAl2Iusifs5mx7Hj1478pA==",
+  "dgSpecHash": "1hO4ab78l+EbM4cp3CfHXtMSqO6kO3vE7nhr537Q/kxudsKBS1pNi5eGnpTBL0sNHRAg9GZTT9oybilS+I69pg==",
   "success": true,
   "projectFilePath": "/Users/pietra/WebstormProjects/ofertarium/backend/backend.Api/backend.Api.csproj",
   "expectedPackageFiles": [
