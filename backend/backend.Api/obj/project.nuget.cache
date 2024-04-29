@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "1hO4ab78l+EbM4cp3CfHXtMSqO6kO3vE7nhr537Q/kxudsKBS1pNi5eGnpTBL0sNHRAg9GZTT9oybilS+I69pg==",
+  "dgSpecHash": "9OSGhyvU04+A4iCXBRL2GErqwJ6fvKNOCE3lcIqgG2PtHNZtSoqqwSoF2H47lplrCjI2V7LYnWa6vVL4QyBCDw==",
   "success": true,
   "projectFilePath": "/Users/pietra/WebstormProjects/ofertarium/backend/backend.Api/backend.Api.csproj",
   "expectedPackageFiles": [
@@ -143,6 +143,7 @@
     "/Users/pietra/.nuget/packages/runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl/4.3.2/runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "/Users/pietra/.nuget/packages/runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl/4.3.2/runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "/Users/pietra/.nuget/packages/runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.2/runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
+    "/Users/pietra/.nuget/packages/stripe.net/44.3.0/stripe.net.44.3.0.nupkg.sha512",
     "/Users/pietra/.nuget/packages/swashbuckle.aspnetcore/6.4.0/swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
     "/Users/pietra/.nuget/packages/swashbuckle.aspnetcore.annotations/6.5.0/swashbuckle.aspnetcore.annotations.6.5.0.nupkg.sha512",
     "/Users/pietra/.nuget/packages/swashbuckle.aspnetcore.swagger/6.5.0/swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",

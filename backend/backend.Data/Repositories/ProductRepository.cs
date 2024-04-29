@@ -1,6 +1,7 @@
 using System.Data.Common;
 using backend.Data.Models;
 using backend.Data.Models.DataBase;
+using backend.Data.Models.ManyToManyConnections;
 using backend.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,23 +32,19 @@ public class ProductRepository : IProductRepository
     }
 
     
-    public async Task<IEnumerable<Product>> GetAllProductsByCategory(string category)
+    public async Task<IEnumerable<Product>> GetAllProductsByCategory(int category)
     {
         var productsInCategory = await _ctx.Products
-            .Where(p => p.CategoryProducts.Any(cp => cp.Category.Nazwa == category))
+            .Where(p => p.CategoryProducts.Any(cp => cp.Category.Id == category))
             .ToListAsync();
 
         return productsInCategory;
     }
 
     
-    public async Task<Product> GetProductById(int userId, int productId)
+    public async Task<Product> GetProductById(int productId)
     {
-        var userProductById = await _ctx.Users
-            .Where(u => u.Id == userId)
-            .SelectMany(u => u.Products)
-            .FirstOrDefaultAsync(p => p.IdProduct == productId);
-        return userProductById;
+        return await _ctx.Products.FindAsync(productId);
     }
     
     
@@ -55,6 +52,21 @@ public class ProductRepository : IProductRepository
     public async Task<Product> CreateProduct(int userId, Product product)
     {
         product.UserId = userId;
+        var categoryIds = product.CategoryIds;
+        
+        foreach (var categoryId in categoryIds)
+        {
+            var category = await _ctx.Categories.FindAsync(categoryId);
+            if (category != null)
+            {
+                var categoryProduct = new CategoryProduct()
+                {
+                    Product = product,
+                    Category = category
+                };
+                _ctx.CategoryProducts.Add(categoryProduct);
+            }
+        }
         _ctx.Products.Add(product);
         await _ctx.SaveChangesAsync();
         return product;

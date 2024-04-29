@@ -169,7 +169,7 @@ namespace backend.Api.Controllers
             }
         }
 
-        [HttpGet("Id")]
+        [HttpGet("{id}")]
         [Authorize]
         public async Task<IActionResult> GetUserById(int id)
         {

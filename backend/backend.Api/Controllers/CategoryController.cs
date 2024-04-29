@@ -49,11 +49,11 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCategory(Category category)
+    public async Task<IActionResult> CreateCategory(string name, string description)
     {
         try
         {
-            await _categoryRepo.CreateCategory(category);
+            await _categoryRepo.CreateCategory(name, description);
             return Ok();
         }
         catch (Exception e)

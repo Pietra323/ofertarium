@@ -37,9 +37,21 @@ public class DataBase : DbContext
     public DbSet<Receipt> Receipts { get; set; }
     public DbSet<SellerRate> SellerRates { get; set; }
     public DbSet<Rate> Rates { get; set; }
+    public DbSet<Zdjecie> Zdjecia { get; set; }
+    public DbSet<CategoryProduct> CategoryProducts { get; set; }
+
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        
+        modelBuilder.Entity<Product>()
+            .HasMany(p => p.Zdjecies)
+            .WithOne(z => z.Product)
+            .HasForeignKey(z => z.ProductId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired(false);
+        
+        
         //relacje Usera jako model nadrzędny
         modelBuilder.Entity<User>()
             .HasMany(e => e.Products)
@@ -83,13 +95,24 @@ public class DataBase : DbContext
             .HasForeignKey<Product>(sr => sr.IdProduct)
             .IsRequired(false);
         */
-        modelBuilder.Entity<Product>()
-            .HasOne(o => o.Bucket)
-            .WithMany(u => u.Products)
-            .HasForeignKey(o => o.BucketId)
+
+        //relacja BasketProduct(Basket,Product) - many to many
+        modelBuilder.Entity<BasketProduct>()
+            .HasKey(op => new { op.BasketId, op.ProductId });
+        
+        modelBuilder.Entity<BasketProduct>()
+            .HasOne(op => op.Basket)
+            .WithMany(o => o.BasketProducts)
+            .HasForeignKey(op => op.BasketId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
-        
+
+        modelBuilder.Entity<BasketProduct>()
+            .HasOne(op => op.product)
+            .WithMany(p => p.BasketProducts)
+            .HasForeignKey(op => op.ProductId)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired(false);
         
 
         // Konfiguracja relacji między Rate a SellerRate
@@ -119,15 +142,7 @@ public class DataBase : DbContext
             .HasForeignKey<Order>(sr => sr.Id)
             .IsRequired(false);
         
-        //costam2
 
-        
-        //costam3
-        modelBuilder.Entity<Basket>()
-            .HasOne(r => r.User)
-            .WithOne(sr => sr.Bucket)
-            .HasForeignKey<Basket>(sr => sr.Id)
-            .IsRequired(false);
         
         //costam32
         modelBuilder.Entity<Delivery>()
@@ -145,7 +160,7 @@ public class DataBase : DbContext
         
         modelBuilder.Entity<Basket>()
             .HasOne(r => r.User)
-            .WithOne(sr => sr.Bucket)
+            .WithOne(sr => sr.Basket)
             .HasForeignKey<Basket>(sr => sr.Id)
             .IsRequired(false);
         
@@ -159,12 +174,6 @@ public class DataBase : DbContext
             .HasForeignKey(op => op.AuctionId)
             .IsRequired(false);
 
-        // Dodaj relację między Basket a Product
-        modelBuilder.Entity<Basket>()
-            .HasMany(b => b.Products)
-            .WithOne(p => p.Bucket)
-            .HasForeignKey(p => p.BucketId)
-            .IsRequired(false);
 
         modelBuilder.Entity<AuctionUser>()
             .HasOne(op => op.User)

@@ -59,13 +59,7 @@ namespace backend.Api.Controllers
         {
             try
             {
-                int? userId = Auth.GetUserId(HttpContext);
-                if (userId == null)
-                {
-                    Unauthorized();
-                }
-                
-                var existingProduct = await _productRepo.GetProductById(userId.Value, id);
+                var existingProduct = await _productRepo.GetProductById(id);
                 if (existingProduct == null)
                 {
                     return NotFound(new
@@ -111,7 +105,7 @@ namespace backend.Api.Controllers
         
         
         [HttpGet("{category}/products")]
-        public async Task<IActionResult> GetAllProductsByCategory(string category)
+        public async Task<IActionResult> GetAllProductsByCategory(int category)
         {
             try
             {
@@ -124,12 +118,30 @@ namespace backend.Api.Controllers
             }
         }
         
-        /*
-    [HttpPost]
-    public async Task<IActionResult> b(int UserId, Product product)
+    [HttpPost("{id}")]
+    public async Task<IActionResult> GetProductById(int id)
     {
-        return null;
+        try
+        {
+            var product = await _productRepo.GetProductById(id);
+            if (product == null)
+            {
+                return NotFound(new
+                {
+                    statusCode = 404,
+                    message = "record not found"
+                });
+            }
+
+            return Ok(product);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
+    /*
 
     [HttpPost]
     public async Task<IActionResult> c(int UserId, Product product)

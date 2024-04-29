@@ -17,8 +17,7 @@ public class Category
     [Required]
     public string Description { get; set; }
     
-    [Required]
-    public string ImageUrl { get; set; }
+    public string? ImageUrl { get; set; }
 
     public virtual ICollection<CategoryProduct>? CategoryProducts { get; set; }
 }

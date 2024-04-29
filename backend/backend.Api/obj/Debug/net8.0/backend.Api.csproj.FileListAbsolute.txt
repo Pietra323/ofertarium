@@ -760,3 +760,4 @@
 /Users/pietra/WebstormProjects/ofertarium/backend/backend.Api/bin/Debug/net8.0/Microsoft.Extensions.Primitives.dll
 /Users/pietra/WebstormProjects/ofertarium/backend/backend.Api/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
 /Users/pietra/WebstormProjects/ofertarium/backend/backend.Api/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/pietra/WebstormProjects/ofertarium/backend/backend.Api/bin/Debug/net8.0/Stripe.net.dll
