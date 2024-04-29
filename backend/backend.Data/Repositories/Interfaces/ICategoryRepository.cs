@@ -6,6 +6,6 @@ namespace backend.Data.Repositories.Interfaces;
 public interface ICategoryRepository
 {
     Task<IEnumerable<Category>> GetAllCategories();
-    Task CreateCategory(Category category);
+    Task CreateCategory(string categoryName, string description);
     Task DeleteCategory(int id);
 }

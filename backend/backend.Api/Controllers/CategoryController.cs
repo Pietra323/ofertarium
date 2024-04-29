@@ -12,13 +12,13 @@ public class CategoryController : ControllerBase
     
     private readonly IProductRepository _productRepo;
     private readonly ICategoryRepository _categoryRepo;
-    private readonly ILogger<ProductRepository> _logger;
+    private readonly ILogger<CategoryController> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
 
     public CategoryController(
         ICategoryRepository categoryRepo,
         IProductRepository productRepo,
-        ILogger<ProductRepository> logger,
+        ILogger<CategoryController> logger,
         IHttpClientFactory httpClientFactory
     )
     {
@@ -49,11 +49,11 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCategory(Category category)
+    public async Task<IActionResult> CreateCategory(string name, string description)
     {
         try
         {
-            await _categoryRepo.CreateCategory(category);
+            await _categoryRepo.CreateCategory(name, description);
             return Ok();
         }
         catch (Exception e)

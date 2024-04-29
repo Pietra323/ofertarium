@@ -1700,6 +1700,18 @@
       "runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
       "runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
       "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
+      "Stripe.net/44.3.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3",
+          "System.Configuration.ConfigurationManager": "7.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/Stripe.net.dll": {
+            "assemblyVersion": "44.3.0.0",
+            "fileVersion": "44.3.0.0"
+          }
+        }
+      },
       "Swashbuckle.AspNetCore/6.4.0": {
         "dependencies": {
           "Microsoft.Extensions.ApiDescription.Server": "6.0.5",
@@ -2304,6 +2316,7 @@
           "Microsoft.Extensions.Configuration.Abstractions": "9.0.0-preview.2.24128.5",
           "MySql.EntityFrameworkCore": "8.0.0",
           "Newtonsoft.Json": "13.0.3",
+          "Stripe.net": "44.3.0",
           "System.Net.Http": "4.3.4"
         },
         "runtime": {
@@ -3290,6 +3303,13 @@
       "sha512": "sha512-leXiwfiIkW7Gmn7cgnNcdtNAU70SjmKW3jxGj1iKHOvdn0zRWsgv/l2OJUO5zdGdiv2VRFnAsxxhDgMzofPdWg==",
       "path": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.2",
       "hashPath": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512"
+    },
+    "Stripe.net/44.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-M6bKQWKLIJUnDPgiCwDl+AMN8in9jTO4VnofY5sd13rLHSP4da6J5AgwYL4CybUZvu9vyvwKJJnwqCXZ+fobUQ==",
+      "path": "stripe.net/44.3.0",
+      "hashPath": "stripe.net.44.3.0.nupkg.sha512"
     },
     "Swashbuckle.AspNetCore/6.4.0": {
       "type": "package",

@@ -41,7 +41,7 @@ namespace backend.Data.Models
         
         public virtual ICollection<UserFavourite>? UserFavourite { get; set; }
         
-        public virtual Basket? Bucket { get; set; }
+        public virtual Basket? Basket { get; set; }
         
         public virtual ICollection<AuctionUser>? AuctionUsers { get; set; }
     }

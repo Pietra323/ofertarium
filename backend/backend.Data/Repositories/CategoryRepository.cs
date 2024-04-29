@@ -33,8 +33,13 @@ public class CategoryRepository : ICategoryRepository
     }
 
 
-    public async Task CreateCategory(Category category)
+    public async Task CreateCategory(string categoryName, string description)
     {
+        var category = new Category()
+        {
+            Nazwa = categoryName,
+            Description = description
+        };
         _ctx.Categories.Add(category);
         await _ctx.SaveChangesAsync();
     }

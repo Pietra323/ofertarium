@@ -1,3 +1,4 @@
+using backend.Data.Repositories;
 using backend.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +9,15 @@ namespace backend.Api.Controllers
     public class BasketController : ControllerBase
     {
         private readonly IBasketRepository _basketRepository;
+        private readonly ILogger<BasketRepository> _logger;
 
-        public BasketController(IBasketRepository basketRepository)
+        public BasketController(
+            IBasketRepository basketRepository, 
+            ILogger<BasketRepository> logger
+            )
         {
             _basketRepository = basketRepository;
+            _logger = logger;
         }
 
         [HttpPost("add")]

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using backend.Data.Models.DataBase;
 using backend.Data.Models.ManyToManyConnections;
 
 namespace backend.Data.Models;
@@ -13,6 +14,9 @@ public class Product
     [Required] 
     public string ProductName { get; set; }
     
+    [Required] 
+    public List<int> CategoryIds { get; set; }
+    
     public virtual ICollection<OrderProduct>? OrderProducts { get; set; }
     
     public int? UserId { get; set; }
@@ -23,7 +27,8 @@ public class Product
     //public virtual OnSale? OnSale { get; set; }
 
     public virtual Auction? Auction { get; set; }
-
-    public int? BucketId { get; set; }
-    public virtual Basket? Bucket { get; set; }
+    
+    public virtual ICollection<BasketProduct>? BasketProducts { get; set; }
+    
+    public virtual ICollection<Zdjecie>? Zdjecies { get; set; }
 }
