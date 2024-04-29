@@ -12,11 +12,6 @@ dist
 dist-ssr
 *.local
 
-debug/
-*.pdb
-../backend
-
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
