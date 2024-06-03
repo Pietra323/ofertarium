@@ -20,14 +20,20 @@ namespace backend.Api.Controllers
     {
         private readonly IUserRepository _userRepo;
         private readonly ILogger<UserController> _logger;
+        private readonly IProductRepository _productRepo;
+        private readonly ICategoryRepository _categoryRepo;
 
         public UserController(
             IUserRepository userRepo,
-            ILogger<UserController> logger
+            ILogger<UserController> logger,
+            IProductRepository productRepo,
+            ICategoryRepository categoryRepo
         )
         {
             _userRepo = userRepo;
             _logger = logger;
+            _productRepo = productRepo;
+            _categoryRepo = categoryRepo;
         }
 
         
@@ -37,6 +43,16 @@ namespace backend.Api.Controllers
         {
             try
             {
+                for (int i = 1; i <= 10; i++)
+                {
+                    var category = new Category()
+                    {
+                        Nazwa = $"Kategoria{i}",
+                        Description = $"Opis Kategori{i}"
+                    };
+                    await _categoryRepo.CreateCategory(category);
+                }
+                
                 for (int i = 1; i <= count; i++)
                 {
                     var user = new User
@@ -48,8 +64,15 @@ namespace backend.Api.Controllers
                         Password = $"password{i}{i}{i}.",
                         isAdmin = false
                     };
+                    
+                    var product = new Product()
+                    {
+                        ProductName = $"ProductName{i}",
+                        CategoryIds = new List<int> { (i+7)%11, (i+4)%11, (i+1)%11 }
+                    };
 
                     await _userRepo.CreatePersonAsync(user);
+                    await _productRepo.CreateProduct(user.Id ,product);
                 }
 
                 return Ok("Użytkownicy zostali dodani.");
@@ -79,6 +102,7 @@ namespace backend.Api.Controllers
         }
         
         [HttpPut]
+        [SwaggerOperation(Summary = "Zaaktualizuj użytkownika")]
         [Authorize]
         public async Task<IActionResult> UpdateUser(User userToUpdate)
         {
@@ -119,7 +143,9 @@ namespace backend.Api.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         [Authorize(Roles = "Administrator")]
+        [SwaggerOperation(Summary = "Usuń użytkownika")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             try
@@ -150,6 +176,8 @@ namespace backend.Api.Controllers
         }
 
         [HttpGet]
+        [SwaggerOperation(Summary = "Pobierz wszystkich użytkowników")]
+        [Authorize]
         public async Task<IActionResult> GetUsers()
         {
             try
@@ -170,7 +198,8 @@ namespace backend.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        [SwaggerOperation(Summary = "Pobierz użytkownika")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> GetUserById(int id)
         {
             try
@@ -240,6 +269,7 @@ namespace backend.Api.Controllers
 
 
         [HttpGet("logout")]
+        [SwaggerOperation(Summary = "Wylogowanie użytkownika")]
         [Authorize]
         public async Task<IActionResult> Logout()
         {

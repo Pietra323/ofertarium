@@ -1,5 +1,6 @@
 using backend.Data.Repositories;
 using backend.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Api.Controllers
@@ -21,6 +22,7 @@ namespace backend.Api.Controllers
         }
 
         [HttpPost("add")]
+        [Authorize]
         public async Task<IActionResult> AddToBasket(int productId)
         {
             try

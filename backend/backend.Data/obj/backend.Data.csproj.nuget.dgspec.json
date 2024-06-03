@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/pietra/WebstormProjects/ofertarium/backend/backend.Data/backend.Data.csproj": {}
+    "/Users/pietra/RiderProjects/ofertarium/backend/backend.Data/backend.Data.csproj": {}
   },
   "projects": {
-    "/Users/pietra/WebstormProjects/ofertarium/backend/backend.Data/backend.Data.csproj": {
+    "/Users/pietra/RiderProjects/ofertarium/backend/backend.Data/backend.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/pietra/WebstormProjects/ofertarium/backend/backend.Data/backend.Data.csproj",
+        "projectUniqueName": "/Users/pietra/RiderProjects/ofertarium/backend/backend.Data/backend.Data.csproj",
         "projectName": "backend.Data",
-        "projectPath": "/Users/pietra/WebstormProjects/ofertarium/backend/backend.Data/backend.Data.csproj",
+        "projectPath": "/Users/pietra/RiderProjects/ofertarium/backend/backend.Data/backend.Data.csproj",
         "packagesPath": "/Users/pietra/.nuget/packages/",
-        "outputPath": "/Users/pietra/WebstormProjects/ofertarium/backend/backend.Data/obj/",
+        "outputPath": "/Users/pietra/RiderProjects/ofertarium/backend/backend.Data/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/pietra/.nuget/NuGet/NuGet.Config"
@@ -20,7 +20,6 @@
           "net8.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -41,17 +40,17 @@
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.2, )"
+              "version": "[8.0.6, )"
             },
             "Microsoft.EntityFrameworkCore.Proxies": {
               "target": "Package",
-              "version": "[8.0.2, )"
+              "version": "[8.0.6, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.2, )"
+              "version": "[8.0.6, )"
             },
             "Microsoft.Extensions.Configuration.Abstractions": {
               "target": "Package",
@@ -59,7 +58,7 @@
             },
             "MySql.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.0, )"
+              "version": "[8.0.2, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
@@ -67,7 +66,7 @@
             },
             "Stripe.net": {
               "target": "Package",
-              "version": "[44.3.0, )"
+              "version": "[44.9.0, )"
             },
             "System.Net.Http": {
               "target": "Package",
@@ -90,7 +89,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.301/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

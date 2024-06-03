@@ -158,10 +158,11 @@ public class DataBase : DbContext
             .HasForeignKey<Auction>(sr => sr.Id)
             .IsRequired(false);
         
-        modelBuilder.Entity<Basket>()
-            .HasOne(r => r.User)
-            .WithOne(sr => sr.Basket)
+        modelBuilder.Entity<User>()
+            .HasOne(r => r.Basket)
+            .WithOne(sr => sr.User)
             .HasForeignKey<Basket>(sr => sr.Id)
+            .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
         
         //relacja OrderProduct(Product,Order) - many to many

@@ -1,7 +1,9 @@
 using backend.Data.Models;
 using backend.Data.Repositories;
 using backend.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace backend.Api.Controllers;
 
@@ -29,6 +31,8 @@ public class CategoryController : ControllerBase
     }
     
     [HttpGet]
+    [Authorize(Roles = "Administrator")]
+    [SwaggerOperation(Summary = "Pobierz wszystkie kategorie")]
     public async Task<IActionResult> GetAllCategories()
     {
         try
@@ -49,11 +53,13 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateCategory(string name, string description)
+    [Authorize(Roles = "Administrator")]
+    [SwaggerOperation(Summary = "Stwórz kategorię")]
+    public async Task<IActionResult> CreateCategory(Category kategoria)
     {
         try
         {
-            await _categoryRepo.CreateCategory(name, description);
+            await _categoryRepo.CreateCategory(kategoria);
             return Ok();
         }
         catch (Exception e)
@@ -63,6 +69,8 @@ public class CategoryController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Administrator")]
+    [SwaggerOperation(Summary = "Usuń kategorię")]
     [HttpDelete] public async Task<IActionResult> DeleteCategory(int id)
     {
         try

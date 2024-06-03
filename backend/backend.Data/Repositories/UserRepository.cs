@@ -13,6 +13,11 @@ public class UserRepository : IUserRepository
     {
         _ctx = ctx;
     }
+    
+    public async Task<IEnumerable<User>> GetAllUsersAsync()
+    {
+        return await _ctx.Users.ToListAsync();
+    }
 
     public async Task<IEnumerable<User>> GetPeopleAsync()
     {

@@ -16,6 +16,11 @@ public class ProductRepository : IProductRepository
         _ctx = ctx;
     }
     
+    public async Task AddProductAsync(Product product)
+    {
+        _ctx.Products.Add(product);
+        await _ctx.SaveChangesAsync();
+    }
     public async Task<IEnumerable<Product>> GetAllUserProducts(int userId)
     {
         var userProducts = await _ctx.Users

@@ -33,6 +33,8 @@ namespace backend.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
+        [SwaggerOperation(Summary = "Dodaj produkt")]
         public async Task<IActionResult> AddProduct(Product product)
         {
             int? userId = Auth.GetUserId(HttpContext);
@@ -55,6 +57,7 @@ namespace backend.Api.Controllers
 
 
         [HttpDelete("{id}")]
+        [SwaggerOperation(Summary = "Usuń produkt")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             try
@@ -84,6 +87,7 @@ namespace backend.Api.Controllers
             }
         }
         [HttpGet]
+        [SwaggerOperation(Summary = "Pobierz wszystkie produkty")]
         public async Task<IActionResult> GetAllProducts()
         {
             try
@@ -105,6 +109,7 @@ namespace backend.Api.Controllers
         
         
         [HttpGet("{category}/products")]
+        [SwaggerOperation(Summary = "Pobierz produkty po kategorii")]
         public async Task<IActionResult> GetAllProductsByCategory(int category)
         {
             try
@@ -118,7 +123,8 @@ namespace backend.Api.Controllers
             }
         }
         
-    [HttpPost("{id}")]
+    [HttpGet("{id}")]
+    [SwaggerOperation(Summary = "Pobierz produkt po Id")]
     public async Task<IActionResult> GetProductById(int id)
     {
         try

@@ -14,7 +14,6 @@ public class Product
     [Required] 
     public string ProductName { get; set; }
     
-    [Required] 
     public List<int> CategoryIds { get; set; }
     
     public virtual ICollection<OrderProduct>? OrderProducts { get; set; }
