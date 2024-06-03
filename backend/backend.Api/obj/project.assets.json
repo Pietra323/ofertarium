@@ -10668,6 +10668,7 @@
       "Microsoft.Extensions.DependencyInjection >= 9.0.0-preview.2.24128.5",
       "Microsoft.IdentityModel.Tokens >= 7.6.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 8.0.2",
+      "Newtonsoft.Json >= 13.0.3",
       "Swashbuckle.AspNetCore >= 6.6.2",
       "Swashbuckle.AspNetCore.Annotations >= 6.6.2",
       "System.IdentityModel.Tokens.Jwt >= 7.6.0",
@@ -10749,6 +10750,10 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[8.0.2, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.3, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",

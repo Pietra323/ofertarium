@@ -43,12 +43,25 @@ namespace backend.Api.Controllers
         {
             try
             {
-                for (int i = 1; i <= 10; i++)
+                var categories = new [] { 
+                    "Elektronika", 
+                    "Moda", 
+                    "Dom i Ogród", 
+                    "Dziecko", 
+                    "Kultura i Rozrywka", 
+                    "Zdrowie", 
+                    "Sport i Turystyka", 
+                    "Uroda", 
+                    "Motoryzacja", 
+                    "Kolekcje i Sztuka" 
+                };
+
+                foreach (var categoryString in categories)
                 {
                     var category = new Category()
                     {
-                        Nazwa = $"Kategoria{i}",
-                        Description = $"Opis Kategori{i}"
+                        Nazwa = categoryString,
+                        Description = "..."
                     };
                     await _categoryRepo.CreateCategory(category);
                 }
@@ -65,9 +78,14 @@ namespace backend.Api.Controllers
                         isAdmin = false
                     };
                     
+                    Random random = new Random();
+                    int min = 1; // dolna granica (włącznie)
+                    int max = 10; // górna granica (wyłącznie)
+                    int randomNumberInRange = random.Next(min, max);
                     var product = new Product()
                     {
                         ProductName = $"ProductName{i}",
+                        Price = randomNumberInRange,
                         CategoryIds = new List<int> { (i+7)%11, (i+4)%11, (i+1)%11 }
                     };
 

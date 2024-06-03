@@ -7,8 +7,8 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace backend.Api.Controllers;
 
-[Route("api/category/")]
 [ApiController]
+[Route("api/category/")]
 public class CategoryController : ControllerBase
 {
     
@@ -31,7 +31,6 @@ public class CategoryController : ControllerBase
     }
     
     [HttpGet]
-    [Authorize(Roles = "Administrator")]
     [SwaggerOperation(Summary = "Pobierz wszystkie kategorie")]
     public async Task<IActionResult> GetAllCategories()
     {
@@ -68,11 +67,11 @@ public class CategoryController : ControllerBase
             throw;
         }
     }
-
+    
+    [HttpDelete]
     [Authorize(Roles = "Administrator")]
     [SwaggerOperation(Summary = "Usuń kategorię")]
-    [HttpDelete] public async Task<IActionResult> DeleteCategory(int id)
-    {
+    public async Task<IActionResult> DeleteCategory(int id) {
         try
         {
             await _categoryRepo.DeleteCategory(id);

@@ -38,6 +38,7 @@ public class DataBase : DbContext
     public DbSet<SellerRate> SellerRates { get; set; }
     public DbSet<Rate> Rates { get; set; }
     public DbSet<Zdjecie> Zdjecia { get; set; }
+    public DbSet<BasketProduct> BasketProducts { get; set; }
     public DbSet<CategoryProduct> CategoryProducts { get; set; }
 
     
