@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using backend.Data.Models.DataBase;
 using backend.Data.Models.ManyToManyConnections;
+using Newtonsoft.Json;
 
 namespace backend.Data.Models;
 
@@ -13,6 +14,9 @@ public class Product
     
     [Required] 
     public string ProductName { get; set; }
+    
+    [Required]
+    public decimal Price { get; set; }
     
     public List<int> CategoryIds { get; set; }
     
@@ -27,6 +31,7 @@ public class Product
 
     public virtual Auction? Auction { get; set; }
     
+    [JsonIgnore]
     public virtual ICollection<BasketProduct>? BasketProducts { get; set; }
     
     public virtual ICollection<Zdjecie>? Zdjecies { get; set; }

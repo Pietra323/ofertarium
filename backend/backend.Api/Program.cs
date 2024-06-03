@@ -1,3 +1,4 @@
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using backend.Data.Models.DataBase;
 using backend.Data.Repositories;
@@ -31,9 +32,14 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddAuthorization();
 builder.Services.AddHttpClient();
 
-
 builder.Services.AddControllers().AddJsonOptions(x =>
-    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+{
+    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
+
+builder.Services.AddRazorPages();
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
