@@ -22,18 +22,21 @@ namespace backend.Api.Controllers
         private readonly ILogger<UserController> _logger;
         private readonly IProductRepository _productRepo;
         private readonly ICategoryRepository _categoryRepo;
+        private readonly IPaymentRepository _cardRepo;
 
         public UserController(
             IUserRepository userRepo,
             ILogger<UserController> logger,
             IProductRepository productRepo,
-            ICategoryRepository categoryRepo
+            ICategoryRepository categoryRepo,
+            IPaymentRepository cardRepo
         )
         {
             _userRepo = userRepo;
             _logger = logger;
             _productRepo = productRepo;
             _categoryRepo = categoryRepo;
+            _cardRepo = cardRepo;
         }
 
         
@@ -79,8 +82,8 @@ namespace backend.Api.Controllers
                     };
                     
                     Random random = new Random();
-                    int min = 1; // dolna granica (włącznie)
-                    int max = 10; // górna granica (wyłącznie)
+                    int min = 1;
+                    int max = 10;
                     int randomNumberInRange = random.Next(min, max);
                     var product = new Product()
                     {
@@ -88,7 +91,22 @@ namespace backend.Api.Controllers
                         Price = randomNumberInRange,
                         CategoryIds = new List<int> { (i+7)%11, (i+4)%11, (i+1)%11 }
                     };
+                    string cardNumberString = string.Empty;
+                    for (int j = 0; j < 16; j++)
+                    {
+                        cardNumberString += random.Next(0, 10).ToString();
+                    }
 
+                    long cardNumber = long.Parse(cardNumberString);
+                    var paymentCard = new PaymentCard()
+                    {
+                        OwnerFName = user.Name,
+                        OwnerLName = user.LastName,
+                        OwnerNickname = user.Username,
+                        CardNumber = cardNumber
+                    };
+
+                    await _cardRepo.CreatePaymentCard(paymentCard);
                     await _userRepo.CreatePersonAsync(user);
                     await _productRepo.CreateProduct(user.Id ,product);
                 }

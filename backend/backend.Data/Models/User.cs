@@ -29,7 +29,6 @@ namespace backend.Data.Models
         
         [Required]
         public bool isAdmin { get; set; }
-        
         public virtual ICollection<Product>? Products { get; set; }
         public virtual ICollection<Order>? Orders { get; set; }
 
@@ -37,12 +36,9 @@ namespace backend.Data.Models
         
         public virtual ICollection<Comment>? Comments { get; set; }
         
-        public virtual ICollection<Rate>? Rates { get; set; }
-        
         public virtual ICollection<UserFavourite>? UserFavourite { get; set; }
         
         public virtual Basket? Basket { get; set; }
         
-        public virtual ICollection<AuctionUser>? AuctionUsers { get; set; }
     }
 }

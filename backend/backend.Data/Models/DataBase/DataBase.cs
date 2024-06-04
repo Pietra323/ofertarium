@@ -24,19 +24,15 @@ public class DataBase : DbContext
     public DbSet<OrderProduct> OrderProducts { get; set; }
     public DbSet<AccountSettings> AccountSettings { get; set; }
     public DbSet<Delivery> Deliveries { get; set; }
-    public DbSet<Auction> Auctions { get; set; }
     public DbSet<Basket> Baskets { get; set; }
-    public DbSet<BuyerRate> BuyerRates { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<Discount> Discounts { get; set; }
     public DbSet<Favourite> Favourities { get; set; }
     public DbSet<Location> Locations { get; set; }
     public DbSet<OnSale> OnSales { get; set; }
-    public DbSet<Payment> Payments { get; set; }
+    public DbSet<PaymentCard> Payments { get; set; }
     public DbSet<Receipt> Receipts { get; set; }
-    public DbSet<SellerRate> SellerRates { get; set; }
-    public DbSet<Rate> Rates { get; set; }
     public DbSet<Zdjecie> Zdjecia { get; set; }
     public DbSet<BasketProduct> BasketProducts { get; set; }
     public DbSet<CategoryProduct> CategoryProducts { get; set; }
@@ -83,12 +79,7 @@ public class DataBase : DbContext
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
         
-        modelBuilder.Entity<AccountSettings>()
-            .HasMany(o => o.Payments)
-            .WithOne(u => u.AccountSettings)
-            .HasForeignKey(o => o.AccountSettingsId)
-            .OnDelete(DeleteBehavior.Cascade)
-            .IsRequired(false);
+
         /*
         modelBuilder.Entity<Product>()
             .HasOne(r => r.OnSale)
@@ -115,21 +106,6 @@ public class DataBase : DbContext
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
         
-
-        // Konfiguracja relacji między Rate a SellerRate
-        modelBuilder.Entity<Rate>()
-            .HasOne(r => r.SellerRate)
-            .WithOne(sr => sr.Rate)
-            .HasForeignKey<Rate>(sr => sr.Id)
-            .IsRequired(false);
-        
-        
-        modelBuilder.Entity<Rate>()
-            .HasOne(r => r.BuyerRate)
-            .WithOne(br => br.Rate)
-            .HasForeignKey<BuyerRate>(br => br.Id)
-            .IsRequired(false);
-        
         
         
         
@@ -152,35 +128,11 @@ public class DataBase : DbContext
             .HasForeignKey<Delivery>(sr => sr.Id)
             .IsRequired(false);
         
-        //costam
-        modelBuilder.Entity<Auction>()
-            .HasOne(r => r.Product)
-            .WithOne(sr => sr.Auction)
-            .HasForeignKey<Auction>(sr => sr.Id)
-            .IsRequired(false);
-        
+
         modelBuilder.Entity<User>()
             .HasOne(r => r.Basket)
             .WithOne(sr => sr.User)
             .HasForeignKey<Basket>(sr => sr.Id)
-            .OnDelete(DeleteBehavior.Cascade)
-            .IsRequired(false);
-        
-        //relacja OrderProduct(Product,Order) - many to many
-        modelBuilder.Entity<AuctionUser>()
-            .HasKey(op => new { op.AuctionId, op.UserId });
-        
-        modelBuilder.Entity<AuctionUser>()
-            .HasOne(op => op.Auction)
-            .WithMany(o => o.AuctionUsers)
-            .HasForeignKey(op => op.AuctionId)
-            .IsRequired(false);
-
-
-        modelBuilder.Entity<AuctionUser>()
-            .HasOne(op => op.User)
-            .WithMany(p => p.AuctionUsers)
-            .HasForeignKey(op => op.UserId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
         
@@ -191,6 +143,7 @@ public class DataBase : DbContext
             .WithMany(u => u.Orders)
             .HasForeignKey(o => o.UserId)
             .IsRequired(false);
+        
         
         //relacja OrderProduct(Product,Order) - many to many
         modelBuilder.Entity<OrderProduct>()
