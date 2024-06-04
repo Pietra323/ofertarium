@@ -4,6 +4,7 @@ using backend.Data.Models.DataBase;
 using backend.Data.Repositories;
 using backend.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Stripe.Climate;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,8 @@ builder.Services.AddSingleton<IUserRepository, UserRepository>();
 builder.Services.AddSingleton<IProductRepository, ProductRepository>();
 builder.Services.AddSingleton<ICategoryRepository, CategoryRepository>();
 builder.Services.AddSingleton<IBasketRepository, BasketRepository>();
+builder.Services.AddSingleton<IPaymentRepository, PaymentRepository>();
+builder.Services.AddSingleton<IOrderRepository, OrderRepository>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

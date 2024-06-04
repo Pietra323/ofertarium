@@ -14,6 +14,4 @@ public class AccountSettings
     public virtual User? User { get; set; }
     
     public virtual ICollection<Discount>? Discounts { get; set; }
-    
-    public virtual ICollection<Payment>? Payments { get; set; }
 }

@@ -28,8 +28,6 @@ public class Product
     public virtual ICollection<CategoryProduct>? CategoryProducts { get; set; }
     
     //public virtual OnSale? OnSale { get; set; }
-
-    public virtual Auction? Auction { get; set; }
     
     [JsonIgnore]
     public virtual ICollection<BasketProduct>? BasketProducts { get; set; }
