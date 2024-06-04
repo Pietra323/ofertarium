@@ -1,6 +1,10 @@
+using backend.Data.Models;
+
 namespace backend.Data.Repositories.Interfaces;
 
-public class IOrderRepository
+public interface IOrderRepository
 {
-    
+    Task TransferBasketToHistory(int userId, int paymentCardId);
+    Task<IEnumerable<History>> GetUserOrderHistory(int userId);
+
 }

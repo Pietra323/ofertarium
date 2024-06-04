@@ -102,9 +102,9 @@ public class BasketRepository : IBasketRepository
         {
             ProductId = bp.ProductId,
             ProductName = bp.product.ProductName,
-            Quantity = bp.quantity ?? 0, // Użycie domyślnej wartości 0, jeśli quantity jest null
+            Quantity = bp.quantity, // Użycie domyślnej wartości 0, jeśli quantity jest null
             Price = bp.product.Price,
-            TotalPrice = (bp.quantity ?? 0) * (bp.product.Price)
+            TotalPrice = (bp.quantity) * (bp.product.Price)
         }).ToList();
 
         return basketProducts;

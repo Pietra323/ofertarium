@@ -15,22 +15,36 @@ public class Product
     [Required] 
     public string ProductName { get; set; }
     
+    [Required] 
+    public string Subtitle { get; set; }
+    
+    [Required] 
+    public int amountOf { get; set; }
+    
     [Required]
     public decimal Price { get; set; }
     
+    [Required]
     public List<int> CategoryIds { get; set; }
     
+    [JsonIgnore]
     public virtual ICollection<OrderProduct>? OrderProducts { get; set; }
     
+    [JsonIgnore]
     public int? UserId { get; set; }
+    
+    [JsonIgnore]
     public virtual User? User { get; set; }
     
+    [JsonIgnore]
     public virtual ICollection<CategoryProduct>? CategoryProducts { get; set; }
-    
-    //public virtual OnSale? OnSale { get; set; }
     
     [JsonIgnore]
     public virtual ICollection<BasketProduct>? BasketProducts { get; set; }
     
+    [JsonIgnore]
     public virtual ICollection<Zdjecie>? Zdjecies { get; set; }
+    
+    [JsonIgnore]
+    public virtual ICollection<History>? Histories { get; set; }
 }

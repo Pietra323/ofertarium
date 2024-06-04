@@ -32,9 +32,27 @@ public class ProductRepository : IProductRepository
     
     public async Task<IEnumerable<Product>> GetAllProducts()
     {
-        var products = await _ctx.Products.ToListAsync();
-        return products;
+        var products = await _ctx.Products
+            .Include(p => p.CategoryProducts)
+            .ThenInclude(cp => cp.Category)
+            .ToListAsync();
+
+        var productDTOs = products.Select(p => new Product()
+        {
+            ProductName = p.ProductName,
+            Subtitle = p.Subtitle,
+            amountOf = p.amountOf,
+            Price = p.Price,
+            CategoryIds = p.CategoryProducts
+                .Where(cp => cp.CategoryId.HasValue) // Filtruj null wartości
+                .Select(cp => cp.CategoryId.Value) // Konwertuj na int
+                .ToList()
+        }).ToList();
+
+        return productDTOs;
     }
+
+
 
     
     public async Task<IEnumerable<Product>> GetAllProductsByCategory(int category)

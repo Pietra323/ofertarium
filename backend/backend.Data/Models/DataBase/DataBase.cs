@@ -18,8 +18,6 @@ public class DataBase : DbContext
         _ConnectionString = _configuration.GetConnectionString("default");
     }
     
-    public DbSet<User> Users { get; set; }
-    public DbSet<Product> Products { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderProduct> OrderProducts { get; set; }
     public DbSet<AccountSettings> AccountSettings { get; set; }
@@ -34,8 +32,11 @@ public class DataBase : DbContext
     public DbSet<PaymentCard> Payments { get; set; }
     public DbSet<Receipt> Receipts { get; set; }
     public DbSet<Zdjecie> Zdjecia { get; set; }
-    public DbSet<BasketProduct> BasketProducts { get; set; }
     public DbSet<CategoryProduct> CategoryProducts { get; set; }
+    public DbSet<BasketProduct> BasketProducts { get; set; }
+    public DbSet<History> Histories { get; set; }
+    public DbSet<Product> Products { get; set; }
+    public DbSet<User> Users { get; set; }
 
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -61,6 +62,13 @@ public class DataBase : DbContext
             .HasOne(u => u.AccountSettings)
             .WithOne(a => a.User)
             .HasForeignKey<AccountSettings>(a => a.Id)
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired(false);
+        
+        modelBuilder.Entity<User>()
+            .HasMany(o => o.PaymentCards)
+            .WithOne(u => u.User)
+            .HasForeignKey(o => o.UserId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
         
@@ -178,6 +186,19 @@ public class DataBase : DbContext
             .HasForeignKey(op => op.ProductId)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
+        
+        modelBuilder.Entity<History>()
+            .HasKey(h => new { h.OrderId, h.UserId, h.ProductId });
+
+        modelBuilder.Entity<History>()
+            .HasOne(h => h.User)
+            .WithMany(u => u.Histories)
+            .HasForeignKey(h => h.UserId);
+
+        modelBuilder.Entity<History>()
+            .HasOne(h => h.Product)
+            .WithMany(p => p.Histories)
+            .HasForeignKey(h => h.ProductId);
         
         //relacja OrderProduct(Product,Order) - many to many
         modelBuilder.Entity<UserFavourite>()

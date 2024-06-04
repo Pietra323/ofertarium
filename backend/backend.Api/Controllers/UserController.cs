@@ -88,6 +88,8 @@ namespace backend.Api.Controllers
                     var product = new Product()
                     {
                         ProductName = $"ProductName{i}",
+                        Subtitle = $"Subtitle of the product {i}",
+                        amountOf = i%5,
                         Price = randomNumberInRange,
                         CategoryIds = new List<int> { (i+7)%11, (i+4)%11, (i+1)%11 }
                     };
@@ -96,6 +98,8 @@ namespace backend.Api.Controllers
                     {
                         cardNumberString += random.Next(0, 10).ToString();
                     }
+                    
+                    await _userRepo.CreatePersonAsync(user);
 
                     long cardNumber = long.Parse(cardNumberString);
                     var paymentCard = new PaymentCard()
@@ -103,11 +107,12 @@ namespace backend.Api.Controllers
                         OwnerFName = user.Name,
                         OwnerLName = user.LastName,
                         OwnerNickname = user.Username,
-                        CardNumber = cardNumber
+                        CardNumber = cardNumber,
+                        UserId = user.Id,
+                        Balance = Math.Round((decimal)randomNumberInRange*5, 2)
                     };
 
                     await _cardRepo.CreatePaymentCard(paymentCard);
-                    await _userRepo.CreatePersonAsync(user);
                     await _productRepo.CreateProduct(user.Id ,product);
                 }
 
@@ -160,6 +165,7 @@ namespace backend.Api.Controllers
                 }
 
                 existingUser.Name = userToUpdate.Name;
+                existingUser.LastName = userToUpdate.LastName;
                 existingUser.Password = userToUpdate.Password;
                 existingUser.Username = userToUpdate.Username;
                 existingUser.Email = userToUpdate.Email;
@@ -233,14 +239,18 @@ namespace backend.Api.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("currentUser")]
         [SwaggerOperation(Summary = "Pobierz użytkownika")]
-        [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> GetUserById(int id)
+        public async Task<IActionResult> GetUserById()
         {
             try
             {
-                var user = await _userRepo.GetPeopleByIdAsync(id);
+                int? userId = Auth.GetUserId(HttpContext);
+                if (userId == null)
+                {
+                    Unauthorized();
+                }
+                var user = await _userRepo.GetPeopleByIdAsync(userId.Value);
                 if (user == null)
                 {
                     return NotFound(new

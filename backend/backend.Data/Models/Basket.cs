@@ -15,6 +15,6 @@ public class Basket
     
     [JsonIgnore]
     public virtual User? User { get; set; }
-    
+    [JsonIgnore]
     public virtual ICollection<BasketProduct>? BasketProducts { get; set; }
 }

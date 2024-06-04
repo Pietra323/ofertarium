@@ -32,17 +32,16 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
 });
 
-builder.Services.AddAuthorization();
 builder.Services.AddHttpClient();
 
-builder.Services.AddControllers().AddJsonOptions(x =>
+builder.Services.AddControllers().AddJsonOptions(options =>
 {
-    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-    x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    options.JsonSerializerOptions.MaxDepth = 512;
 });
 
 builder.Services.AddRazorPages();
-builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
