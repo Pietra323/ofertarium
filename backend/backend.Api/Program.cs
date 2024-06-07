@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Stripe.Climate;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -84,7 +85,12 @@ app.UseCors(builder =>
 );
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(app.Environment.ContentRootPath, "images")),
+    RequestPath = "/images"
+});
 
 app.UseRouting();
 app.UseSession();

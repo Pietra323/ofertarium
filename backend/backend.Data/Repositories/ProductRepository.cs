@@ -106,6 +106,8 @@ public class ProductRepository : IProductRepository
     {
         var categoryIds = new List<int>();
         var photos = new List<Photo>();
+        var baseUrl = "http://localhost:5004";
+
 
         foreach (var categoryId in productDTO.CategoryIds)
         {
@@ -116,7 +118,7 @@ public class ProductRepository : IProductRepository
         {
             photos.Add(new Photo
             {
-                Url = photoUrl,
+                Url = $"{baseUrl}/images/{photoUrl}",
                 Description = "Photo description"
             });
         }
