@@ -33,24 +33,34 @@ public class BasketRepository : IBasketRepository
 
         if (existingBasketProduct != null)
         {
-            // Produkt już jest w koszyku, zwiększ jego ilość
+            // Product is already in the basket, increase its quantity
             existingBasketProduct.quantity += 1;
         }
         else
         {
-            // Produkt nie jest jeszcze w koszyku, dodaj nowy
-            var product = await _productRepository.GetProductById(productId);
-            var basketProduct = new BasketProduct { product = product, Basket = basket, quantity = 1 };
-            if (basket.BasketProducts == null)
+            // Product is not in the basket yet, add a new one
+            var productDTO = await _productRepository.GetProductById(productId);
+            var product2 = await _ctx.Products.FindAsync(productDTO.IdProduct);
+            if (productDTO != null)
             {
-                basket.BasketProducts = new List<BasketProduct>();
+                var basketProduct = new BasketProduct
+                {
+                    product = product2, 
+                    Basket = basket, 
+                    quantity = 1
+                };
+                basket.BasketProducts.Add(basketProduct);
             }
-
-            basket.BasketProducts.Add(basketProduct);
+            else
+            {
+                // Handle case when product is not found
+            }
         }
+    
         await _ctx.SaveChangesAsync();
         return basket;
     }
+
 
     public async Task<Basket> RemoveFromBasket(int userId, int productId)
     {

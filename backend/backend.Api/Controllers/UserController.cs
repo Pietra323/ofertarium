@@ -114,17 +114,21 @@ public async Task<IActionResult> SeedUsers(int count)
             await _userRepo.CreatePersonAsync(user);
 
             long cardNumber = long.Parse(cardNumberString);
-            var paymentCard = new PaymentCard()
+            for (int k = 0; k <= 1; k++)
             {
-                OwnerFName = user.Name,
-                OwnerLName = user.LastName,
-                OwnerNickname = user.Username,
-                CardNumber = cardNumber,
-                UserId = user.Id,
-                Balance = Math.Round((decimal)randomNumberInRange * 5, 2)
-            };
+                randomNumberInRange = random.Next(min, max);
+                var paymentCard = new PaymentCard()
+                {
+                    OwnerFName = user.Name,
+                    OwnerLName = user.LastName,
+                    OwnerNickname = user.Username,
+                    CardNumber = cardNumber,
+                    UserId = user.Id,
+                    Balance = Math.Round((decimal)randomNumberInRange * 100, 2)
+                };
+                await _cardRepo.CreatePaymentCard(paymentCard);
+            }
 
-            await _cardRepo.CreatePaymentCard(paymentCard);
             await _productRepo.CreateProduct(user.Id, product);
         }
 

@@ -47,5 +47,5 @@ public class ProductDTO
     public int amountOf { get; set; }
     public decimal Price { get; set; }
     public List<int> CategoryIds { get; set; } = new List<int>();
-    public List<string> Photos { get; set; }
+    public List<string> Photos { get; set; } = new List<string>();
 }

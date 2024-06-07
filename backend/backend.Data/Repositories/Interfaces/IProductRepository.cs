@@ -15,11 +15,10 @@ public interface IProductRepository
 
     Task<Product> CreateProduct(int userId, ProductDTO product);
     Task UpdateProduct(Product product);
-    Task DeleteProduct(Product product);
+    Task DeleteProduct(ProductDTO product);
     Task<IEnumerable<ProductDTO>> GetUserFavouritesByUserIdAsyncNOW(int userId);
-    Task<Product?> GetProductById(int productId);
+    Task<ProductDTO?> GetProductById(int productId);
     Task RestoreOldPriceAndRemoveOnSale(int productId);
-    Task<ProductDTO?> GetProductByIdDTO(int productId);
     Task AddOnSale(int days, int months, int hours, int minutes, decimal newPrice, int productId);
     Task<OnSale?> GetOnSaleByProductId(int productId); 
 }

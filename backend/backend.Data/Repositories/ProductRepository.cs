@@ -42,6 +42,7 @@ public class ProductRepository : IProductRepository
         foreach (var product in products)
         {
             var categoryIds = new List<int>();
+            var baseUrl = "http://localhost:5004";
 
             if (product.CategoryIds != null)
             {
@@ -51,6 +52,12 @@ public class ProductRepository : IProductRepository
                 }
             }
 
+            // Fetch photos associated with the current product
+            var photos = await _ctx.Photos
+                .Where(p => p.ProductId == product.IdProduct)
+                .Select(p => $"{baseUrl}/images/{p.Url}")
+                .ToListAsync();
+
             var productDTO = new ProductDTO()
             {
                 IdProduct = product.IdProduct,
@@ -58,7 +65,8 @@ public class ProductRepository : IProductRepository
                 Subtitle = product.Subtitle,
                 amountOf = product.amountOf,
                 Price = product.Price,
-                CategoryIds = categoryIds
+                CategoryIds = categoryIds,
+                Photos = photos
             };
 
             productDTOs.Add(productDTO);
@@ -66,6 +74,8 @@ public class ProductRepository : IProductRepository
 
         return productDTOs;
     }
+
+
 
     
     public async Task<IEnumerable<Product>> GetAllProductsByCategory(int category)
@@ -77,15 +87,33 @@ public class ProductRepository : IProductRepository
         return productsInCategory;
     }
 
-    public async Task<Product?> GetProductById(int productId)
+    public async Task<ProductDTO?> GetProductById(int productId)
     {
-        return await _ctx.Products.FindAsync(productId);
-    }
-    
-    public async Task<ProductDTO?> GetProductByIdDTO(int productId)
-    {
-        var product = await _ctx.Products.FindAsync(productId);
-        if (product == null) return null;
+        var product = await _ctx.Products
+            .Include(p => p.CategoryProducts)
+            .ThenInclude(cp => cp.Category)
+            .Include(p => p.Photos)
+            .FirstOrDefaultAsync(p => p.IdProduct == productId);
+
+        if (product == null)
+            return null;
+        
+        var categoryIds = new List<int>();
+        var baseUrl = "http://localhost:5004";
+
+        if (product.CategoryIds != null)
+        {
+            foreach (var categoryProduct in product.CategoryIds)
+            {
+                categoryIds.Add(categoryProduct);
+            }
+        }
+        
+        var photos = product.Photos
+            .Select(photo => $"{baseUrl}/images/{photo.Url}")
+            .ToList();
+        
+        
 
         var productDTO = new ProductDTO
         {
@@ -94,13 +122,13 @@ public class ProductRepository : IProductRepository
             Subtitle = product.Subtitle,
             amountOf = product.amountOf,
             Price = product.Price,
-            CategoryIds = product.CategoryProducts
-                .Where(cp => cp.CategoryId.HasValue)
-                .Select(cp => cp.CategoryId.Value)
-                .ToList()
+            CategoryIds = categoryIds,
+            Photos = photos
         };
+
         return productDTO;
     }
+    
     
     public async Task<Product> CreateProduct(int userId, ProductDTO productDTO)
     {
@@ -146,11 +174,16 @@ public class ProductRepository : IProductRepository
         await _ctx.SaveChangesAsync();
     }
     
-    public async Task DeleteProduct(Product product)
+    public async Task DeleteProduct(ProductDTO productDTO)
     {
-        _ctx.Products.Remove(product);
-        await _ctx.SaveChangesAsync();
+        var product = await _ctx.Products.FindAsync(productDTO.IdProduct);
+        if (product != null)
+        {
+            _ctx.Products.Remove(product);
+            await _ctx.SaveChangesAsync();
+        }
     }
+
     
     public async Task<IEnumerable<ProductDTO>> GetUserFavouritesByUserIdAsyncNOW(int userId)
     {
