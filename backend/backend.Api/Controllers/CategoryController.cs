@@ -11,7 +11,6 @@ namespace backend.Api.Controllers;
 [Route("api/category/")]
 public class CategoryController : ControllerBase
 {
-    
     private readonly IProductRepository _productRepo;
     private readonly ICategoryRepository _categoryRepo;
     private readonly ILogger<CategoryController> _logger;
@@ -58,17 +57,22 @@ public class CategoryController : ControllerBase
     {
         try
         {
-            await _categoryRepo.CreateCategory(kategoria);
-            return Ok();
+            var categoryDTO = await _categoryRepo.CreateCategory(kategoria);
+            return Ok(categoryDTO);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            _logger.LogError(e.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError,
+                new
+                {
+                    statusCode = 500,
+                    message = e.Message
+                });
         }
     }
     
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [Authorize(Roles = "Administrator")]
     [SwaggerOperation(Summary = "Usuń kategorię")]
     public async Task<IActionResult> DeleteCategory(int id) {
@@ -79,8 +83,13 @@ public class CategoryController : ControllerBase
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            _logger.LogError(e.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError,
+                new
+                {
+                    statusCode = 500,
+                    message = e.Message
+                });
         }
     }
 }

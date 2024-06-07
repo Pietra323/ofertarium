@@ -2,6 +2,7 @@ using backend.Data.Repositories;
 using backend.Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace backend.Api.Controllers
 {
@@ -23,6 +24,7 @@ namespace backend.Api.Controllers
         }
 
         [HttpPost("add")]
+        [SwaggerOperation(Summary = "Dodaj produkt do koszyka")]
         public async Task<IActionResult> AddToBasket(int productId)
         {
             try
@@ -42,6 +44,7 @@ namespace backend.Api.Controllers
         }
         
         [HttpDelete("delete")]
+        [SwaggerOperation(Summary = "Usuń produkt z koszyka")]
         public async Task<IActionResult> RemoveFromBasket(int productId)
         {
             try
@@ -61,6 +64,7 @@ namespace backend.Api.Controllers
         }
 
         [HttpGet("summary")]
+        [SwaggerOperation(Summary = "Pokaż koszyk")]
         public async Task<IActionResult> SummaryBasket()
         {
             try

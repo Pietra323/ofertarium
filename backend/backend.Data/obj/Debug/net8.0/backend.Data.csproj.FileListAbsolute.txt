@@ -58,3 +58,7 @@
 /Users/pietra/RiderProjects/ofertarium/backend/backend.Data/obj/Debug/net8.0/backend.Data.pdb
 /Users/pietra/RiderProjects/ofertarium/backend/backend.Data/obj/Debug/net8.0/backend.Data.genruntimeconfig.cache
 /Users/pietra/RiderProjects/ofertarium/backend/backend.Data/obj/Debug/net8.0/ref/backend.Data.dll
+/Users/pietra/RiderProjects/ofertarium/backend/backend.Data/bin/Debug/net8.0/Microsoft.Extensions.Hosting.Abstractions.dll
+/Users/pietra/RiderProjects/ofertarium/backend/backend.Data/bin/Debug/net8.0/Microsoft.Extensions.Diagnostics.Abstractions.dll
+/Users/pietra/RiderProjects/ofertarium/backend/backend.Data/bin/Debug/net8.0/Microsoft.Extensions.FileProviders.Abstractions.dll
+/Users/pietra/RiderProjects/ofertarium/backend/backend.Data/obj/Debug/net8.0/backend..6F28EC5D.Up2Date

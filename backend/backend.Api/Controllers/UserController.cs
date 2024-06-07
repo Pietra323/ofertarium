@@ -10,6 +10,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using backend.Data.Models;
+using backend.Data.Models.DataBase;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace backend.Api.Controllers
@@ -46,7 +47,7 @@ namespace backend.Api.Controllers
         {
             try
             {
-                var categories = new [] { 
+                var categories = new[] { 
                     "Elektronika", 
                     "Moda", 
                     "Dom i Ogród", 
@@ -59,16 +60,19 @@ namespace backend.Api.Controllers
                     "Kolekcje i Sztuka" 
                 };
 
+                int categoryId = 1;
                 foreach (var categoryString in categories)
                 {
-                    var category = new Category()
+                    var category = new Category
                     {
                         Nazwa = categoryString,
-                        Description = "..."
+                        Description = "...",
                     };
                     await _categoryRepo.CreateCategory(category);
+                    
+                    categoryId++;
                 }
-                
+
                 for (int i = 1; i <= count; i++)
                 {
                     var user = new User
@@ -80,7 +84,7 @@ namespace backend.Api.Controllers
                         Password = $"password{i}{i}{i}.",
                         isAdmin = false
                     };
-                    
+
                     Random random = new Random();
                     int min = 1;
                     int max = 10;
@@ -89,16 +93,16 @@ namespace backend.Api.Controllers
                     {
                         ProductName = $"ProductName{i}",
                         Subtitle = $"Subtitle of the product {i}",
-                        amountOf = i%5,
+                        amountOf = i % 5,
                         Price = randomNumberInRange,
-                        CategoryIds = new List<int> { (i+7)%11, (i+4)%11, (i+1)%11 }
+                        CategoryIds = new List<int> { (i + 7) % 11, (i + 4) % 11, (i + 1) % 11 }
                     };
                     string cardNumberString = string.Empty;
                     for (int j = 0; j < 16; j++)
                     {
                         cardNumberString += random.Next(0, 10).ToString();
                     }
-                    
+
                     await _userRepo.CreatePersonAsync(user);
 
                     long cardNumber = long.Parse(cardNumberString);
@@ -109,11 +113,11 @@ namespace backend.Api.Controllers
                         OwnerNickname = user.Username,
                         CardNumber = cardNumber,
                         UserId = user.Id,
-                        Balance = Math.Round((decimal)randomNumberInRange*5, 2)
+                        Balance = Math.Round((decimal)randomNumberInRange * 5, 2)
                     };
-
+                    
                     await _cardRepo.CreatePaymentCard(paymentCard);
-                    await _productRepo.CreateProduct(user.Id ,product);
+                    await _productRepo.CreateProduct(user.Id, product);
                 }
 
                 return Ok("Użytkownicy zostali dodani.");
@@ -124,6 +128,22 @@ namespace backend.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
+        
+        [HttpGet("authstatus")]
+        [SwaggerOperation(Summary = "Pobierz swój status")]
+        public IActionResult AuthStatus()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var roles = User.FindAll(ClaimTypes.Role).Select(r => r.Value).ToList();
+                return Ok(new { isAuthenticated = true, userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value, roles });
+            }
+            return Ok(new { isAuthenticated = false });
+        }
+
+
+
+
         
         [HttpPost]
         [SwaggerOperation(Summary = "Dodaj nowego użytkownika")]
@@ -185,25 +205,15 @@ namespace backend.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
         [Authorize(Roles = "Administrator")]
-        [SwaggerOperation(Summary = "Usuń użytkownika")]
+        [SwaggerOperation(Summary = "Usuń dowolnego użytkownika !DLA ADMINA!")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             try
             {
                 var existingUser = await _userRepo.GetPeopleByIdAsync(id);
-                if (existingUser == null)
-                {
-                    return NotFound(new
-                    {
-                        statusCode = 404,
-                        message = "record not found"
-                    });
-                }
-
-                await _userRepo.DeletePersonAsync(existingUser);
-                return NoContent();
+                var deletedPerson = _userRepo.DeletePersonAsync(existingUser);
+                return Ok(deletedPerson);
             }
             catch (Exception e)
             {
@@ -216,6 +226,24 @@ namespace backend.Api.Controllers
                     });
             }
         }
+
+        [HttpDelete]
+        [Authorize]
+        [SwaggerOperation(Summary = "Usuń swoje konto")]
+        public async Task<IActionResult> DeleteMyself()
+        {
+            int? userId = Auth.GetUserId(HttpContext);
+            if (userId == null)
+            {
+                return Unauthorized();
+            }
+            var user = await _userRepo.GetPeopleByIdAsync(userId.Value);
+            await _userRepo.DeletePersonAsync(user);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Ok("Supcio");
+        }
+
+
 
         [HttpGet]
         [SwaggerOperation(Summary = "Pobierz wszystkich użytkowników")]
@@ -260,7 +288,17 @@ namespace backend.Api.Controllers
                     });
                 }
 
-                return Ok(user);
+                var userDto = new UserDTO()
+                {
+                    Id = user.Id,
+                    Name = user.Name,
+                    LastName = user.LastName,
+                    Username = user.Username,
+                    Email = user.Email,
+                    isAdmin = user.isAdmin
+                };
+
+                return Ok(userDto);
             }
             catch (Exception e)
             {
@@ -287,13 +325,8 @@ namespace backend.Api.Controllers
                     {
                         new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                         new Claim(ClaimTypes.Name, user.Username),
-                        new Claim(ClaimTypes.Role, "Użytkownik")
+                        new Claim(ClaimTypes.Role, user.isAdmin ? "Administrator" : "Użytkownik")
                     };
-
-                    if (user.isAdmin)
-                    {
-                        claims.Add(new Claim(ClaimTypes.Role, "Administrator"));
-                    }
 
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);
@@ -312,6 +345,7 @@ namespace backend.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "Internal Server Error");
             }
         }
+
 
 
         [HttpGet("logout")]

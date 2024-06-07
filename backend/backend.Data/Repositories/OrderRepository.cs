@@ -1,5 +1,6 @@
 using backend.Data.Models;
 using backend.Data.Models.DataBase;
+using backend.Data.Models.ManyToManyConnections;
 using backend.Data.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -56,6 +57,19 @@ public class OrderRepository: IOrderRepository
         }).ToList();
 
         _ctx.Histories.AddRange(histories);
+        
+        var order = new Order
+        {
+            Name = $"Zamówienie{orderId}, użytkownia {paymentCard.User.Name}",
+            UserId = userId,
+            OrderProducts = basketProducts.Select(bp => new OrderProduct
+            {
+                ProductId = bp.ProductId,
+                Quantity = bp.quantity
+            }).ToList()
+        };
+        
+        _ctx.Orders.Add(order);
         _ctx.BasketProducts.RemoveRange(basketProducts);
         await _ctx.SaveChangesAsync();
     }

@@ -7,12 +7,7 @@ namespace backend.Data.Models;
 [Table("AccountSettings")]
 public class AccountSettings
 {
-    [Key] 
-    public int Id { get; set; }
-    [JsonIgnore]
-    public virtual ICollection<Location>? Locations { get; set; }
-    [JsonIgnore]
-    public virtual User? User { get; set; }
-    [JsonIgnore]
-    public virtual ICollection<Discount>? Discounts { get; set; }
+    [Key] public int Id { get; set; }
+    [JsonIgnore] public virtual ICollection<Location>? Locations { get; set; }
+    [JsonIgnore] public virtual User? User { get; set; }
 }

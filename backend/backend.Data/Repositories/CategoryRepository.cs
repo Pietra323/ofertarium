@@ -15,10 +15,15 @@ public class CategoryRepository : ICategoryRepository
         _ctx = ctx;
     }
 
-    public async Task<IEnumerable<Category>> GetAllCategories()
+    public async Task<IEnumerable<CategoryDTO>> GetAllCategories()
     {
         var categories = await _ctx.Categories.ToListAsync();
-        return categories;
+        var categoryDTO = categories.Select(categories => new CategoryDTO
+        {
+            Nazwa = categories.Nazwa,
+            Description = categories.Description
+        });
+        return categoryDTO;
     }
     
     public async Task<IEnumerable<Product>> GetProductsByCategoryId(int categoryId)
@@ -33,10 +38,18 @@ public class CategoryRepository : ICategoryRepository
     }
 
 
-    public async Task CreateCategory(Category kategoria)
+    public async Task<CategoryDTO> CreateCategory(Category kategoria)
     {
         _ctx.Categories.Add(kategoria);
+        var categoryDTO = new CategoryDTO()
+        {
+            Id = kategoria.Id,
+            Nazwa = kategoria.Nazwa,
+            Description = kategoria.Description,
+            
+        };
         await _ctx.SaveChangesAsync();
+        return categoryDTO;
     }
 
     public async Task DeleteCategory(int id)

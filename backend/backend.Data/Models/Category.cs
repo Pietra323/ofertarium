@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using backend.Data.Models.DataBase;
 using backend.Data.Models.ManyToManyConnections;
 using Newtonsoft.Json;
 
@@ -17,8 +18,14 @@ public class Category
     
     [Required]
     public string Description { get; set; }
-    [JsonIgnore]
-    public string? ImageUrl { get; set; }
+    
     [JsonIgnore]
     public virtual ICollection<CategoryProduct>? CategoryProducts { get; set; }
+}
+
+public class CategoryDTO
+{ 
+    public int Id { get; set; }
+    public string Nazwa { get; set; }
+    public string Description { get; set; }
 }
