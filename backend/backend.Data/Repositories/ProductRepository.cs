@@ -102,13 +102,41 @@ public class ProductRepository : IProductRepository
         return productDTO;
     }
     
-    public async Task<Product> CreateProduct(int userId, Product product)
+    public async Task<Product> CreateProduct(int userId, ProductDTO productDTO)
     {
-        product.UserId = userId;
+        var categoryIds = new List<int>();
+        var photos = new List<Photo>();
+
+        foreach (var categoryId in productDTO.CategoryIds)
+        {
+            categoryIds.Add(categoryId);
+        }
+
+        foreach (var photoUrl in productDTO.Photos)
+        {
+            photos.Add(new Photo
+            {
+                Url = photoUrl,
+                Description = "Photo description"
+            });
+        }
+
+        var product = new Product()
+        {
+            UserId = userId,
+            ProductName = productDTO.ProductName,
+            Subtitle = productDTO.Subtitle,
+            amountOf = productDTO.amountOf,
+            Price = productDTO.Price,
+            CategoryIds = categoryIds,
+            Photos = photos,
+        };
+
         await _ctx.Products.AddAsync(product);
         await _ctx.SaveChangesAsync();
         return product;
     }
+
     
     public async Task UpdateProduct(Product product)
     {

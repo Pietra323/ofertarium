@@ -27,7 +27,9 @@ public class Product
     [Required]
     public List<int> CategoryIds { get; set; }
     
-    public virtual ICollection<UserFavourite>? UserFavourites { get; set; } // Nowa właściwość
+    public virtual ICollection<Photo> Photos { get; set; }
+
+    public virtual ICollection<UserFavourite>? UserFavourites { get; set; }
 
     public virtual ICollection<OrderProduct>? OrderProducts { get; set; }
     public int? UserId { get; set; }
@@ -37,8 +39,6 @@ public class Product
     public virtual ICollection<History>? Histories { get; set; }
 }
 
-
-
 public class ProductDTO
 {
     public int IdProduct { get; set; }
@@ -47,4 +47,5 @@ public class ProductDTO
     public int amountOf { get; set; }
     public decimal Price { get; set; }
     public List<int> CategoryIds { get; set; } = new List<int>();
+    public List<string> Photos { get; set; }
 }

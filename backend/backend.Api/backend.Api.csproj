@@ -42,4 +42,8 @@
       <_ContentIncludedByDefault Remove="Pages\Register.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="images\" />
+    </ItemGroup>
+
 </Project>

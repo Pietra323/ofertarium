@@ -13,7 +13,7 @@ public interface IProductRepository
     Task<IEnumerable<Product>> GetAllProductsByCategory(int category);
     Task CreateFavouriteAsync(Favourite favourite);
 
-    Task<Product> CreateProduct(int userId, Product product);
+    Task<Product> CreateProduct(int userId, ProductDTO product);
     Task UpdateProduct(Product product);
     Task DeleteProduct(Product product);
     Task<IEnumerable<ProductDTO>> GetUserFavouritesByUserIdAsyncNOW(int userId);
