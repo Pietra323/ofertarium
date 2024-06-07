@@ -32,6 +32,7 @@ public class DataBase : DbContext
     public DbSet<History> Histories { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<Photo> Photos { get; set; }
     public DbSet<UserFavourite> UserFavourites { get; set; }
 
 
@@ -48,6 +49,11 @@ public class DataBase : DbContext
             .HasForeignKey(e => e.UserId)
             .IsRequired(false)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<Product>()
+            .HasMany(p => p.Photos)
+            .WithOne(p => p.Product)
+            .HasForeignKey(p => p.ProductId);
         
         
         modelBuilder.Entity<User>()

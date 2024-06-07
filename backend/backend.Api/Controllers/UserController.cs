@@ -41,93 +41,102 @@ namespace backend.Api.Controllers
         }
 
         
-        [HttpPost("seed")]
-        [SwaggerOperation(Summary = "Seedowanie użytkowników")]
-        public async Task<IActionResult> SeedUsers(int count)
+[HttpPost("seed")]
+[SwaggerOperation(Summary = "Seedowanie użytkowników")]
+public async Task<IActionResult> SeedUsers(int count)
+{
+    try
+    {
+        var categories = new[] {
+            "Elektronika",
+            "Moda",
+            "Dom i Ogród",
+            "Dziecko",
+            "Kultura i Rozrywka",
+            "Zdrowie",
+            "Sport i Turystyka",
+            "Uroda",
+            "Motoryzacja",
+            "Kolekcje i Sztuka"
+        };
+
+        int categoryId = 1;
+        foreach (var categoryString in categories)
         {
-            try
+            var category = new Category
             {
-                var categories = new[] { 
-                    "Elektronika", 
-                    "Moda", 
-                    "Dom i Ogród", 
-                    "Dziecko", 
-                    "Kultura i Rozrywka", 
-                    "Zdrowie", 
-                    "Sport i Turystyka", 
-                    "Uroda", 
-                    "Motoryzacja", 
-                    "Kolekcje i Sztuka" 
-                };
+                Nazwa = categoryString,
+                Description = "...",
+            };
+            await _categoryRepo.CreateCategory(category);
 
-                int categoryId = 1;
-                foreach (var categoryString in categories)
-                {
-                    var category = new Category
-                    {
-                        Nazwa = categoryString,
-                        Description = "...",
-                    };
-                    await _categoryRepo.CreateCategory(category);
-                    
-                    categoryId++;
-                }
-
-                for (int i = 1; i <= count; i++)
-                {
-                    var user = new User
-                    {
-                        Name = $"FirstName{i}",
-                        LastName = $"LastName{i}",
-                        Username = $"user{i}",
-                        Email = $"user{i}@example.com",
-                        Password = $"password{i}{i}{i}.",
-                        isAdmin = false
-                    };
-
-                    Random random = new Random();
-                    int min = 1;
-                    int max = 10;
-                    int randomNumberInRange = random.Next(min, max);
-                    var product = new Product()
-                    {
-                        ProductName = $"ProductName{i}",
-                        Subtitle = $"Subtitle of the product {i}",
-                        amountOf = i % 5,
-                        Price = randomNumberInRange,
-                        CategoryIds = new List<int> { (i + 7) % 11, (i + 4) % 11, (i + 1) % 11 }
-                    };
-                    string cardNumberString = string.Empty;
-                    for (int j = 0; j < 16; j++)
-                    {
-                        cardNumberString += random.Next(0, 10).ToString();
-                    }
-
-                    await _userRepo.CreatePersonAsync(user);
-
-                    long cardNumber = long.Parse(cardNumberString);
-                    var paymentCard = new PaymentCard()
-                    {
-                        OwnerFName = user.Name,
-                        OwnerLName = user.LastName,
-                        OwnerNickname = user.Username,
-                        CardNumber = cardNumber,
-                        UserId = user.Id,
-                        Balance = Math.Round((decimal)randomNumberInRange * 5, 2)
-                    };
-                    
-                    await _cardRepo.CreatePaymentCard(paymentCard);
-                    await _productRepo.CreateProduct(user.Id, product);
-                }
-
-                return Ok("Użytkownicy zostali dodani.");
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-            }
+            categoryId++;
         }
+
+        var samplePhotos = new List<string>
+        {
+            "https://example.com/photo1.jpg",
+            "https://example.com/photo2.jpg",
+            "https://example.com/photo3.jpg"
+        };
+
+        for (int i = 1; i <= count; i++)
+        {
+            var user = new User
+            {
+                Name = $"FirstName{i}",
+                LastName = $"LastName{i}",
+                Username = $"user{i}",
+                Email = $"user{i}@example.com",
+                Password = $"password{i}{i}{i}.",
+                isAdmin = false
+            };
+
+            Random random = new Random();
+            int min = 1;
+            int max = 10;
+            int randomNumberInRange = random.Next(min, max);
+            var product = new ProductDTO()
+            {
+                ProductName = $"ProductName{i}",
+                Subtitle = $"Subtitle of the product {i}",
+                amountOf = i % 5,
+                Price = randomNumberInRange,
+                CategoryIds = new List<int> { (i + 7) % 11, (i + 4) % 11, (i + 1) % 11 },
+                Photos = samplePhotos
+            };
+            string cardNumberString = string.Empty;
+            for (int j = 0; j < 16; j++)
+            {
+                cardNumberString += random.Next(0, 10).ToString();
+            }
+
+            await _userRepo.CreatePersonAsync(user);
+
+            long cardNumber = long.Parse(cardNumberString);
+            var paymentCard = new PaymentCard()
+            {
+                OwnerFName = user.Name,
+                OwnerLName = user.LastName,
+                OwnerNickname = user.Username,
+                CardNumber = cardNumber,
+                UserId = user.Id,
+                Balance = Math.Round((decimal)randomNumberInRange * 5, 2)
+            };
+
+            await _cardRepo.CreatePaymentCard(paymentCard);
+            await _productRepo.CreateProduct(user.Id, product);
+        }
+
+        return Ok("Użytkownicy zostali dodani.");
+    }
+    catch (Exception e)
+    {
+        _logger.LogError(e.Message);
+        return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+    }
+}
+
         
         [HttpGet("authstatus")]
         [SwaggerOperation(Summary = "Pobierz swój status")]
