@@ -21,33 +21,24 @@ public class DataBase : DbContext
     public DbSet<Order> Orders { get; set; }
     public DbSet<OrderProduct> OrderProducts { get; set; }
     public DbSet<AccountSettings> AccountSettings { get; set; }
-    public DbSet<Delivery> Deliveries { get; set; }
     public DbSet<Basket> Baskets { get; set; }
     public DbSet<Category> Categories { get; set; }
-    public DbSet<Comment> Comments { get; set; }
-    public DbSet<Discount> Discounts { get; set; }
     public DbSet<Favourite> Favourities { get; set; }
     public DbSet<Location> Locations { get; set; }
     public DbSet<OnSale> OnSales { get; set; }
     public DbSet<PaymentCard> Payments { get; set; }
-    public DbSet<Receipt> Receipts { get; set; }
-    public DbSet<Zdjecie> Zdjecia { get; set; }
     public DbSet<CategoryProduct> CategoryProducts { get; set; }
     public DbSet<BasketProduct> BasketProducts { get; set; }
     public DbSet<History> Histories { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<UserFavourite> UserFavourites { get; set; }
+
 
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
-        modelBuilder.Entity<Product>()
-            .HasMany(p => p.Zdjecies)
-            .WithOne(z => z.Product)
-            .HasForeignKey(z => z.ProductId)
-            .OnDelete(DeleteBehavior.Cascade)
-            .IsRequired(false);
+
         
         
         //relacje Usera jako model nadrzędny
@@ -57,6 +48,7 @@ public class DataBase : DbContext
             .HasForeignKey(e => e.UserId)
             .IsRequired(false)
             .OnDelete(DeleteBehavior.Cascade);
+        
         
         modelBuilder.Entity<User>()
             .HasOne(u => u.AccountSettings)
@@ -80,21 +72,6 @@ public class DataBase : DbContext
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired(false);
         
-        modelBuilder.Entity<AccountSettings>()
-            .HasMany(o => o.Discounts)
-            .WithOne(u => u.AccountSettings)
-            .HasForeignKey(o => o.AccountSettingsId)
-            .OnDelete(DeleteBehavior.Cascade)
-            .IsRequired(false);
-        
-
-        /*
-        modelBuilder.Entity<Product>()
-            .HasOne(r => r.OnSale)
-            .WithOne(sr => sr.Product)
-            .HasForeignKey<Product>(sr => sr.IdProduct)
-            .IsRequired(false);
-        */
 
         //relacja BasketProduct(Basket,Product) - many to many
         modelBuilder.Entity<BasketProduct>()
@@ -120,21 +97,9 @@ public class DataBase : DbContext
         
         
         
-        //costam
-        modelBuilder.Entity<Order>()
-            .HasOne(r => r.Receipt)
-            .WithOne(sr => sr.Order)
-            .HasForeignKey<Order>(sr => sr.Id)
-            .IsRequired(false);
         
-
         
-        //costam32
-        modelBuilder.Entity<Delivery>()
-            .HasOne(r => r.Order)
-            .WithOne(sr => sr.Delivery)
-            .HasForeignKey<Delivery>(sr => sr.Id)
-            .IsRequired(false);
+        
         
 
         modelBuilder.Entity<User>()
@@ -202,20 +167,22 @@ public class DataBase : DbContext
         
         //relacja OrderProduct(Product,Order) - many to many
         modelBuilder.Entity<UserFavourite>()
-            .HasKey(op => new { op.UserId, op.FavouriteId });
-        
-        modelBuilder.Entity<UserFavourite>()
-            .HasOne(op => op.User)
-            .WithMany(o => o.UserFavourite)
-            .HasForeignKey(op => op.UserId)
-            .IsRequired(false);
+            .HasKey(uf => new { uf.UserId, uf.FavouriteId, uf.ProductId });
 
         modelBuilder.Entity<UserFavourite>()
-            .HasOne(op => op.Favourite)
-            .WithMany(p => p.UserFavourite)
-            .HasForeignKey(op => op.FavouriteId)
-            .OnDelete(DeleteBehavior.Cascade)
-            .IsRequired(false);
+            .HasOne(uf => uf.User)
+            .WithMany(u => u.UserFavourite)
+            .HasForeignKey(uf => uf.UserId);
+
+        modelBuilder.Entity<UserFavourite>()
+            .HasOne(uf => uf.Favourite)
+            .WithMany(f => f.UserFavourites)
+            .HasForeignKey(uf => uf.FavouriteId);
+        
+        modelBuilder.Entity<UserFavourite>()
+            .HasOne(uf => uf.Product)
+            .WithMany(p => p.UserFavourites)
+            .HasForeignKey(uf => uf.ProductId);
         
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -37,13 +37,23 @@ namespace backend.Data.Models
         [JsonIgnore]
         public virtual AccountSettings? AccountSettings { get; set; }
         [JsonIgnore]
-        public virtual ICollection<Comment>? Comments { get; set; }
-        [JsonIgnore]
         public virtual ICollection<UserFavourite>? UserFavourite { get; set; }
         [JsonIgnore]
         public virtual Basket? Basket { get; set; }
         [JsonIgnore]
         public virtual ICollection<History>? Histories { get; set; }
         public virtual ICollection<PaymentCard>? PaymentCards { get; set; }
+        
+        public virtual ICollection<OnSale>? OnSales { get; set; }
+    }
+    
+    public class UserDTO
+    {
+        public int Id { get; set; } 
+        public string Name { get; set; }
+        public string LastName { get; set; }
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public bool isAdmin { get; set; }
     }
 }

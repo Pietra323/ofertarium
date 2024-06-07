@@ -19,10 +19,22 @@ public class UserRepository : IUserRepository
         return await _ctx.Users.ToListAsync();
     }
 
-    public async Task<IEnumerable<User>> GetPeopleAsync()
+    public async Task<IEnumerable<UserDTO>> GetPeopleAsync()
     {
         var users = await _ctx.Users.ToListAsync();
-        return users;
+
+        // Mapowanie użytkowników na użytkowników DTO
+        var usersDTO = users.Select(user => new UserDTO
+        {
+            Id = user.Id,
+            Name = user.Name,
+            LastName = user.LastName,
+            Username = user.Username,
+            Email = user.Email,
+            isAdmin = user.isAdmin
+        });
+
+        return usersDTO;
     }
     
     public async Task<User> GetPeopleByIdAsync(int id)
@@ -80,9 +92,19 @@ public class UserRepository : IUserRepository
         await _ctx.SaveChangesAsync();
     }
     
-    public async Task DeletePersonAsync(User person)
+    public async Task<UserDTO> DeletePersonAsync(User person)
     {
+        var usersDTO = new UserDTO()
+        {
+            Id = person.Id,
+            Name = person.Name,
+            LastName = person.LastName,
+            Username = person.Username,
+            Email = person.Email,
+            isAdmin = person.isAdmin
+        };
         _ctx.Users.Remove(person);
         await _ctx.SaveChangesAsync();
+        return usersDTO;
     }
 }

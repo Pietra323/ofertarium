@@ -9,8 +9,8 @@ namespace backend.Data.Models;
 [Table("Favourite")]
 public class Favourite
 {
-    [Key]
     public int Id { get; set; }
-    [JsonIgnore]
-    public virtual ICollection<UserFavourite> UserFavourite { get; set; }
+    public string Description { get; set; }
+    
+    public virtual ICollection<UserFavourite> UserFavourites { get; set; }
 }

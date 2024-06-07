@@ -16,7 +16,8 @@ public class OrderController : ControllerBase
         _orderRepository = orderRepository;
     }
 
-    [HttpPost("transferbaskettohistory")]
+    [HttpPost("makeOrder")]
+    [SwaggerOperation(Summary = "Złóż zamówienie")]
     public async Task<IActionResult> TransferBasketToHistory(int paymentCardId)
     {
         try

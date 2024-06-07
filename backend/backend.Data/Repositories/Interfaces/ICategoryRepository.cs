@@ -1,11 +1,13 @@
-using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using backend.Data.Models;
 
-namespace backend.Data.Repositories.Interfaces;
-
-public interface ICategoryRepository
+namespace backend.Data.Repositories.Interfaces
 {
-    Task<IEnumerable<Category>> GetAllCategories();
-    Task CreateCategory(Category kategoria);
-    Task DeleteCategory(int id);
+    public interface ICategoryRepository
+    {
+        Task<IEnumerable<CategoryDTO>> GetAllCategories();
+        Task<CategoryDTO> CreateCategory(Category kategoria);
+        Task DeleteCategory(int id);
+    }
 }
