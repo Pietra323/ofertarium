@@ -75,9 +75,9 @@ public async Task<IActionResult> SeedUsers(int count)
 
         var samplePhotos = new List<string>
         {
-            "https://example.com/photo1.jpg",
-            "https://example.com/photo2.jpg",
-            "https://example.com/photo3.jpg"
+            "photo1.jpg",
+            "photo2.jpg",
+            "photo3.jpg"
         };
 
         for (int i = 1; i <= count; i++)
