@@ -1,8 +1,10 @@
+using backend.Data.Models;
 using Razoer.Models;
 using Microsoft.AspNetCore.Mvc;
 using backend.Data.Repositories.Interfaces;
+using User = backend.Data.Models.User;
 
-namespace YourNamespace.Controllers
+namespace Razoer.Controllers
 {
     public class RegisterController : Controller
     {
@@ -16,19 +18,28 @@ namespace YourNamespace.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            Console.WriteLine("Otwarto");
             return View();
         }
 
         [HttpPost]
         public IActionResult Index(User user)
         {
-            if (ModelState.IsValid)
+            try
             {
-                user.isAdmin = false;
-                _userRepository.CreatePersonAsync(user);
-                return RedirectToAction("Index", "Home"); // Redirect to home page after successful registration
+                if (ModelState.IsValid)
+                {
+                    user.isAdmin = false;
+                    _userRepository.CreatePersonAsync(user);
+                    return RedirectToAction("Index", "Home"); // Redirect to home page after successful registration
+                }
+                return View(user);
             }
-            return View(user);
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

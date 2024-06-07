@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "backend.Api", "backend.Api\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "backend.Data", "backend.Data\backend.Data.csproj", "{49A56E20-1298-40BF-AFE3-524655D3994C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Razoer", "Razoer\Razoer.csproj", "{7F4C0076-2340-406C-BE87-508B59040040}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Razor", "Razor\Razor.csproj", "{076E4EC2-1281-470C-8D04-43C540A70F4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,9 +20,9 @@ Global
 		{49A56E20-1298-40BF-AFE3-524655D3994C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49A56E20-1298-40BF-AFE3-524655D3994C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49A56E20-1298-40BF-AFE3-524655D3994C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7F4C0076-2340-406C-BE87-508B59040040}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F4C0076-2340-406C-BE87-508B59040040}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F4C0076-2340-406C-BE87-508B59040040}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F4C0076-2340-406C-BE87-508B59040040}.Release|Any CPU.Build.0 = Release|Any CPU
+		{076E4EC2-1281-470C-8D04-43C540A70F4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{076E4EC2-1281-470C-8D04-43C540A70F4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{076E4EC2-1281-470C-8D04-43C540A70F4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{076E4EC2-1281-470C-8D04-43C540A70F4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
