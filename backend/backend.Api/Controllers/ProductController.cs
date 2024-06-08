@@ -71,6 +71,17 @@ namespace backend.Api.Controllers
         {
             try
             {
+                int? userId = Auth.GetUserId(HttpContext);
+                if (userId == null)
+                {
+                    Unauthorized();
+                }
+
+                var product = await _productRepo.GetProductById(productId);
+                if (product.UserId != userId)
+                {
+                    return Ok("Produkt nie należy do użytkownika");
+                }
                 await _productRepo.AddOnSale(days, months, hours, minutes, newPrice, productId);
                 return Ok("Product put on sale successfully.");
             }
@@ -88,6 +99,11 @@ namespace backend.Api.Controllers
         {
             try
             {
+                int? userId = Auth.GetUserId(HttpContext);
+                if (userId == null)
+                {
+                    Unauthorized();
+                }
                 var existingProduct = await _productRepo.GetProductById(id);
                 if (existingProduct == null)
                 {
@@ -96,6 +112,10 @@ namespace backend.Api.Controllers
                         statusCode = 404,
                         message = "record not found"
                     });
+                }
+                if (existingProduct.UserId != userId)
+                {
+                    return Ok("Produkt nie należy do użytkownika");
                 }
 
                 await _productRepo.DeleteProduct(existingProduct);
@@ -170,6 +190,7 @@ namespace backend.Api.Controllers
                     ProductId = productId,
                     FavouriteId = favourite.Id
                 };
+                
 
                 await _productRepo.AddUserFavouriteAsync(userFavourite);
 
@@ -181,6 +202,59 @@ namespace backend.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = e.Message });
             }
         }
+        
+        [Authorize]
+        [HttpGet("user/products")]
+        [SwaggerOperation(Summary = "Pobierz produkty użytkownika")]
+        public async Task<IActionResult> ShowUserProducts()
+        {
+            try
+            {
+                int? userId = Auth.GetUserId(HttpContext);
+                if (userId == null)
+                {
+                    return Unauthorized();
+                }
+
+                var userProducts = await _productRepo.GetAllUserProducts(userId.Value);
+                return Ok(userProducts);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new
+                    {
+                        statusCode = 500,
+                        message = e.Message
+                    });
+            }
+        }
+        
+        [HttpDelete("remove-favourite/{productId}")]
+        [Authorize]
+        [SwaggerOperation(Summary = "Usuń produkt z ulubionych użytkownika")]
+        public async Task<IActionResult> RemoveFavourite(int productId)
+        {
+            try
+            {
+                int? userId = Auth.GetUserId(HttpContext);
+                if (userId == null)
+                {
+                    return Unauthorized();
+                }
+
+                await _productRepo.RemoveUserFavouriteAsync(userId.Value, productId);
+
+                return Ok(new { message = "Product removed from favourites successfully" });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = e.Message });
+            }
+        }
+
         
         [HttpGet("/user/favourite")]
         [Authorize]

@@ -53,7 +53,14 @@ public class DataBase : DbContext
         modelBuilder.Entity<Product>()
             .HasMany(p => p.Photos)
             .WithOne(p => p.Product)
-            .HasForeignKey(p => p.ProductId);
+            .HasForeignKey(p => p.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<Product>()
+            .HasOne(p => p.OnSale)
+            .WithOne(o => o.Product)
+            .HasForeignKey<OnSale>(o => o.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         
         modelBuilder.Entity<User>()
