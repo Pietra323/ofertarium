@@ -21,13 +21,48 @@ public class ProductRepository : IProductRepository
         await _ctx.SaveChangesAsync();
     }
     
-    public async Task<IEnumerable<Product>> GetAllUserProducts(int userId)
+    public async Task<IEnumerable<ProductDTO>> GetAllUserProducts(int userId)
     {
-        var userProducts = await _ctx.Users
-            .Where(u => u.Id == userId)
-            .SelectMany(u => u.Products)
+        var products = await _ctx.Products
+            .Where(p => p.UserId == userId)  // Poprawka: używamy == zamiast =
+            .Include(p => p.CategoryProducts)
+            .ThenInclude(cp => cp.Category)
             .ToListAsync();
-        return userProducts;
+        var productDTOs = new List<ProductDTO>();
+        foreach (var product in products)
+        {
+            var categoryIds = new List<int>();
+            var baseUrl = "http://localhost:5004";
+
+            if (product.CategoryIds != null)
+            {
+                foreach (var categoryProduct in product.CategoryIds)
+                {
+                    categoryIds.Add(categoryProduct);
+                }
+            }
+
+            // Fetch photos associated with the current product
+            var photos = await _ctx.Photos
+                .Where(p => p.ProductId == product.IdProduct)
+                .Select(p => $"{baseUrl}/images/{p.Url}")
+                .ToListAsync();
+
+            var productDTO = new ProductDTO()
+            {
+                IdProduct = product.IdProduct,
+                ProductName = product.ProductName,
+                Subtitle = product.Subtitle,
+                amountOf = product.amountOf,
+                Price = product.Price,
+                CategoryIds = categoryIds,
+                Photos = photos
+            };
+
+            productDTOs.Add(productDTO);
+        }
+
+        return productDTOs;
     }
     
     public async Task<IEnumerable<ProductDTO>> GetAllProducts()
@@ -121,6 +156,7 @@ public class ProductRepository : IProductRepository
             ProductName = product.ProductName,
             Subtitle = product.Subtitle,
             amountOf = product.amountOf,
+            UserId = product.UserId,
             Price = product.Price,
             CategoryIds = categoryIds,
             Photos = photos
@@ -286,4 +322,17 @@ public class ProductRepository : IProductRepository
         return await _ctx.OnSales
             .FirstOrDefaultAsync(os => os.ProductId == productId);
     }
+    
+    public async Task RemoveUserFavouriteAsync(int userId, int productId)
+    {
+        var userFavourite = await _ctx.UserFavourites
+            .FirstOrDefaultAsync(uf => uf.UserId == userId && uf.ProductId == productId);
+    
+        if (userFavourite != null)
+        {
+            _ctx.UserFavourites.Remove(userFavourite);
+            await _ctx.SaveChangesAsync();
+        }
+    }
+
 }

@@ -5,7 +5,7 @@ namespace backend.Data.Repositories.Interfaces;
 
 public interface IProductRepository
 {
-    Task<IEnumerable<Product>> GetAllUserProducts(int userId);
+    Task<IEnumerable<ProductDTO>> GetAllUserProducts(int userId);
     Task<IEnumerable<ProductDTO>> GetAllProducts();
     Task AddProductAsync(Product product);
     Task AddUserFavouriteAsync(UserFavourite userFavourite);
@@ -20,5 +20,6 @@ public interface IProductRepository
     Task<ProductDTO?> GetProductById(int productId);
     Task RestoreOldPriceAndRemoveOnSale(int productId);
     Task AddOnSale(int days, int months, int hours, int minutes, decimal newPrice, int productId);
-    Task<OnSale?> GetOnSaleByProductId(int productId); 
+    Task<OnSale?> GetOnSaleByProductId(int productId);
+    Task RemoveUserFavouriteAsync(int userId, int productId);
 }

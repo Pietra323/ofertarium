@@ -70,13 +70,33 @@ public class UserRepository : IUserRepository
     
     public async Task<User> LoginUser(string username, string password)
     {
-        var user = await _ctx.Users.FirstOrDefaultAsync(u => u.Username == username);
-        if (user.Password == password)
+        try
         {
-            return user;
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                return null;
+            }
+
+            var user = await _ctx.Users.FirstOrDefaultAsync(u => u.Username == username);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            if (user.Password == password)
+            {
+                return user;
+            }
+
+            return null;
         }
-        return null;
+        catch (Exception ex)
+        {
+            throw new Exception("An error occurred during login", ex);
+        }
     }
+
     
     public async Task UpdatePersonAsync(User person)
     {

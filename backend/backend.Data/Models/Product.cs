@@ -32,11 +32,13 @@ public class Product
     public virtual ICollection<UserFavourite>? UserFavourites { get; set; }
 
     public virtual ICollection<OrderProduct>? OrderProducts { get; set; }
-    public int? UserId { get; set; }
+    public int UserId { get; set; }
     public virtual User? User { get; set; }
     public virtual ICollection<CategoryProduct>? CategoryProducts { get; set; }
     public virtual ICollection<BasketProduct>? BasketProducts { get; set; }
     public virtual ICollection<History>? Histories { get; set; }
+    public int? OnSaleId { get; set; }
+    public virtual OnSale? OnSale { get; set; }  // Nowa właściwość
 }
 
 public class ProductDTO
@@ -46,6 +48,8 @@ public class ProductDTO
     public string Subtitle { get; set; }
     public int amountOf { get; set; }
     public decimal Price { get; set; }
+    public int UserId { get; set; }
     public List<int> CategoryIds { get; set; } = new List<int>();
     public List<string> Photos { get; set; } = new List<string>();
+    
 }
