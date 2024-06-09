@@ -60,17 +60,19 @@ public async Task<IActionResult> SeedUsers(int count)
             "Kolekcje i Sztuka"
         };
 
-        int categoryId = 1;
+        // Add categories only if they don't exist
         foreach (var categoryString in categories)
         {
-            var category = new Category
+            var existingCategory = await _categoryRepo.GetCategoryByName(categoryString);
+            if (existingCategory == null)
             {
-                Nazwa = categoryString,
-                Description = "...",
-            };
-            await _categoryRepo.CreateCategory(category);
-
-            categoryId++;
+                var category = new Category
+                {
+                    Nazwa = categoryString,
+                    Description = "..."
+                };
+                await _categoryRepo.CreateCategory(category);
+            }
         }
 
         var samplePhotos = new List<string>
@@ -80,7 +82,10 @@ public async Task<IActionResult> SeedUsers(int count)
             "photo3.jpg"
         };
 
-        for (int i = 1; i <= count; i++)
+        var existingUsersCount = await _userRepo.GetUserCount();
+        var usersToAdd = count - existingUsersCount;
+
+        for (int i = existingUsersCount + 1; i <= usersToAdd + existingUsersCount; i++)
         {
             var user = new User
             {
@@ -129,7 +134,8 @@ public async Task<IActionResult> SeedUsers(int count)
                 await _cardRepo.CreatePaymentCard(paymentCard);
             }
 
-            await _productRepo.CreateProduct(user.Id, product);
+            var productDT = await _productRepo.CreateProduct(user.Id, product);
+            await _categoryRepo.AddCategoryProducts(productDT.IdProduct, product.CategoryIds);
         }
 
         return Ok("Użytkownicy zostali dodani.");
@@ -140,6 +146,7 @@ public async Task<IActionResult> SeedUsers(int count)
         return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
     }
 }
+
 
         
         [HttpGet("authstatus")]

@@ -9,5 +9,7 @@ namespace backend.Data.Repositories.Interfaces
         Task<IEnumerable<CategoryDTO>> GetAllCategories();
         Task<CategoryDTO> CreateCategory(Category kategoria);
         Task DeleteCategory(int id);
+        Task AddCategoryProducts(int productIdProduct, List<int> productCategoryIds);
+        Task<Category> GetCategoryByName(string name);
     }
 }

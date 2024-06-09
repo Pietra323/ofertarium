@@ -58,4 +58,24 @@ public class CategoryRepository : ICategoryRepository
         _ctx.Categories.Remove(category);
         await _ctx.SaveChangesAsync();
     }
+
+    public async Task AddCategoryProducts(int productIdProduct, List<int> productCategoryIds)
+    {
+        foreach (var productCategoryId in productCategoryIds)
+        {
+            var CategoryProduct = new CategoryProduct()
+            {
+                ProductId = productIdProduct,
+                CategoryId = productCategoryId
+            };
+            await _ctx.CategoryProducts.AddAsync(CategoryProduct);
+        }
+        await _ctx.SaveChangesAsync();
+    }
+    
+    public async Task<Category> GetCategoryByName(string name)
+    {
+        return await _ctx.Categories.FirstOrDefaultAsync(c => c.Nazwa == name);
+    }
+
 }

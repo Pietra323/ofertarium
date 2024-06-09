@@ -54,13 +54,7 @@ public class ProductRepository : IProductRepository
 
         return productDTOs;
     }
-
     
-    public async Task AddProductAsync(Product product)
-    {
-        _ctx.Products.Add(product);
-        await _ctx.SaveChangesAsync();
-    }
     
     public async Task<IEnumerable<ProductDTO>> GetAllUserProducts(int userId)
     {
@@ -198,8 +192,6 @@ public class ProductRepository : IProductRepository
     
     public async Task<Product> CreateProduct(int userId, ProductDTO productDTO)
     {
-        var categoryProducts = new List<CategoryProduct>();
-
         var categoryIds = new List<int>();
         var photos = new List<Photo>();
         var baseUrl = "http://localhost:5004";
@@ -207,10 +199,7 @@ public class ProductRepository : IProductRepository
 
         foreach (var categoryId in productDTO.CategoryIds)
         {
-            categoryProducts.Add(new CategoryProduct
-            {
-                CategoryId = categoryId,
-            });
+            categoryIds.Add(categoryId);
         }
         
 
@@ -232,17 +221,9 @@ public class ProductRepository : IProductRepository
             Price = productDTO.Price,
             CategoryIds = categoryIds,
             Photos = photos
-            
         };
 
         await _ctx.Products.AddAsync(product);
-        await _ctx.SaveChangesAsync();
-        
-        foreach (var categoryProduct in categoryProducts)
-        {
-            categoryProduct.ProductId = product.IdProduct;
-        }
-
         await _ctx.SaveChangesAsync();
         return product;
     }

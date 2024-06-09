@@ -239,7 +239,7 @@ namespace backend.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("OnSale");
+                    b.ToTable("OnSale", (string)null);
                 });
 
             modelBuilder.Entity("backend.Data.Models.Order", b =>

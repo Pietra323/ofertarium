@@ -7,7 +7,6 @@ public interface IProductRepository
 {
     Task<IEnumerable<ProductDTO>> GetAllUserProducts(int userId);
     Task<IEnumerable<ProductDTO>> GetAllProducts();
-    Task AddProductAsync(Product product);
     Task AddUserFavouriteAsync(UserFavourite userFavourite);
     Task<Favourite?> GetFavouriteByUserIdAndProductIdAsync(int userId, int productId);
     Task CreateFavouriteAsync(Favourite favourite);
