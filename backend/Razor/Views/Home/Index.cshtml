@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model backend.Data.Models.User
+
+<form method="post" asp-action="AddUser" id="lol">
+    <input asp-for="Name" />
+    <input asp-for="LastName" />
+    <input asp-for="Username" />
+    <input asp-for="Email" />
+    <input asp-for="Password" />
+    <button type="submit">Submit</button>
+</form>
