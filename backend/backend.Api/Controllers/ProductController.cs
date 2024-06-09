@@ -35,6 +35,27 @@ namespace backend.Api.Controllers
             _logger = logger;
             _httpClientFactory = httpClientFactory;
         }
+        
+        [HttpGet("/products/{categoryId}")]
+        [SwaggerOperation(Summary = "Pobierz wszystkie produkty z danej kategorii")]
+        public async Task<IActionResult> GetProductsByCategory(int categoryId)
+        {
+            try
+            {
+                var products = await _productRepo.GetAllProductsByCategoryAsync(categoryId);
+                return Ok(products);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new
+                    {
+                        statusCode = 500,
+                        message = e.Message
+                    });
+            }
+        }
 
         [Authorize]
         [HttpPost("add_product")]

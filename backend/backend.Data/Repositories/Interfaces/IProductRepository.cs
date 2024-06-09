@@ -10,12 +10,13 @@ public interface IProductRepository
     Task AddProductAsync(Product product);
     Task AddUserFavouriteAsync(UserFavourite userFavourite);
     Task<Favourite?> GetFavouriteByUserIdAndProductIdAsync(int userId, int productId);
-    Task<IEnumerable<Product>> GetAllProductsByCategory(int category);
     Task CreateFavouriteAsync(Favourite favourite);
 
     Task<Product> CreateProduct(int userId, ProductDTO product);
     Task UpdateProduct(Product product);
     Task DeleteProduct(ProductDTO product);
+    Task<IEnumerable<ProductDTO>> GetAllProductsByCategoryAsync(int categoryId);
+
     Task<IEnumerable<ProductDTO>> GetUserFavouritesByUserIdAsyncNOW(int userId);
     Task<ProductDTO?> GetProductById(int productId);
     Task RestoreOldPriceAndRemoveOnSale(int productId);
