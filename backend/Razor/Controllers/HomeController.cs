@@ -58,6 +58,32 @@ namespace Razor.Controllers
                 return View("Error");
             }
         }
+        [HttpPost]
+        public async Task<IActionResult> Login(User user)
+        {
+            try
+            {
+                var json = JsonConvert.SerializeObject(user);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var client = _clientFactory.CreateClient();
+                var response = await client.PostAsync("http://localhost:5004/api/users/login", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View("Error");
+                }
+            }
+            catch (Exception)
+            {
+                return View("Error");
+            }
+        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
