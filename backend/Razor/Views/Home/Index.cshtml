@@ -1,7 +1,20 @@
-﻿@{
+﻿@inject IHttpClientFactory _clientFactory
+@using backend.Data.Models 
+
+@{
     ViewData["Title"] = "Home Page";
+    var client = _clientFactory.CreateClient();
+    var response = await client.GetAsync("https://localhost:7235/api/category");
+    var categories = await response.Content.ReadAsStringAsync();
+    var categoriesList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Category>>(categories);
 }
+
 @model backend.Data.Models.User
+
+@foreach (var category in categoriesList)
+{
+    <div class="category-div">@category.Nazwa</div>
+}
 
 <form method="post" asp-action="AddUser" id="lol">
     <input asp-for="Name" />
@@ -10,4 +23,10 @@
     <input asp-for="Email" />
     <input asp-for="Password" />
     <button type="submit">Submit</button>
+</form>
+
+<form method="post" asp-action="Login" id="loginForm">
+    <input asp-for="Username" />
+    <input asp-for="Password" />
+    <button type="submit">Zaloguj</button>
 </form>
