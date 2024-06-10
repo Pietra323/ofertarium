@@ -43,12 +43,7 @@ namespace Razor.Controllers
         }
         public async Task<IActionResult> AddProduct()
         {
-            var model = new AddProductViewModel
-            {
-                CategoryIds = new List<int>(),
-                Photos = new List<string>()
-            };
-            return View(model);
+            return View();
         }
 
         [HttpPost]
@@ -75,27 +70,7 @@ namespace Razor.Controllers
                 return View("Error");
             }
         }
-        [HttpPost]
-        public async Task<IActionResult> AddProduct(AddProductViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            var httpClient = new HttpClient();
-            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsync("https://localhost:7235/api/products/add_product", content);
-
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("SuccessAction");
-            }
-            else
-            {
-                return View(model);
-            }
-        }
+      
 
 
         [HttpPost]
