@@ -63,12 +63,6 @@ namespace backend.Api.Controllers
         {
             try
             {
-                //int? userId = Auth.GetUserId(HttpContext);
-                //if (userId == null)
-                //{
-                //    Unauthorized();
-                //}
-                // Dodanie logowania dla sprawdzenia wartości ExpirationTime
                 _logger.LogInformation($"Adding product without expiration time: {product.ProductName}");
 
                 // Dodaj produkt do repozytorium
@@ -85,18 +79,13 @@ namespace backend.Api.Controllers
         }
 
 
-        [Authorize]
+
         [SwaggerOperation(Summary = "Dodaj promocję czasową")]
         [HttpPost("add_on_sale")]
-        public async Task<IActionResult> AddOnSale(int days, int months, int hours, int minutes, decimal newPrice, int productId)
+        public async Task<IActionResult> AddOnSale(int days, int months, int hours, int minutes, decimal newPrice, int productId, int userId)
         {
             try
             {
-                int? userId = Auth.GetUserId(HttpContext);
-                if (userId == null)
-                {
-                    Unauthorized();
-                }
 
                 var product = await _productRepo.GetProductById(productId);
                 if (product.UserId != userId)
@@ -116,15 +105,10 @@ namespace backend.Api.Controllers
 
         [HttpDelete("{id}")]
         [SwaggerOperation(Summary = "Usuń produkt")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        public async Task<IActionResult> DeleteProduct(int id, int userId)
         {
             try
             {
-                int? userId = Auth.GetUserId(HttpContext);
-                if (userId == null)
-                {
-                    Unauthorized();
-                }
                 var existingProduct = await _productRepo.GetProductById(id);
                 if (existingProduct == null)
                 {
@@ -177,25 +161,18 @@ namespace backend.Api.Controllers
 
 
         [HttpPost("add-favourite")]
-        [Authorize]
         [SwaggerOperation(Summary = "Dodaj produkt do ulubionych użytkownika")]
-        public async Task<IActionResult> AddFavourite(int productId)
+        public async Task<IActionResult> AddFavourite(int productId, int userId)
         {
             try
             {
-                int? userId = Auth.GetUserId(HttpContext);
-                if (userId == null)
-                {
-                    Unauthorized();
-                }
-
                 var product = await _productRepo.GetProductById(productId);
                 if (product == null)
                 {
                     return NotFound(new { message = "Product not found" });
                 }
 
-                var favourite = await _productRepo.GetFavouriteByUserIdAndProductIdAsync(userId.Value, productId);
+                var favourite = await _productRepo.GetFavouriteByUserIdAndProductIdAsync(userId, productId);
                 if (favourite == null)
                 {
                     favourite = new Favourite
@@ -207,7 +184,7 @@ namespace backend.Api.Controllers
 
                 var userFavourite = new UserFavourite
                 {
-                    UserId = userId.Value,
+                    UserId = userId,
                     ProductId = productId,
                     FavouriteId = favourite.Id
                 };
@@ -224,20 +201,14 @@ namespace backend.Api.Controllers
             }
         }
         
-        [Authorize]
         [HttpGet("user/products")]
         [SwaggerOperation(Summary = "Pobierz produkty użytkownika")]
-        public async Task<IActionResult> ShowUserProducts()
+        public async Task<IActionResult> ShowUserProducts(int userId)
         {
             try
             {
-                int? userId = Auth.GetUserId(HttpContext);
-                if (userId == null)
-                {
-                    return Unauthorized();
-                }
 
-                var userProducts = await _productRepo.GetAllUserProducts(userId.Value);
+                var userProducts = await _productRepo.GetAllUserProducts(userId);
                 return Ok(userProducts);
             }
             catch (Exception e)
@@ -253,19 +224,13 @@ namespace backend.Api.Controllers
         }
         
         [HttpDelete("remove-favourite/{productId}")]
-        [Authorize]
         [SwaggerOperation(Summary = "Usuń produkt z ulubionych użytkownika")]
-        public async Task<IActionResult> RemoveFavourite(int productId)
+        public async Task<IActionResult> RemoveFavourite(int productId, int userId)
         {
             try
             {
-                int? userId = Auth.GetUserId(HttpContext);
-                if (userId == null)
-                {
-                    return Unauthorized();
-                }
 
-                await _productRepo.RemoveUserFavouriteAsync(userId.Value, productId);
+                await _productRepo.RemoveUserFavouriteAsync(userId, productId);
 
                 return Ok(new { message = "Product removed from favourites successfully" });
             }
@@ -278,24 +243,18 @@ namespace backend.Api.Controllers
 
         
         [HttpGet("/user/favourite")]
-        [Authorize]
         [SwaggerOperation(Summary = "Pobierz ulubione produkty użytkownika")]
-        public async Task<IActionResult> GetUserFavourites()
+        public async Task<IActionResult> GetUserFavourites(int userId)
         {
             try
             {
-                int? userId = Auth.GetUserId(HttpContext);
-                if (userId == null)
-                {
-                    Unauthorized();
-                }
-                var user = await _userRepo.GetPeopleByIdAsync(userId.Value);
+                var user = await _userRepo.GetPeopleByIdAsync(userId);
                 if (user == null)
                 {
                     return NotFound(new { message = "User not found" });
                 }
 
-                var userFavourites = await _productRepo.GetUserFavouritesByUserIdAsyncNOW(userId.Value);
+                var userFavourites = await _productRepo.GetUserFavouritesByUserIdAsyncNOW(userId);
                 return Ok(userFavourites);
             }
             catch (Exception e)
