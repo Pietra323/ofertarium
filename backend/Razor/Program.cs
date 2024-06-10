@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,25 +11,33 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.DictionaryKeyPolicy = null;
     });
 builder.Services.AddHttpClient();
+builder.Services.AddSession();
+
+// Add authentication services.
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+    });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
+// Use authentication and authorization.
+app.UseAuthentication();
 app.UseAuthorization();
 
-// Przekieruj żądania POST na inny adres URL
 app.Use(async (context, next) =>
 {
     if (context.Request.Method == "POST" || context.Request.Method == "GET" || context.Request.Method == "PUT" || context.Request.Method == "DELETE" || context.Request.Method == "PATCH")
@@ -37,7 +47,6 @@ app.Use(async (context, next) =>
     }
     await next();
 });
-
 
 app.MapControllerRoute(
     name: "default",

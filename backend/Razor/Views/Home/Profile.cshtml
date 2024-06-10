@@ -1,0 +1,23 @@
+﻿@using Newtonsoft.Json;
+@using backend.Data.Models
+@inject IHttpClientFactory _clientFactory
+@{
+    ViewData["Profile"] = "Profile";
+    User user = null;
+
+    var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7235/api/users/currentUser");
+    var client = _clientFactory.CreateClient();
+    var response = await client.SendAsync(request);
+
+    if (response.IsSuccessStatusCode)
+    {
+        var responseContent = await response.Content.ReadAsStringAsync();
+        user = JsonConvert.DeserializeObject<User>(responseContent);
+    }
+}
+<h1>@ViewData["Profile"]</h1>
+
+<p>Name: @user?.Name</p>
+<p>Last Name: @user?.LastName</p>
+<p>Username: @user?.Username</p>
+<p>Email: @user?.Email</p>

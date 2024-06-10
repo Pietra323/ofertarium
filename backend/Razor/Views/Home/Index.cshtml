@@ -1,44 +1,19 @@
 ﻿@inject IHttpClientFactory _clientFactory
 @using backend.Data.Models
 
+@if (TempData["LoginMessage"] != null)
+{
+    <div>@TempData["LoginMessage"].ToString()</div>
+}
+
 @{
     ViewData["Title"] = "Home Page";
-    var client = _clientFactory.CreateClient();
-    var response = await client.GetAsync("https://localhost:7235/api/category");
-    var categories = await response.Content.ReadAsStringAsync();
-    var categoriesList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<Category>>(categories);
-    var productsByCategory = new Dictionary<Category, IEnumerable<ProductViewModel>>();
-
-    foreach (var category in categoriesList)
-    {
-        var productResponse = await client.GetAsync($"https://localhost:7235/products/{category.Id}");
-        if (productResponse.IsSuccessStatusCode)
-        {
-            var products = await productResponse.Content.ReadAsStringAsync();
-            var productList = Newtonsoft.Json.JsonConvert.DeserializeObject<IEnumerable<ProductViewModel>>(products);
-            productsByCategory[category] = productList;
-        }
-    }
+    
 }
 
 @model backend.Data.Models.User
 
-@foreach (var category in productsByCategory.Keys)
-{
-    <div class="category-div">@category.Nazwa</div>
-    var productList = productsByCategory[category];
-    if (productList != null && productList.Any())
-    {
-        foreach (var product in productList)
-        {
-            <div class="product-div">Produkt: @product.Name</div>
-        }
-    }
-    else
-    {
-        <div>Brak produktów</div>
-    }
-}
+
 
 <form method="post" asp-action="AddUser" id="lol">
     <input asp-for="Name" />
