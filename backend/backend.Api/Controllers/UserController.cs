@@ -134,7 +134,7 @@ public async Task<IActionResult> SeedUsers(int count)
                 await _cardRepo.CreatePaymentCard(paymentCard);
             }
 
-            var productDT = await _productRepo.CreateProduct(user.Id, product);
+            var productDT = await _productRepo.SEEDCreateProduct(user.Id, product);
             await _categoryRepo.AddCategoryProducts(productDT.IdProduct, product.CategoryIds);
         }
 

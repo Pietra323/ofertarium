@@ -2,6 +2,7 @@ using backend.Data.Models;
 using backend.Data.Models.DataBase;
 using backend.Data.Models.ManyToManyConnections;
 using backend.Data.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Data.Repositories;
@@ -189,8 +190,85 @@ public class ProductRepository : IProductRepository
         return productDTO;
     }
     
+    public async Task AddPhotoToProduct(int productId, IFormFile file, string description)
+    {
+        // Ścieżka do zapisywania plików
+        var uploadsFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "..", "backend.api", "images");
+
+        // Upewnij się, że folder istnieje
+        if (!Directory.Exists(uploadsFolderPath))
+        {
+            Directory.CreateDirectory(uploadsFolderPath);
+        }
+
+        // Generowanie unikalnej nazwy pliku
+        var uniqueFileName = Guid.NewGuid().ToString() + "_" + file.FileName;
+        var filePath = Path.Combine(uploadsFolderPath, uniqueFileName);
+
+        // Zapisywanie pliku na serwerze
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        // Pobierz produkt z bazy danych
+        var product = await _ctx.Products.Include(p => p.Photos).FirstOrDefaultAsync(p => p.IdProduct == productId);
+        if (product == null)
+        {
+            throw new NullReferenceException("Product not found.");
+        }
+
+        var baseUrl = "http://localhost:5004";
+        // Dodaj zdjęcie do produktu
+        var photo = new Photo
+        {
+            Url = $"{baseUrl}/images/{uniqueFileName}",
+            Description = description,
+            ProductId = productId
+        };
+
+        product.Photos.Add(photo);
+
+        // Zapisz zmiany w bazie danych
+        _ctx.Products.Update(product);
+        await _ctx.SaveChangesAsync();
+    }
+
     
-    public async Task<Product> CreateProduct(int userId, ProductDTO productDTO)
+    public async Task<Product> CreateProduct(int userId, ProductDTO productDTO, List<IFormFile> photos, string description)
+    {
+        var categoryIds = new List<int>();
+        var productPhotos = new List<Photo>();
+
+        foreach (var categoryId in productDTO.CategoryIds)
+        {
+            categoryIds.Add(categoryId);
+        }
+
+        var product = new Product()
+        {
+            UserId = userId,
+            ProductName = productDTO.ProductName,
+            Subtitle = productDTO.Subtitle,
+            amountOf = productDTO.amountOf,
+            Price = productDTO.Price,
+            CategoryIds = categoryIds,
+            Photos = productPhotos
+        };
+
+        await _ctx.Products.AddAsync(product);
+        await _ctx.SaveChangesAsync(); // Save product first to get its ID
+
+        // Add photos to product using AddPhotoToProduct method
+        foreach (var photo in photos)
+        {
+            await AddPhotoToProduct(product.IdProduct, photo, description);
+        }
+
+        return product;
+    }
+
+    public async Task<Product> SEEDCreateProduct(int userId, ProductDTO productDTO)
     {
         var categoryIds = new List<int>();
         var photos = new List<Photo>();
@@ -201,7 +279,7 @@ public class ProductRepository : IProductRepository
         {
             categoryIds.Add(categoryId);
         }
-        
+
 
         foreach (var photoUrl in productDTO.Photos)
         {
@@ -228,7 +306,7 @@ public class ProductRepository : IProductRepository
         return product;
     }
 
-    
+
     public async Task UpdateProduct(Product product)
     {
         _ctx.Products.Update(product);

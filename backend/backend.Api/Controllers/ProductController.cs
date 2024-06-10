@@ -59,17 +59,17 @@ namespace backend.Api.Controllers
 
         [HttpPost("add_product")]
         [SwaggerOperation(Summary = "Dodaj produkt")]
-        public async Task<IActionResult> AddProduct([FromBody] ProductDTO product)
+        public async Task<IActionResult> AddProduct([FromForm] ProductDTO product, [FromForm] List<IFormFile> photos, [FromForm] string description)
         {
             try
             {
-                _logger.LogInformation($"Adding product without expiration time: {product.ProductName}");
+                _logger.LogInformation($"Adding product: {product.ProductName}");
 
                 // Dodaj produkt do repozytorium
                 var userId = product.UserId;
-                await _productRepo.CreateProduct(userId, product);
+                var createdProduct = await _productRepo.CreateProduct(userId, product, photos, description);
 
-                return Ok("Product added successfully.");
+                return Ok(new { message = "Product added successfully.", product = createdProduct });
             }
             catch (Exception ex)
             {
@@ -77,6 +77,7 @@ namespace backend.Api.Controllers
                 return StatusCode(500, $"An error occurred: {ex.Message}");
             }
         }
+
 
 
 
@@ -240,6 +241,29 @@ namespace backend.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new { message = e.Message });
             }
         }
+        
+        
+        [HttpPost("upload-image/{productId}")]
+        [SwaggerOperation(Summary = "Upload product image")]
+        public async Task<IActionResult> UploadProductImage(int productId, IFormFile file, [FromForm] string description)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest(new { message = "Invalid file." });
+            }
+
+            try
+            {
+                await _productRepo.AddPhotoToProduct(productId, file, description);
+                return Ok(new { message = "File uploaded successfully." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while uploading the file.");
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = ex.Message });
+            }
+        }
+
 
         
         [HttpGet("/user/favourite")]

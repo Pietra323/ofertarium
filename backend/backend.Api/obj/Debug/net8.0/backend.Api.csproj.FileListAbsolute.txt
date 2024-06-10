@@ -1381,3 +1381,4 @@ C:/Users/Krzysiek/Documents/GitHub/ofertarium/backend/backend.Api/obj/Debug/net8
 C:/Users/Krzysiek/Documents/GitHub/ofertarium/backend/backend.Api/obj/Debug/net8.0/backend..0D600A53.Up2Date
 C:/Users/Krzysiek/Documents/GitHub/ofertarium/backend/backend.Api/obj/Debug/net8.0/backend.Api.genruntimeconfig.cache
 C:/Users/Krzysiek/Documents/GitHub/ofertarium/backend/backend.Api/obj/Debug/net8.0/ref/backend.Api.dll
+/Users/pietra/RiderProjects/ofertarium/backend/backend.Api/bin/Debug/net8.0/backend.Api.staticwebassets.runtime.json

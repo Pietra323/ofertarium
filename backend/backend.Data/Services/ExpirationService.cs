@@ -28,35 +28,44 @@ public class ExpirationService : IHostedService, IDisposable
         return Task.CompletedTask;
     }
 
-    private void UpdateExpirationTimes(object state)
+    private async void UpdateExpirationTimes(object state)
     {
         using (var scope = _scopeFactory.CreateScope())
         {
             var context = scope.ServiceProvider.GetRequiredService<DataBase>();
 
-            // Sprawdź typ argumentu explicite
-            var OnSaleProducts = context.OnSales
+            var OnSaleProducts = await context.OnSales
                 .Where(p => p.ExpirationTime.HasValue)
-                .ToList<OnSale>();
-
+                .ToListAsync();
 
             foreach (var OnSaleProduct in OnSaleProducts)
             {
-                OnSaleProduct.ExpirationTime = OnSaleProduct.ExpirationTime.Value.AddMinutes(-1);
+                _logger.LogInformation($"Checking product {OnSaleProduct.ProductId} with expiration time {OnSaleProduct.ExpirationTime.Value.ToString("o")} UTC");
 
                 if (OnSaleProduct.ExpirationTime <= DateTime.Now)
                 {
+                    _logger.LogInformation($"Product {OnSaleProduct.ProductId} has expired. Removing on-sale status.");
+
+                    var product = await context.Products.FindAsync(OnSaleProduct.ProductId);
+                    if (product != null)
+                    {
+                        _logger.LogInformation($"Reverting price of product {OnSaleProduct.ProductId} from {product.Price} to {OnSaleProduct.OldPrice}");
+                        product.Price = OnSaleProduct.OldPrice;
+                        context.Products.Update(product);
+                    }
+
                     context.OnSales.Remove(OnSaleProduct);
-                    var product = context.Products.Find(OnSaleProduct.ProductId);
-                    product.Price = OnSaleProduct.OldPrice;
-                    context.Products.Update(product);
+                    _logger.LogInformation($"Removed on-sale status for product {OnSaleProduct.ProductId}");
+                }
+                else
+                {
+                    _logger.LogInformation($"Product {OnSaleProduct.ProductId} has not expired yet. Expiration time: {OnSaleProduct.ExpirationTime.Value.ToString("o")} UTC, Current time: {DateTime.UtcNow.ToString("o")} UTC");
                 }
             }
 
-            context.SaveChangesAsync();
+            await context.SaveChangesAsync();
+            _logger.LogInformation("Finished updating expiration times for products.");
         }
-
-        _logger.LogInformation("Updated expiration times for products.");
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
