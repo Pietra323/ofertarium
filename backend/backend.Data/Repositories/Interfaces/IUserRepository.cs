@@ -12,4 +12,5 @@ public interface IUserRepository
     Task<UserDTO> DeletePersonAsync(User person);
     Task<User> LoginUser(string username, string password);
     Task UpdatePasswordAsync(string password);
+    Task<int> GetUserCount();
 }

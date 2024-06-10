@@ -1,11 +1,39 @@
 {
   "Version": 1,
-  "Hash": "NPEtw04CVbspL5OSB5K8aacTK+h2Ff1U0ZhePmujInI=",
+  "Hash": "zVnkReIcTuavKMwjZUjgynxO0uC87eihN4rgBdwbTow=",
   "Source": "backend.Api",
   "BasePath": "_content/backend.Api",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "backend.Api/wwwroot",
+      "Source": "backend.Api",
+      "ContentRoot": "/Users/pietra/RiderProjects/ofertarium/backend/backend.Api/wwwroot/",
+      "BasePath": "_content/backend.Api",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/pietra/RiderProjects/ofertarium/backend/backend.Api/wwwroot/images/products/acbce4f1-d10b-4803-bd51-5900b869f516_screencapture-webs-ue-katowice-pl-enego-index-php-2024-06-09-09_51_20.png",
+      "SourceId": "backend.Api",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/pietra/RiderProjects/ofertarium/backend/backend.Api/wwwroot/",
+      "BasePath": "_content/backend.Api",
+      "RelativePath": "images/products/acbce4f1-d10b-4803-bd51-5900b869f516_screencapture-webs-ue-katowice-pl-enego-index-php-2024-06-09-09_51_20.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/images/products/acbce4f1-d10b-4803-bd51-5900b869f516_screencapture-webs-ue-katowice-pl-enego-index-php-2024-06-09-09_51_20.png"
+    }
+  ]
 }

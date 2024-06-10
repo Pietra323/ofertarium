@@ -127,4 +127,10 @@ public class UserRepository : IUserRepository
         await _ctx.SaveChangesAsync();
         return usersDTO;
     }
+    
+    public async Task<int> GetUserCount()
+    {
+        return await _ctx.Users.CountAsync();
+    }
+
 }

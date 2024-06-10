@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["AddProduct"] = "Add Product";
+}
+<h1>@ViewData["AddProduct"]</h1>
+
+<p>Add Product Form</p>
+
+<form id="addProductForm" action="http://localhost:5004/api/products/add_product" method="post">
+    <label for="idProduct">ID Produktu:</label><br>
+    <input type="number" id="idProduct" name="idProduct"><br>
+    <label for="productName">Nazwa Produktu:</label><br>
+    <input type="text" id="productName" name="productName"><br>
+    <label for="subtitle">Podtytuł:</label><br>
+    <input type="text" id="subtitle" name="subtitle"><br>
+    <label for="amountOf">Ilość:</label><br>
+    <input type="number" id="amountOf" name="amountOf"><br>
+    <label for="price">Cena:</label><br>
+    <input type="number" id="price" name="price"><br>
+    <label for="userId">ID Użytkownika:</label><br>
+    <input type="number" id="userId" name="userId"><br>
+    <label for="categoryIds">ID Kategorii:</label><br>
+    <input type="text" id="categoryIds" name="categoryIds" placeholder="Wprowadź ID kategorii oddzielone przecinkami"><br>
+    <label for="photos">Zdjęcia:</label><br>
+    <input type="text" id="photos" name="photos" placeholder="Wprowadź adresy URL zdjęć oddzielone przecinkami"><br>
+    <input type="submit" value="Submit">
+</form>
+
+<p id="message"></p>
+
+@section Scripts {
+    <script>
+        document.querySelector('#addProductForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var formData = new FormData(this);
+
+            var data = Object.fromEntries(formData);
+
+            data.categoryIds = data.categoryIds.split(',').map(Number);
+            data.photos = data.photos.split(',').map(s => s.trim());
+
+            console.log(JSON.stringify(data));
+
+            fetch('http://localhost:5004/api/products/add_product', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(function (response) {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Błąd sieci!');
+                    }
+                })
+                .then(function (data) {
+                    document.querySelector('#message').textContent = 'Produkt został dodany poprawnie!';
+                })
+                .catch(function (error) {
+                    document.querySelector('#message').textContent = 'Wystąpił błąd: ' + error.message;
+                });
+        });
+    </script>
+}

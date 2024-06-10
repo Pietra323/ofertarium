@@ -8,7 +8,6 @@ namespace backend.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
     public class BasketController : ControllerBase
     {
         private readonly IBasketRepository _basketRepository;
@@ -25,16 +24,11 @@ namespace backend.Api.Controllers
 
         [HttpPost("add")]
         [SwaggerOperation(Summary = "Dodaj produkt do koszyka")]
-        public async Task<IActionResult> AddToBasket(int productId)
+        public async Task<IActionResult> AddToBasket(int productId, int userId)
         {
             try
             {
-                int? userId = Auth.GetUserId(HttpContext);
-                if (userId == null)
-                {
-                    Unauthorized();
-                }
-                await _basketRepository.AddToBasket(userId.Value, productId);
+                await _basketRepository.AddToBasket(userId, productId);
                 return Ok();
             }
             catch (Exception ex)
@@ -45,16 +39,11 @@ namespace backend.Api.Controllers
         
         [HttpDelete("delete")]
         [SwaggerOperation(Summary = "Usuń produkt z koszyka")]
-        public async Task<IActionResult> RemoveFromBasket(int productId)
+        public async Task<IActionResult> RemoveFromBasket(int productId, int userId)
         {
             try
             {
-                int? userId = Auth.GetUserId(HttpContext);
-                if (userId == null)
-                {
-                    Unauthorized();
-                }
-                var basket = await _basketRepository.RemoveFromBasket(userId.Value, productId);
+                var basket = await _basketRepository.RemoveFromBasket(userId, productId);
                 return Ok(basket);
             }
             catch (Exception ex)
@@ -65,17 +54,12 @@ namespace backend.Api.Controllers
 
         [HttpGet("summary")]
         [SwaggerOperation(Summary = "Pokaż koszyk")]
-        public async Task<IActionResult> SummaryBasket()
+        public async Task<IActionResult> SummaryBasket(int userId)
         {
             try
             {
-                int? userId = Auth.GetUserId(HttpContext);
-                if (userId == null)
-                {
-                    return Unauthorized();
-                }
 
-                var basketProducts = await _basketRepository.SummaryBasket(userId.Value);
+                var basketProducts = await _basketRepository.SummaryBasket(userId);
                 if (basketProducts == null)
                 {
                     return NotFound("Koszyk nie został znaleziony.");

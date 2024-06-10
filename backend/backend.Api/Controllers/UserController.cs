@@ -60,17 +60,19 @@ public async Task<IActionResult> SeedUsers(int count)
             "Kolekcje i Sztuka"
         };
 
-        int categoryId = 1;
+        // Add categories only if they don't exist
         foreach (var categoryString in categories)
         {
-            var category = new Category
+            var existingCategory = await _categoryRepo.GetCategoryByName(categoryString);
+            if (existingCategory == null)
             {
-                Nazwa = categoryString,
-                Description = "...",
-            };
-            await _categoryRepo.CreateCategory(category);
-
-            categoryId++;
+                var category = new Category
+                {
+                    Nazwa = categoryString,
+                    Description = "..."
+                };
+                await _categoryRepo.CreateCategory(category);
+            }
         }
 
         var samplePhotos = new List<string>
@@ -80,7 +82,10 @@ public async Task<IActionResult> SeedUsers(int count)
             "photo3.jpg"
         };
 
-        for (int i = 1; i <= count; i++)
+        var existingUsersCount = await _userRepo.GetUserCount();
+        var usersToAdd = count - existingUsersCount;
+
+        for (int i = existingUsersCount + 1; i <= usersToAdd + existingUsersCount; i++)
         {
             var user = new User
             {
@@ -129,7 +134,8 @@ public async Task<IActionResult> SeedUsers(int count)
                 await _cardRepo.CreatePaymentCard(paymentCard);
             }
 
-            await _productRepo.CreateProduct(user.Id, product);
+            var productDT = await _productRepo.SEEDCreateProduct(user.Id, product);
+            await _categoryRepo.AddCategoryProducts(productDT.IdProduct, product.CategoryIds);
         }
 
         return Ok("Użytkownicy zostali dodani.");
@@ -140,6 +146,7 @@ public async Task<IActionResult> SeedUsers(int count)
         return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
     }
 }
+
 
         
         [HttpGet("authstatus")]
@@ -177,17 +184,11 @@ public async Task<IActionResult> SeedUsers(int count)
         
         [HttpPut]
         [SwaggerOperation(Summary = "Zaaktualizuj użytkownika")]
-        [Authorize]
         public async Task<IActionResult> UpdateUser(User userToUpdate)
         {
             try
             {
-                int? userId = Auth.GetUserId(HttpContext);
-                if (userId == null)
-                {
-                    Unauthorized();
-                }
-                var existingUser = await _userRepo.GetPeopleByIdAsync(userId.Value);
+                var existingUser = await _userRepo.GetPeopleByIdAsync(userToUpdate.Id);
                 if (existingUser == null)
                 {
                     return NotFound(new
@@ -241,16 +242,10 @@ public async Task<IActionResult> SeedUsers(int count)
         }
 
         [HttpDelete]
-        [Authorize]
         [SwaggerOperation(Summary = "Usuń swoje konto")]
-        public async Task<IActionResult> DeleteMyself()
+        public async Task<IActionResult> DeleteMyself(int userId)
         {
-            int? userId = Auth.GetUserId(HttpContext);
-            if (userId == null)
-            {
-                return Unauthorized();
-            }
-            var user = await _userRepo.GetPeopleByIdAsync(userId.Value);
+            var user = await _userRepo.GetPeopleByIdAsync(userId);
             await _userRepo.DeletePersonAsync(user);
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Ok("Supcio");
@@ -260,7 +255,6 @@ public async Task<IActionResult> SeedUsers(int count)
 
         [HttpGet]
         [SwaggerOperation(Summary = "Pobierz wszystkich użytkowników")]
-        [Authorize]
         public async Task<IActionResult> GetUsers()
         {
             try
@@ -282,16 +276,11 @@ public async Task<IActionResult> SeedUsers(int count)
 
         [HttpGet("currentUser")]
         [SwaggerOperation(Summary = "Pobierz użytkownika")]
-        public async Task<IActionResult> GetUserById()
+        public async Task<IActionResult> GetUserById(int userId)
         {
             try
             {
-                int? userId = Auth.GetUserId(HttpContext);
-                if (userId == null)
-                {
-                    Unauthorized();
-                }
-                var user = await _userRepo.GetPeopleByIdAsync(userId.Value);
+                var user = await _userRepo.GetPeopleByIdAsync(userId);
                 if (user == null)
                 {
                     return NotFound(new
@@ -363,7 +352,6 @@ public async Task<IActionResult> SeedUsers(int count)
 
         [HttpGet("logout")]
         [SwaggerOperation(Summary = "Wylogowanie użytkownika")]
-        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

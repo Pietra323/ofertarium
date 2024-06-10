@@ -9,7 +9,10 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 using JsonSerializer = Newtonsoft.Json.JsonSerializer;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Razor.Controllers
 {
@@ -34,6 +37,15 @@ namespace Razor.Controllers
             return View();
         }
 
+        public IActionResult Profile()
+        {
+            return View();
+        }
+        public async Task<IActionResult> AddProduct()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddUser(User user)
         {
@@ -41,7 +53,7 @@ namespace Razor.Controllers
             {
                 var json = JsonConvert.SerializeObject(user);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var client = _clientFactory.CreateClient();
+                var client = _clientFactory.CreateClient() ;
                 var response = await client.PostAsync("http://localhost:5004/api/users", content);
 
                 if (response.IsSuccessStatusCode)
@@ -58,6 +70,9 @@ namespace Razor.Controllers
                 return View("Error");
             }
         }
+      
+
+
         [HttpPost]
         public async Task<IActionResult> Login(User user)
         {
@@ -70,6 +85,8 @@ namespace Razor.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
+                    HttpContext.Session.SetString("IsLoggedIn", "true");
+                    TempData["LoginMessage"] = "Pomy�lnie zalogowano!";
                     return RedirectToAction("Index");
                 }
                 else
@@ -84,6 +101,33 @@ namespace Razor.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            var client = _clientFactory.CreateClient();
+            var response = await client.GetAsync("http://localhost:5004/api/users/logout");
+
+            if (response.IsSuccessStatusCode)
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                HttpContext.Session.Clear(); 
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+
+                return View("Error");
+            }
+        }
+        [HttpGet]
+        public async Task<List<CategoryViewModel>> GetCategories()
+        {
+            var client = _clientFactory.CreateClient();
+            var response = await client.GetAsync("http://localhost:5004/api/category");
+            var content = await response.Content.ReadAsStringAsync();
+            var categories = JsonConvert.DeserializeObject<List<CategoryViewModel>>(content);
+            return categories;
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

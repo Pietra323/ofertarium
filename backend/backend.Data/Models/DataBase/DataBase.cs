@@ -40,7 +40,7 @@ public class DataBase : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
-        
+        modelBuilder.Entity<OnSale>().ToTable("OnSale");
         
         //relacje Usera jako model nadrzędny
         modelBuilder.Entity<User>()

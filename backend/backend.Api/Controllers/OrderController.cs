@@ -18,17 +18,11 @@ public class OrderController : ControllerBase
 
     [HttpPost("makeOrder")]
     [SwaggerOperation(Summary = "Złóż zamówienie")]
-    public async Task<IActionResult> TransferBasketToHistory(int paymentCardId)
+    public async Task<IActionResult> TransferBasketToHistory(int paymentCardId, int userId)
     {
         try
         {
-            int? userId = Auth.GetUserId(HttpContext);
-            if (userId == null)
-            {
-                return Unauthorized();
-            }
-
-            await _orderRepository.TransferBasketToHistory(userId.Value, paymentCardId);
+            await _orderRepository.TransferBasketToHistory(userId, paymentCardId);
             return Ok("Basket has been transferred to history.");
         }
         catch (Exception ex)
@@ -38,19 +32,12 @@ public class OrderController : ControllerBase
     }
     
     [HttpGet("orderhistory")]
-    [Authorize]
     [SwaggerOperation(Summary = "Pobierz historię zamówień użytkownika")]
-    public async Task<IActionResult> GetUserOrderHistory()
+    public async Task<IActionResult> GetUserOrderHistory(int userId)
     {
         try
         {
-            int? userId = Auth.GetUserId(HttpContext);
-            if (userId == null)
-            {
-                return Unauthorized();
-            }
-
-            var orderHistory = await _orderRepository.GetUserOrderHistory(userId.Value);
+            var orderHistory = await _orderRepository.GetUserOrderHistory(userId);
             return Ok(orderHistory);
         }
         catch (Exception ex)
