@@ -41,11 +41,14 @@ namespace Razor.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> AddProductAsync()
+        public async Task<IActionResult> AddProduct()
         {
-            var categories = await GetCategories();
-            ViewBag.Categories = categories;
-            return View();
+            var model = new AddProductViewModel
+            {
+                CategoryIds = new List<int>(),
+                Photos = new List<string>()
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -55,7 +58,7 @@ namespace Razor.Controllers
             {
                 var json = JsonConvert.SerializeObject(user);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var client = _clientFactory.CreateClient();
+                var client = _clientFactory.CreateClient() ;
                 var response = await client.PostAsync("http://localhost:5004/api/users", content);
 
                 if (response.IsSuccessStatusCode)
@@ -73,15 +76,25 @@ namespace Razor.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> AddProduct(ProductViewModel model)
+        public async Task<IActionResult> AddProduct(AddProductViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             var httpClient = new HttpClient();
-            var json = JsonConvert.SerializeObject(model);
-            Console.WriteLine(json);
             var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync("https://localhost:7235/api/products/add_product", content);
 
-            return View();
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("SuccessAction");
+            }
+            else
+            {
+                return View(model);
+            }
         }
 
 
@@ -113,7 +126,7 @@ namespace Razor.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Logout()
         {
             var client = _clientFactory.CreateClient();

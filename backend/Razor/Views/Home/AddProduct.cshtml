@@ -1,33 +1,29 @@
-﻿@model Razor.Models.ProductViewModel
+﻿@model AddProductViewModel
 
 <form asp-action="AddProduct" asp-controller="Home" method="post">
-    <input asp-for="Id" type="hidden" />
-    <div>
-        <label asp-for="Name"></label>
-        <input asp-for="Name" />
-    </div>
-    <div>
-        <label asp-for="Subtitle"></label>
-        <input asp-for="Subtitle" />
-    </div>
-    <div>
-        <label asp-for="AmountOf"></label>
-        <input asp-for="AmountOf" type="number" />
-    </div>
-    <div>
-        <label asp-for="Price"></label>
-        <input asp-for="Price" type="number" step="0.01" />
-    </div>
-    <div>
-        <label asp-for="CategoryIds">Category</label>
-        <select asp-for="Id" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Nazwa"))">
-            <option value="">-- Select Category --</option>
-        </select>
-    </div>
-    <div>
-        <label for="PhotoUrl">Photo URL</label>
-        <input type="text" name="PhotoUrl" />
-    </div>
-    
-    <input type="submit" value="Add Product" />
+    <label asp-for="IdProduct">ID produktu</label>
+    <input type="number" asp-for="IdProduct" />
+
+    <label asp-for="ProductName">Nazwa produktu</label>
+    <input type="text" asp-for="ProductName" />
+
+    <label asp-for="Subtitle">Podtytuł</label>
+    <input type="text" asp-for="Subtitle" />
+
+    <label asp-for="AmountOf">Ilość</label>
+    <input type="number" asp-for="AmountOf" />
+
+    <label asp-for="Price">Cena</label>
+    <input type="number" asp-for="Price" step="0.01" />
+
+    <label asp-for="UserId">UserId</label>
+    <input type="number" asp-for="UserId" />
+
+    <label asp-for="CategoryIds">ID kategorii</label>
+    <input type="number" name="CategoryIds" />
+
+    <label asp-for="Photos">Zdjęcie</label>
+    <input type="text" name="Photos" />
+
+    <input type="submit" value="Dodaj produkt" />
 </form>
