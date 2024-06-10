@@ -57,23 +57,23 @@ namespace backend.Api.Controllers
             }
         }
 
-        [Authorize]
         [HttpPost("add_product")]
         [SwaggerOperation(Summary = "Dodaj produkt")]
         public async Task<IActionResult> AddProduct([FromBody] ProductDTO product)
         {
             try
             {
-                int? userId = Auth.GetUserId(HttpContext);
-                if (userId == null)
-                {
-                    Unauthorized();
-                }
+                //int? userId = Auth.GetUserId(HttpContext);
+                //if (userId == null)
+                //{
+                //    Unauthorized();
+                //}
                 // Dodanie logowania dla sprawdzenia wartości ExpirationTime
                 _logger.LogInformation($"Adding product without expiration time: {product.ProductName}");
 
                 // Dodaj produkt do repozytorium
-                await _productRepo.CreateProduct(userId.Value, product);
+                var userId = product.UserId;
+                await _productRepo.CreateProduct(userId, product);
 
                 return Ok("Product added successfully.");
             }

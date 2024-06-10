@@ -86,7 +86,7 @@ namespace Razor.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     HttpContext.Session.SetString("IsLoggedIn", "true");
-                    TempData["LoginMessage"] = "Pomyœlnie zalogowano!";
+                    TempData["LoginMessage"] = "Pomyï¿½lnie zalogowano!";
                     return RedirectToAction("Index");
                 }
                 else
@@ -105,7 +105,7 @@ namespace Razor.Controllers
         public async Task<IActionResult> Logout()
         {
             var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync("https://localhost:7235/api/users/logout");
+            var response = await client.GetAsync("http://localhost:5004/api/users/logout");
 
             if (response.IsSuccessStatusCode)
             {
@@ -123,7 +123,7 @@ namespace Razor.Controllers
         public async Task<List<CategoryViewModel>> GetCategories()
         {
             var client = _clientFactory.CreateClient();
-            var response = await client.GetAsync("https://localhost:7235/api/category");
+            var response = await client.GetAsync("http://localhost:5004/api/category");
             var content = await response.Content.ReadAsStringAsync();
             var categories = JsonConvert.DeserializeObject<List<CategoryViewModel>>(content);
             return categories;

@@ -5,7 +5,7 @@
     ViewData["Profile"] = "Profile";
     User user = null;
 
-    var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7235/api/users/currentUser");
+    var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:5004/api/users/currentUser");
     var client = _clientFactory.CreateClient();
     var response = await client.SendAsync(request);
 
