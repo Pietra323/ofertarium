@@ -10,6 +10,7 @@ namespace backend.Data.Repositories;
 public class ProductRepository : IProductRepository
 {
     private readonly DataBase _ctx;
+    public string baseUrl = "http://localhost:5004";
     
     public ProductRepository(DataBase ctx)
     {
@@ -68,7 +69,6 @@ public class ProductRepository : IProductRepository
         foreach (var product in products)
         {
             var categoryIds = new List<int>();
-            var baseUrl = "http://localhost:5004";
 
             if (product.CategoryIds != null)
             {
@@ -113,7 +113,6 @@ public class ProductRepository : IProductRepository
         foreach (var product in products)
         {
             var categoryIds = new List<int>();
-            var baseUrl = "http://localhost:5004";
 
             if (product.CategoryIds != null)
             {
@@ -159,7 +158,6 @@ public class ProductRepository : IProductRepository
             return null;
         
         var categoryIds = new List<int>();
-        var baseUrl = "http://localhost:5004";
 
         if (product.CategoryIds != null)
         {
@@ -218,7 +216,6 @@ public class ProductRepository : IProductRepository
             throw new NullReferenceException("Product not found.");
         }
 
-        var baseUrl = "http://localhost:5004";
         // Dodaj zdjęcie do produktu
         var photo = new Photo
         {
@@ -272,7 +269,8 @@ public class ProductRepository : IProductRepository
     {
         var categoryIds = new List<int>();
         var photos = new List<Photo>();
-        var baseUrl = "http://localhost:5004";
+        
+        
 
 
         foreach (var categoryId in productDTO.CategoryIds)

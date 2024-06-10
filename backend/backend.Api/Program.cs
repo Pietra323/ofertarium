@@ -3,6 +3,8 @@ using System.Text.Json.Serialization;
 using backend.Data.Models.DataBase;
 using backend.Data.Repositories;
 using backend.Data.Repositories.Interfaces;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +28,7 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddDbContext<DataBase>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Scoped);
-
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 builder.Services.AddHostedService<ExpirationService>();
 
 builder.Services.AddHostedService<ExpirationService>();
@@ -62,6 +64,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     options.JsonSerializerOptions.MaxDepth = 512;
 });
+
 
 builder.Services.AddRazorPages();
 

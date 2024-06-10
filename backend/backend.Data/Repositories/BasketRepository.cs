@@ -96,7 +96,7 @@ public class BasketRepository : IBasketRepository
         return basket;
     }
 
-    public async Task<IEnumerable<BasketProductDto>> SummaryBasket(int userId)
+    public async Task<SummaryBasketDto> SummaryBasket(int userId)
     {
         var basket = await _ctx.Baskets
             .Include(b => b.BasketProducts)
@@ -116,16 +116,13 @@ public class BasketRepository : IBasketRepository
             Price = bp.product.Price,
             TotalPrice = (bp.quantity) * (bp.product.Price)
         }).ToList();
-
-        return basketProducts;
-    }
-
-    public class BasketProductDto
-    {
-        public int ProductId { get; set; }
-        public string ProductName { get; set; }
-        public int Quantity { get; set; }
-        public decimal Price { get; set; }
-        public decimal TotalPrice { get; set; }
+        
+        var finalTotalPrice = basketProducts.Sum(bp => bp.TotalPrice);
+        
+        return new SummaryBasketDto
+        {
+            BasketProducts = basketProducts,
+            FinalTotalPrice = finalTotalPrice
+        };
     }
 }

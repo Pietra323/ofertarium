@@ -1,9 +1,0 @@
-/* NIE DOTYKAĆ GLOBALNYCH CSS-ów! Stylujcie u siebie w plikach. Dodając coś globalnie, możecie rozjechać (wszyscy wiemy jakiego słowa chciałem tutaj użyć :) ) aplikację w losowym miejscu.*/
-
-body {
-  box-sizing: border-box;
-  margin: 0 auto;
-  font-family: "Inter", sans-serif;
-  background: #fbfdfb;
- }
- 

@@ -1,18 +1,30 @@
+using System.Text;
 using backend.Data.Models;
 using backend.Data.Models.DataBase;
 using backend.Data.Models.ManyToManyConnections;
 using backend.Data.Repositories.Interfaces;
+using DinkToPdf;
 using Microsoft.EntityFrameworkCore;
+using DinkToPdf.Contracts;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+
+using Document = System.Reflection.Metadata.Document;
 
 namespace backend.Data.Repositories;
 
 public class OrderRepository: IOrderRepository
 {
     private readonly DataBase _ctx;
+    private readonly IConverter _converter;
 
-    public OrderRepository(DataBase ctx)
+    public OrderRepository(DataBase ctx, IConverter converter)
     {
         _ctx = ctx;
+        _converter = converter;
     }
     
     public async Task TransferBasketToHistory(int userId, int paymentCardId)
@@ -94,5 +106,47 @@ public class OrderRepository: IOrderRepository
         return historyDTOs;
     }
     
-    
+    public async Task<Order> GetOrderByIdAsync(int orderId)
+    {
+        return await _ctx.Orders
+            .Include(o => o.OrderProducts)
+            .ThenInclude(op => op.Product)
+            .FirstOrDefaultAsync(o => o.Id == orderId);
+    }
+
+    public async Task<byte[]> GenerateOrderPdfAsync(int orderId)
+    {
+        var order = await GetOrderByIdAsync(orderId);
+        if (order == null)
+        {
+            throw new ArgumentException("Order not found.");
+        }
+
+        var finalTotalPrice = order.OrderProducts.Sum(op => op.Product.Price * op.Quantity);
+
+        
+        using (var ms = new MemoryStream())
+        {
+            var document = new iTextSharp.text.Document();
+            PdfWriter.GetInstance(document, ms);
+            document.Open();
+
+            document.Add(new iTextSharp.text.Paragraph($"Order ID: {order.Id}"));
+            document.Add(new iTextSharp.text.Paragraph($"Order Name: {order.Name}"));
+            document.Add(new iTextSharp.text.Paragraph($"Zawartosc koszyka:"));
+            document.Add(new iTextSharp.text.Paragraph($"User: {order.User.Username}"));
+
+            foreach (var orderProduct in order.OrderProducts)
+            {
+                document.Add(new iTextSharp.text.Paragraph($"Product: {orderProduct.Product.ProductName}, Quantity: {orderProduct.Quantity}"));
+            }
+            
+            document.Add(new iTextSharp.text.Paragraph($"Suma zamówienia:"));
+            document.Add(new iTextSharp.text.Paragraph($"{finalTotalPrice}"));
+
+
+            document.Close();
+            return ms.ToArray();
+        }
+    }
 }
