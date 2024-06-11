@@ -46,6 +46,11 @@ namespace Razor.Controllers
             return View();
         }
 
+        public IActionResult Cart()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddUser(User user)
         {
@@ -85,8 +90,13 @@ namespace Razor.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var responseObject = JsonConvert.DeserializeObject<dynamic>(responseContent);
+                    var userId = (string)responseObject.userId;
+
                     HttpContext.Session.SetString("IsLoggedIn", "true");
-                    TempData["LoginMessage"] = "Pomy�lnie zalogowano!";
+                    HttpContext.Session.SetString("UserId", userId);
+                    TempData["LoginMessage"] = "Pomyślnie zalogowano!";
                     return RedirectToAction("Index");
                 }
                 else

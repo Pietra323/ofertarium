@@ -324,17 +324,17 @@ public async Task<IActionResult> SeedUsers(int count)
                 if (user != null)
                 {
                     var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                        new Claim(ClaimTypes.Name, user.Username),
-                        new Claim(ClaimTypes.Role, user.isAdmin ? "Administrator" : "Użytkownik")
-                    };
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, user.isAdmin ? "Administrator" : "Użytkownik")
+            };
 
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                    return Ok(new { message = "Logged in successfully." });
+                    return Ok(new { message = "Logged in successfully.", userId = user.Id });
                 }
                 else
                 {

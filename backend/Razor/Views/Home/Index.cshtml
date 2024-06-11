@@ -8,12 +8,9 @@
 
 @{
     ViewData["Title"] = "Home Page";
-    
 }
 
 @model backend.Data.Models.User
-
-
 
 <form method="post" asp-action="AddUser" id="lol">
     <input asp-for="Name" />
@@ -29,3 +26,77 @@
     <input asp-for="Password" />
     <button type="submit">Zaloguj</button>
 </form>
+<select id="categoryFilter" class="form-select">
+    <!-- Categories will be filled by JavaScript -->
+</select>
+<button id="resetFilter">Resetuj filtry</button>
+<div id="products" class="container-md">
+    
+</div>
+
+@section Scripts {
+    <script>
+        const categoryFilter = document.getElementById('categoryFilter');
+        const resetFilterButton = document.getElementById('resetFilter');
+        const productsDiv = document.getElementById('products');
+        const userId = '@Context.Session.GetString("UserId")';
+        const isLoggedIn = '@Context.Session.GetString("IsLoggedIn")' === 'true';
+
+        function displayProducts(categoryId) {
+            let url = 'https://localhost:7235/api/products';
+           
+            if (categoryId !== 'Wszystkie kategorie') {
+                categoryId += 1;
+                url += '/' + categoryId;
+            }
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    productsDiv.innerHTML = '';
+                    data.$values.forEach(product => {
+                        const productDiv = document.createElement('div');
+                        productDiv.classList.add("card")
+                        productDiv.innerHTML = `
+                                            <h2>${product.productName}</h2>
+                                            <p>${product.subtitle}</p>
+                                            <p>Cena: ${product.price}</p>
+                                            <p>Ilość: ${product.amountOf}</p>
+                                            <img src="${product.photos.$values[0]}" alt="${product.productName}" />
+                                                            ${isLoggedIn ? `<button class="addToCart btn btn-primary" data-product-id="${product.idProduct}">Dodaj do koszyka</button>` : ''}
+                                        `;
+                        productsDiv.appendChild(productDiv);
+                    });
+                    if (isLoggedIn) {
+                        document.querySelectorAll('.addToCart').forEach(button => {
+                            button.addEventListener('click', () => {
+                                const productId = button.getAttribute('data-product-id');
+                                fetch(`https://localhost:7235/api/Basket/add?productId=${productId}&userId=${userId}`, { method: 'POST' });
+                            });
+                        });
+                    }
+                });
+        }
+
+        categoryFilter.addEventListener('change', () => {
+            const selectedCategory = categoryFilter.value;
+            displayProducts(selectedCategory);
+        });
+
+        resetFilterButton.addEventListener('click', () => {
+            categoryFilter.value = 'Wszystkie kategorie';
+            displayProducts('Wszystkie kategorie');
+        });
+
+        fetch('https://localhost:7235/api/category')
+            .then(response => response.json())
+            .then(data => {
+                data.$values.forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category.id;
+                    option.textContent = category.nazwa;
+                    categoryFilter.appendChild(option);
+                });
+                displayProducts('Wszystkie kategorie');
+            });
+    </script>
+}
