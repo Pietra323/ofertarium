@@ -172,16 +172,46 @@ public async Task<IActionResult> SeedUsers(int count)
         {
             try
             {
+                // Dodaj użytkownika do bazy danych
                 var createdUser = await _userRepo.CreatePersonAsync(user);
+
+                // Logika przypisania domyślnej karty płatniczej
+                Random random = new Random();
+                int min = 1;
+                int max = 10;
+                int randomNumberInRange = random.Next(min, max);
+        
+                // Generowanie numeru karty
+                string cardNumberString = string.Empty;
+                for (int j = 0; j < 16; j++)
+                {
+                    cardNumberString += random.Next(0, 10).ToString();
+                }
+
+                long cardNumber = long.Parse(cardNumberString);
+
+                var paymentCard = new PaymentCard()
+                {
+                    OwnerFName = createdUser.Name,
+                    OwnerLName = createdUser.LastName,
+                    OwnerNickname = createdUser.Username,
+                    CardNumber = cardNumber,
+                    UserId = createdUser.Id,
+                    Balance = Math.Round((decimal)randomNumberInRange * 100, 2)
+                };
+        
+                await _cardRepo.CreatePaymentCard(paymentCard);
+
                 return CreatedAtAction(nameof(AddUser), createdUser);
             }
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    e.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
+
+
 
         [HttpPut]
         [SwaggerOperation(Summary = "Zaaktualizuj użytkownika")]

@@ -5,23 +5,23 @@ ViewData["AddProduct"] = "Add Product";
 
 <p>Add Product Form</p>
 
-<form id="addProductForm" action="http://localhost:5004/api/products/add_product" method="post" enctype="multipart/form-data">
+<form id="addProductForm" action="http://localhost:5004/api/products/add_product" method="post" enctype="multipart/form-data" class="form-group">
     <label for="productName">Nazwa Produktu:</label><br>
-    <input type="text" id="productName" name="productName"><br>
+    <input type="text" id="productName" name="productName" class="form-control"><br>
     <label for="subtitle">Podtytuł:</label><br>
-    <input type="text" id="subtitle" name="subtitle"><br>
+    <input type="text" id="subtitle" name="subtitle" class="form-control"><br>
     <label for="amountOf">Ilość:</label><br>
-    <input type="number" id="amountOf" name="amountOf"><br>
+    <input type="number" id="amountOf" name="amountOf" class="form-control"><br>
     <label for="price">Cena:</label><br>
-    <input type="number" id="price" name="price"><br>
+    <input type="number" id="price" name="price" class="form-control"><br>
     <label for="categoryIds">ID Kategorii:</label><br>
-    <input type="text" id="categoryIds" name="categoryIds" placeholder="Wprowadź ID kategorii oddzielone przecinkami"><br>
+    <input type="text" id="categoryIds" name="categoryIds" placeholder="Wprowadź ID kategorii oddzielone przecinkami" class="form-control"><br>
     <label for="photos">Zdjęcia:</label><br>
-    <input type="file" id="photos" name="photos" multiple><br>
+    <input type="file" id="photos" name="photos" multiple class="form-control"><br>
     <label for="description">Opis:</label><br>
-    <textarea id="description" name="description"></textarea><br>
+    <textarea id="description" name="description" class="form-control"></textarea><br>
     <input type="hidden" id="Photos" name="Photos" value="string">
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" class="btn btn-primary">
 </form>
 
 <p id="message"></p>
