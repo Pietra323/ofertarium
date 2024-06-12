@@ -12,28 +12,29 @@
 
 @model backend.Data.Models.User
 
-<form method="post" asp-action="AddUser" id="lol">
-    <input asp-for="Name" />
-    <input asp-for="LastName" />
-    <input asp-for="Username" />
-    <input asp-for="Email" />
-    <input asp-for="Password" />
-    <button type="submit">Submit</button>
-</form>
+@if (Context.Session.GetString("IsLoggedIn") != "true")
+{
+    <form method="post" asp-action="AddUser" id="lol">
+        <input asp-for="Name" />
+        <input asp-for="LastName" />
+        <input asp-for="Username" />
+        <input asp-for="Email" />
+        <input asp-for="Password" />
+        <button type="submit">Submit</button>
+    </form>
 
-<form method="post" asp-action="Login" id="loginForm">
-    <input asp-for="Username" />
-    <input asp-for="Password" />
-    <button type="submit">Zaloguj</button>
-</form>
+    <form method="post" asp-action="Login" id="loginForm">
+        <input asp-for="Username" />
+        <input asp-for="Password" />
+        <button type="submit">Zaloguj</button>
+    </form>
+}
 <select id="categoryFilter" class="form-select">
-    <!-- Categories will be filled by JavaScript -->
 </select>
 <button id="resetFilter">Resetuj filtry</button>
 <div id="products" class="container-md">
 </div>
 
-<!-- Modal -->
 <div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
