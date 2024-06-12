@@ -31,7 +31,24 @@
 </select>
 <button id="resetFilter">Resetuj filtry</button>
 <div id="products" class="container-md">
-    
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addToCartModalLabel">Produkt dodany do koszyka</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Produkt został pomyślnie dodany do koszyka.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
@@ -41,10 +58,11 @@
         const productsDiv = document.getElementById('products');
         const userId = '@Context.Session.GetString("UserId")';
         const isLoggedIn = '@Context.Session.GetString("IsLoggedIn")' === 'true';
+        const addToCartModal = new bootstrap.Modal(document.getElementById('addToCartModal'));
 
         function displayProducts(categoryId) {
             let url = 'https://localhost:7235/api/products';
-           
+
             if (categoryId !== 'Wszystkie kategorie') {
                 categoryId += 1;
                 url += '/' + categoryId;
@@ -57,20 +75,23 @@
                         const productDiv = document.createElement('div');
                         productDiv.classList.add("card")
                         productDiv.innerHTML = `
-                                            <h2>${product.productName}</h2>
-                                            <p>${product.subtitle}</p>
-                                            <p>Cena: ${product.price}</p>
-                                            <p>Ilość: ${product.amountOf}</p>
-                                            <img src="${product.photos.$values[0]}" alt="${product.productName}" />
-                                                            ${isLoggedIn ? `<button class="addToCart btn btn-primary" data-product-id="${product.idProduct}">Dodaj do koszyka</button>` : ''}
-                                        `;
+                                                    <h2>${product.productName}</h2>
+                                                    <p>${product.subtitle}</p>
+                                                    <p>Cena: ${product.price}</p>
+                                                    <p>Ilość: ${product.amountOf}</p>
+                                                    <img src="${product.photos.$values[0]}" alt="${product.productName}" />
+                                                                    ${isLoggedIn ? `<button class="addToCart btn btn-primary" data-product-id="${product.idProduct}">Dodaj do koszyka</button>` : ''}
+                                                `;
                         productsDiv.appendChild(productDiv);
                     });
                     if (isLoggedIn) {
                         document.querySelectorAll('.addToCart').forEach(button => {
                             button.addEventListener('click', () => {
                                 const productId = button.getAttribute('data-product-id');
-                                fetch(`https://localhost:7235/api/Basket/add?productId=${productId}&userId=${userId}`, { method: 'POST' });
+                                fetch(`https://localhost:7235/api/Basket/add?productId=${productId}&userId=${userId}`, { method: 'POST' })
+                                    .then(() => {
+                                        addToCartModal.show(); // Show the modal after adding a product to the cart
+                                    });
                             });
                         });
                     }

@@ -46,7 +46,7 @@ public class OrderController : ControllerBase
         }
     }
     
-    [HttpGet("{id}/pdf")]
+    [HttpGet("/pdf")]
     [SwaggerOperation(Summary = "Pobierz zamówienie jako PDF")]
     public async Task<IActionResult> GetOrderPdf(int orderid)
     {

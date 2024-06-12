@@ -17,9 +17,16 @@
     </tbody>
 </table>
 
+<div id="orderForm" style="display: none;">
+    <input type="number" id="paymentCardId" placeholder="Enter payment card ID" />
+    <button id="orderButton" class="btn btn-success">Złóż zamówienie</button>
+</div>
+
 @section Scripts {
     <script>
         var userId = '@Context.Session.GetString("UserId")';
+        var orderForm = document.getElementById('orderForm');
+        var orderButton = document.getElementById('orderButton');
 
         function loadCart() {
             fetch(`https://localhost:7235/api/Basket/summary?userId=${userId}`)
@@ -39,6 +46,9 @@
                         finalPriceRow.innerHTML = `<td colspan="3">Finalna cena</td><td>${data.finalTotalPrice} PLN</td>`;
                         cartItemsBody.appendChild(finalPriceRow);
                     }
+
+                    // Show or hide the order form based on whether the cart is empty
+                    orderForm.style.display = data.basketProducts.$values.length > 0 ? 'block' : 'none';
                 });
         }
 
@@ -50,6 +60,16 @@
                     loadCart(); // Reload the cart after deleting an item
                 });
         }
+
+        orderButton.addEventListener('click', () => {
+            var paymentCardId = document.getElementById('paymentCardId').value;
+            fetch(`https://localhost:7235/api/Order/makeOrder?paymentCardId=${paymentCardId}&userId=${userId}`, {
+                method: 'POST'
+            })
+                .then(() => {
+                    loadCart(); // Reload the cart after making an order
+                });
+        });
 
         loadCart(); // Load the cart when the page loads
     </script>

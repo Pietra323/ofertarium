@@ -1,13 +1,11 @@
 ﻿@{
-    ViewData["AddProduct"] = "Add Product";
+ViewData["AddProduct"] = "Add Product";
 }
 <h1>@ViewData["AddProduct"]</h1>
 
 <p>Add Product Form</p>
 
 <form id="addProductForm" action="https://localhost:7235/api/products/add_product" method="post" enctype="multipart/form-data">
-    <label for="idProduct">ID Produktu:</label><br>
-    <input type="number" id="idProduct" name="idProduct"><br>
     <label for="productName">Nazwa Produktu:</label><br>
     <input type="text" id="productName" name="productName"><br>
     <label for="subtitle">Podtytuł:</label><br>
@@ -16,12 +14,12 @@
     <input type="number" id="amountOf" name="amountOf"><br>
     <label for="price">Cena:</label><br>
     <input type="number" id="price" name="price"><br>
-    <label for="userId">ID Użytkownika:</label><br>
-    <input type="number" id="userId" name="userId"><br>
     <label for="categoryIds">ID Kategorii:</label><br>
     <input type="text" id="categoryIds" name="categoryIds" placeholder="Wprowadź ID kategorii oddzielone przecinkami"><br>
     <label for="photos">Zdjęcia:</label><br>
-    <input type="file" id="photos" name="photos"><br>
+    <input type="file" id="photos" name="photos" multiple><br>
+    <label for="description">Opis:</label><br>
+    <textarea id="description" name="description"></textarea><br>
     <input type="hidden" id="Photos" name="Photos" value="string">
     <input type="submit" value="Submit">
 </form>
@@ -29,38 +27,38 @@
 <p id="message"></p>
 
 @section Scripts {
-    <script>
-        document.querySelector('#addProductForm').addEventListener('submit', function (event) {
-            event.preventDefault();
+<script>
+    document.querySelector('#addProductForm').addEventListener('submit', function (event) {
+        event.preventDefault();
 
-            var formData = new FormData(this);
+        var formData = new FormData(this);
 
-            // Convert categoryIds to array
-            formData.set('categoryIds', formData.get('categoryIds').split(',').map(Number));
+        // Convert categoryIds to array
+        formData.set('categoryIds', formData.get('categoryIds').split(',').map(Number));
 
-            // Set userId from session
-            formData.set('UserId', '@Context.Session.GetString("UserId")');
+        // Set userId from session
+        formData.set('UserId', '@Context.Session.GetString("UserId")');
 
-            fetch('https://localhost:7235/api/products/add_product', {
-                method: 'POST',
-                body: formData
+        fetch('https://localhost:7235/api/products/add_product', {
+            method: 'POST',
+            body: formData
+        })
+            .then(function (response) {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Błąd sieci!');
+                }
             })
-                .then(function (response) {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Błąd sieci!');
-                    }
-                })
-                .then(function (data) {
-                    document.querySelector('#message').textContent = 'Produkt został dodany poprawnie!';
-                })
-                .catch(function (error) {
-                    document.querySelector('#message').textContent = 'Wystąpił błąd: ' + error.message;
-                });
-        });
+            .then(function (data) {
+                document.querySelector('#message').textContent = 'Produkt został dodany poprawnie!';
+            })
+            .catch(function (error) {
+                document.querySelector('#message').textContent = 'Wystąpił błąd: ' + error.message;
+            });
+    });
 
-        // Set userId input value from session
-        document.querySelector('#userId').value = '@Context.Session.GetString("UserId")';
-    </script>
+    // Set userId input value from session
+    document.querySelector('#userId').value = '@Context.Session.GetString("UserId")';
+</script>
 }
