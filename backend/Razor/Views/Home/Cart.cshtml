@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Cart";
+}
+<h1>@ViewData["Title"]</h1>
+
+<table class="table" id="cartItems">
+    <thead>
+        <tr>
+            <th scope="col">Produkt</th>
+            <th scope="col">Ilość</th>
+            <th scope="col">Cena</th>
+            <th scope="col">Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Items will be inserted here -->
+    </tbody>
+</table>
+
+<div id="orderForm" style="display: none;">
+    <input type="number" id="paymentCardId" placeholder="Enter payment card ID" />
+    <button id="orderButton" class="btn btn-success">Złóż zamówienie</button>
+</div>
+
+@section Scripts {
+    <script>
+        var userId = '@Context.Session.GetString("UserId")';
+        var orderForm = document.getElementById('orderForm');
+        var orderButton = document.getElementById('orderButton');
+
+        function loadCart() {
+            fetch(`http://localhost:5004/api/Basket/summary?userId=${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    var cartItemsBody = document.querySelector('#cartItems tbody');
+                    cartItemsBody.innerHTML = ''; // Clear the table body
+                    data.basketProducts.$values.forEach(item => {
+                        var itemRow = document.createElement('tr');
+                        itemRow.innerHTML = `<td>${item.productName}</td><td>${item.quantity}</td><td>${item.price}</td><td><button class="btn btn-danger" onclick="deleteItem(${item.productId})">Usuń</button></td>`;
+                        cartItemsBody.appendChild(itemRow);
+                    });
+
+                    // Display final price
+                    if (data.finalTotalPrice) {
+                        var finalPriceRow = document.createElement('tr');
+                        finalPriceRow.innerHTML = `<td colspan="3">Finalna cena</td><td>${data.finalTotalPrice} PLN</td>`;
+                        cartItemsBody.appendChild(finalPriceRow);
+                    }
+
+                    // Show or hide the order form based on whether the cart is empty
+                    orderForm.style.display = data.basketProducts.$values.length > 0 ? 'block' : 'none';
+                });
+        }
+
+        function deleteItem(productId) {
+            fetch(`http://localhost:5004/api/Basket/delete?productId=${productId}&userId=${userId}`, {
+                method: 'DELETE'
+            })
+                .then(() => {
+                    loadCart(); // Reload the cart after deleting an item
+                });
+        }
+
+        orderButton.addEventListener('click', () => {
+            var paymentCardId = document.getElementById('paymentCardId').value;
+            fetch(`http://localhost:5004/api/Order/makeOrder?paymentCardId=${paymentCardId}&userId=${userId}`, {
+                method: 'POST'
+            })
+                .then(() => {
+                    loadCart(); // Reload the cart after making an order
+                });
+        });
+
+        loadCart(); // Load the cart when the page loads
+    </script>
+}

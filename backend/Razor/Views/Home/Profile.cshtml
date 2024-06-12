@@ -5,7 +5,8 @@
     ViewData["Profile"] = "Profile";
     User user = null;
 
-    var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:5004/api/users/currentUser");
+    var userId = Context.Session.GetString("UserId");
+    var request = new HttpRequestMessage(HttpMethod.Get, $"http://localhost:5004/api/users/currentUser?userId={userId}");
     var client = _clientFactory.CreateClient();
     var response = await client.SendAsync(request);
 
@@ -21,3 +22,143 @@
 <p>Last Name: @user?.LastName</p>
 <p>Username: @user?.Username</p>
 <p>Email: @user?.Email</p>
+
+<h2>Twoje produkty</h2>
+<div id="products">
+    <!-- Products will be inserted here -->
+</div>
+
+<h2>Your Orders</h2>
+<div id="orders">
+    <!-- Orders will be inserted here -->
+</div>
+
+<h2>Zmień hasło</h2>
+<form id="changePasswordForm">
+    <input type="password" id="newPassword" placeholder="Nowe hasło" required />
+    <input type="password" id="confirmPassword" placeholder="Potwierdź hasło" required />
+    <button type="submit">Zmień hasło</button>
+</form>
+
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const userId = '@Context.Session.GetString("UserId")';
+        const ordersDiv = document.getElementById('orders');
+        const changePasswordForm = document.getElementById('changePasswordForm');
+        const newPasswordInput = document.getElementById('newPassword');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const modalTitle = document.getElementById('modalLabel');
+        const modalBody = document.getElementById('modalBody');
+        const modal = new bootstrap.Modal(document.getElementById('modal'));
+
+        function displayOrders() {
+            fetch(`http://localhost:5004/api/Order/orderhistory?userId=${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    ordersDiv.innerHTML = ''; // Clear the orders div
+                    if (data.$values.length === 0) {
+                        ordersDiv.innerHTML = '<p>Brak zamówień</p>'; // Display "Brak zamówień" if there are no orders
+                    } else {
+                        var list = document.createElement('ul');
+                        list.className = 'list-group';
+                        data.$values.forEach(order => {
+                            var listItem = document.createElement('li');
+                            listItem.className = 'list-group-item';
+                            listItem.innerHTML = `<p>Order ID: ${order.orderId}</p><p>Product Name: ${order.productName}</p><p>Order Date: ${order.orderDate}</p><p>Quantity: ${order.quantity}</p><button onclick="window.location.href='http://localhost:5004/pdf?orderid=${order.orderId}'" class="btn btn-primary">Pobierz PDF</button>`;
+                            list.appendChild(listItem);
+                        });
+                        ordersDiv.appendChild(list);
+                    }
+                });
+        }
+
+        changePasswordForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const newPassword = newPasswordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            if (newPassword !== confirmPassword) {
+                // Show error modal if passwords do not match
+                showModal('Błąd', 'Hasła nie są takie same.');
+                return;
+            }
+
+            fetch(`http://localhost:5004/api/users/UpdatePassword?userId=${userId}&password=${newPassword}`, { method: 'PUT' })
+                .then(response => {
+                    if (response.ok) {
+                        // Show success modal if password was changed successfully
+                        showModal('Sukces', 'Hasło zostało pomyślnie zmienione.');
+                    } else {
+                        // Show error modal if there was an error changing the password
+                        showModal('Błąd', 'Wystąpił błąd podczas zmiany hasła.');
+                    }
+                });
+        });
+
+        function showModal(title, message) {
+            modalTitle.textContent = title;
+            modalBody.textContent = message;
+            modal.show();
+        }
+
+
+
+        const productsDiv = document.getElementById('products');
+
+        function displayProducts() {
+            fetch(`http://localhost:5004/api/products/user/products?userId=${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    productsDiv.innerHTML = ''; // Clear the products div
+                    if (data.$values.length === 0) {
+                        productsDiv.innerHTML = '<p>Brak produktów</p>'; // Display "Brak produktów" if there are no products
+                    } else {
+                        var list = document.createElement('ul');
+                        list.className = 'list-group';
+                        data.$values.forEach(product => {
+                            var listItem = document.createElement('li');
+                            listItem.className = 'list-group-item';
+                            listItem.innerHTML = `<p>Product ID: ${product.idProduct}</p><p>Product Name: ${product.productName}</p><p>Subtitle: ${product.subtitle}</p><p>Amount: ${product.amountOf}</p><p>Price: ${product.price}</p><button onclick="deleteProduct(${product.idProduct})" class="btn btn-danger">Usuń produkt</button>`;
+                            list.appendChild(listItem);
+                        });
+                        productsDiv.appendChild(list);
+                    }
+                });
+        }
+
+        function deleteProduct(productId) {
+            fetch(`http://localhost:5004/api/products/${productId}?userId=${userId}`, { method: 'DELETE' })
+                .then(response => {
+                    if (response.ok) {
+                        // Show success modal if product was deleted successfully
+                        showModal('Sukces', 'Produkt został pomyślnie usunięty.');
+                        displayProducts(); // Refresh the products list
+                    } else {
+                        // Show error modal if there was an error deleting the product
+                        showModal('Błąd', 'Wystąpił błąd podczas usuwania produktu.');
+                    }
+                });
+        }
+
+        displayOrders(); // Display the orders when the page loads
+        displayProducts(); // Display the products when the page loads
+    </script>
+}

@@ -20,6 +20,7 @@ public class CategoryRepository : ICategoryRepository
         var categories = await _ctx.Categories.ToListAsync();
         var categoryDTO = categories.Select(categories => new CategoryDTO
         {
+            Id = categories.Id,
             Nazwa = categories.Nazwa,
             Description = categories.Description
         });

@@ -7,5 +7,5 @@ public interface IBasketRepository
 {
     Task<Basket> AddToBasket(int userId, int productId);
     Task<Basket> RemoveFromBasket(int userId, int productId);
-    Task<IEnumerable<BasketRepository.BasketProductDto>> SummaryBasket(int userId);
+    Task<SummaryBasketDto> SummaryBasket(int userId);
 }

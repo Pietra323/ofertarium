@@ -1,13 +1,11 @@
 ﻿@{
-    ViewData["AddProduct"] = "Add Product";
+ViewData["AddProduct"] = "Add Product";
 }
 <h1>@ViewData["AddProduct"]</h1>
 
 <p>Add Product Form</p>
 
-<form id="addProductForm" action="http://localhost:5004/api/products/add_product" method="post">
-    <label for="idProduct">ID Produktu:</label><br>
-    <input type="number" id="idProduct" name="idProduct"><br>
+<form id="addProductForm" action="http://localhost:5004/api/products/add_product" method="post" enctype="multipart/form-data">
     <label for="productName">Nazwa Produktu:</label><br>
     <input type="text" id="productName" name="productName"><br>
     <label for="subtitle">Podtytuł:</label><br>
@@ -16,51 +14,51 @@
     <input type="number" id="amountOf" name="amountOf"><br>
     <label for="price">Cena:</label><br>
     <input type="number" id="price" name="price"><br>
-    <label for="userId">ID Użytkownika:</label><br>
-    <input type="number" id="userId" name="userId"><br>
     <label for="categoryIds">ID Kategorii:</label><br>
     <input type="text" id="categoryIds" name="categoryIds" placeholder="Wprowadź ID kategorii oddzielone przecinkami"><br>
     <label for="photos">Zdjęcia:</label><br>
-    <input type="text" id="photos" name="photos" placeholder="Wprowadź adresy URL zdjęć oddzielone przecinkami"><br>
+    <input type="file" id="photos" name="photos" multiple><br>
+    <label for="description">Opis:</label><br>
+    <textarea id="description" name="description"></textarea><br>
+    <input type="hidden" id="Photos" name="Photos" value="string">
     <input type="submit" value="Submit">
 </form>
 
 <p id="message"></p>
 
 @section Scripts {
-    <script>
-        document.querySelector('#addProductForm').addEventListener('submit', function (event) {
-            event.preventDefault();
+<script>
+    document.querySelector('#addProductForm').addEventListener('submit', function (event) {
+        event.preventDefault();
 
-            var formData = new FormData(this);
+        var formData = new FormData(this);
 
-            var data = Object.fromEntries(formData);
+        // Convert categoryIds to array
+        formData.set('categoryIds', formData.get('categoryIds').split(',').map(Number));
 
-            data.categoryIds = data.categoryIds.split(',').map(Number);
-            data.photos = data.photos.split(',').map(s => s.trim());
+        // Set userId from session
+        formData.set('UserId', '@Context.Session.GetString("UserId")');
 
-            console.log(JSON.stringify(data));
-
-            fetch('http://localhost:5004/api/products/add_product', {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
+        fetch('http://localhost:5004/api/products/add_product', {
+            method: 'POST',
+            body: formData
+        })
+            .then(function (response) {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Błąd sieci!');
                 }
             })
-                .then(function (response) {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Błąd sieci!');
-                    }
-                })
-                .then(function (data) {
-                    document.querySelector('#message').textContent = 'Produkt został dodany poprawnie!';
-                })
-                .catch(function (error) {
-                    document.querySelector('#message').textContent = 'Wystąpił błąd: ' + error.message;
-                });
-        });
-    </script>
+            .then(function (data) {
+                document.querySelector('#message').textContent = 'Produkt został dodany poprawnie!';
+            })
+            .catch(function (error) {
+                document.querySelector('#message').textContent = 'Wystąpił błąd: ' + error.message;
+            });
+    });
+
+    // Set userId input value from session
+    document.querySelector('#userId').value = '@Context.Session.GetString("UserId")';
+</script>
 }

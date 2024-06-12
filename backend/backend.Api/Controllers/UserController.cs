@@ -145,6 +145,7 @@ public async Task<IActionResult> SeedUsers(int count)
         _logger.LogError(e.Message);
         return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
     }
+
 }
 
 
@@ -181,7 +182,7 @@ public async Task<IActionResult> SeedUsers(int count)
                     e.Message);
             }
         }
-        
+
         [HttpPut]
         [SwaggerOperation(Summary = "Zaaktualizuj użytkownika")]
         public async Task<IActionResult> UpdateUser(User userToUpdate)
@@ -206,6 +207,39 @@ public async Task<IActionResult> SeedUsers(int count)
                 await _userRepo.UpdatePersonAsync(existingUser);
                 return NoContent();
             }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    new
+                    {
+                        statusCode = 500,
+                        message = e.Message
+                    });
+            }
+        }
+
+        [HttpPut("UpdatePassword")]
+        [SwaggerOperation(Summary = "Zaaktualizuj hasło użytkownika")]
+        public async Task<IActionResult> UpdateUser(int userId, string password)
+        {
+            try
+            {
+                var existingUser = await _userRepo.GetPeopleByIdAsync(userId);
+                if (existingUser == null)
+                {
+                    return NotFound(new
+                    {
+                        statusCode = 404,
+                        message = "record not found"
+                    });
+                }
+                existingUser.Password = password;
+                await _userRepo.UpdatePersonAsync(existingUser);
+                return NoContent();
+            }
+
+
             catch (Exception e)
             {
                 _logger.LogError(e.Message);
@@ -324,17 +358,17 @@ public async Task<IActionResult> SeedUsers(int count)
                 if (user != null)
                 {
                     var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                        new Claim(ClaimTypes.Name, user.Username),
-                        new Claim(ClaimTypes.Role, user.isAdmin ? "Administrator" : "Użytkownik")
-                    };
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.Role, user.isAdmin ? "Administrator" : "Użytkownik")
+            };
 
                     var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var principal = new ClaimsPrincipal(identity);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                    return Ok(new { message = "Logged in successfully." });
+                    return Ok(new { message = "Logged in successfully.", userId = user.Id });
                 }
                 else
                 {

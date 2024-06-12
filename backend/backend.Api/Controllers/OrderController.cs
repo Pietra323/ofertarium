@@ -45,4 +45,19 @@ public class OrderController : ControllerBase
             return StatusCode(500, $"An error occurred: {ex.Message}");
         }
     }
+    
+    [HttpGet("/pdf")]
+    [SwaggerOperation(Summary = "Pobierz zamówienie jako PDF")]
+    public async Task<IActionResult> GetOrderPdf(int orderid)
+    {
+        try
+        {
+            var pdf = await _orderRepository.GenerateOrderPdfAsync(orderid);
+            return File(pdf, "application/pdf", $"Order_{orderid}.pdf");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An error occurred: {ex.Message}");
+        }
+    }
 }
