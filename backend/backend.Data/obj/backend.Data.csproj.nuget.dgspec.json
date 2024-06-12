@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/Users/pietra/RiderProjects/ofertarium/backend/backend.Data/backend.Data.csproj": {}
+    "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\backend.Data\\backend.Data.csproj": {}
   },
   "projects": {
-    "/Users/pietra/RiderProjects/ofertarium/backend/backend.Data/backend.Data.csproj": {
+    "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\backend.Data\\backend.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/pietra/RiderProjects/ofertarium/backend/backend.Data/backend.Data.csproj",
+        "projectUniqueName": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\backend.Data\\backend.Data.csproj",
         "projectName": "backend.Data",
-        "projectPath": "/Users/pietra/RiderProjects/ofertarium/backend/backend.Data/backend.Data.csproj",
-        "packagesPath": "/Users/pietra/.nuget/packages/",
-        "outputPath": "/Users/pietra/RiderProjects/ofertarium/backend/backend.Data/obj/",
+        "projectPath": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\backend.Data\\backend.Data.csproj",
+        "packagesPath": "C:\\Users\\Krzysiek\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\backend.Data\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/pietra/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Krzysiek\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -32,6 +38,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -105,7 +116,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.301/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

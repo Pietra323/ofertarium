@@ -12,23 +12,42 @@
 
 @model backend.Data.Models.User
 
-@if (Context.Session.GetString("IsLoggedIn") != "true")
-{
-    <form method="post" asp-action="AddUser" id="lol">
-        <input asp-for="Name" />
-        <input asp-for="LastName" />
-        <input asp-for="Username" />
-        <input asp-for="Email" />
-        <input asp-for="Password" />
-        <button type="submit">Submit</button>
-    </form>
+<div id="formsContainer">
 
-    <form method="post" asp-action="Login" id="loginForm">
-        <input asp-for="Username" />
-        <input asp-for="Password" />
-        <button type="submit">Zaloguj</button>
-    </form>
-}
+
+    @if (Context.Session.GetString("IsLoggedIn") != "true")
+    {
+        <button id="showRegisterForm" class="btn btn-primary">Pokaż formularz rejestracji</button>
+        <button id="showLoginForm" class="btn btn-secondary">Pokaż formularz logowania</button>
+        <div id="registerFormContainer" style="display: none;">
+            <h2>Rejestracja</h2>
+            <form method="post" asp-action="AddUser" id="lol" class="form-group">
+                <label for="Name">Imię:</label>
+                <input asp-for="Name" class="form-control" />
+                <label for="LastName">Nazwisko:</label>
+                <input asp-for="LastName" class="form-control" />
+                <label for="Username">Nazwa użytkownika:</label>
+                <input asp-for="Username" class="form-control" />
+                <label for="Email">Email:</label>
+                <input asp-for="Email" class="form-control" />
+                <label for="Password">Hasło:</label>
+                <input asp-for="Password" class="form-control" />
+                <button type="submit" class="btn btn-primary">Zarejestruj</button>
+            </form>
+        </div>
+
+        <div id="loginFormContainer" style="display: none;">
+            <h2>Logowanie</h2>
+            <form method="post" asp-action="Login" id="loginForm" class="form-group">
+                <label for="Username">Nazwa użytkownika:</label>
+                <input asp-for="Username" class="form-control" />
+                <label for="Password">Hasło:</label>
+                <input asp-for="Password" class="form-control" />
+                <button type="submit" class="btn btn-primary">Zaloguj</button>
+            </form>
+        </div>
+    }
+</div>
 <select id="categoryFilter" class="form-select">
 </select>
 <button id="resetFilter">Resetuj filtry</button>
@@ -66,38 +85,38 @@
             if (categoryId !== 'Wszystkie kategorie') {
                 url += '/api/products/' + categoryId;
             }
-            console.log("to ja"+url);
+            console.log("to ja" + url);
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                console.log(data);
+                    console.log(data);
                     productsDiv.innerHTML = '';
                     data.$values.forEach(product => {
                         const productDiv = document.createElement('div');
                         productDiv.classList.add("card")
                         productDiv.innerHTML = `
-                                    <h2>${product.productName}</h2>
-                                    <p>${product.subtitle}</p>
-                                    <p>Cena: ${product.price}</p>
-                                    <p>Ilość: ${product.amountOf}</p>
-                                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-                                        <div class="carousel-indicators">
-                                            ${product.photos.$values.map((photo, index) => `<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${index}" ${index === 0 ? 'class="active"' : ''} aria-current="${index === 0}"></button>`).join('')}
-                                        </div>
-                                        <div class="carousel-inner">
-                                            ${product.photos.$values.map((photo, index) => `<div class="carousel-item ${index === 0 ? 'active' : ''}"><img src="${photo}" class="d-block w-100" alt="${product.productName}"></div>`).join('')}
-                                        </div>
-                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Previous</span>
-                                        </button>
-                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                            <span class="visually-hidden">Next</span>
-                                        </button>
-                                    </div>
-                                    ${isLoggedIn ? `<button class="addToCart btn btn-primary" data-product-id="${product.idProduct}">Dodaj do koszyka</button>` : ''}
-                                `;
+                                                    <h2>${product.productName}</h2>
+                                                    <p>${product.subtitle}</p>
+                                                    <p>Cena: ${product.price}</p>
+                                                    <p>Ilość: ${product.amountOf}</p>
+                                                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                                        <div class="carousel-indicators">
+                                                            ${product.photos.$values.map((photo, index) => `<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${index}" ${index === 0 ? 'class="active"' : ''} aria-current="${index === 0}"></button>`).join('')}
+                                                        </div>
+                                                        <div class="carousel-inner">
+                                                            ${product.photos.$values.map((photo, index) => `<div class="carousel-item ${index === 0 ? 'active' : ''}"><img src="${photo}" class="d-block w-100" alt="${product.productName}"></div>`).join('')}
+                                                        </div>
+                                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Previous</span>
+                                                        </button>
+                                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Next</span>
+                                                        </button>
+                                                    </div>
+                                                    ${isLoggedIn ? `<button class="addToCart btn btn-primary" data-product-id="${product.idProduct}">Dodaj do koszyka</button>` : ''}
+                                                `;
                         productsDiv.appendChild(productDiv);
                     });
                     if (isLoggedIn) {
@@ -136,6 +155,19 @@
                 });
                 displayProducts('Wszystkie kategorie');
             });
-            
+        const registerFormContainer = document.getElementById('registerFormContainer');
+        const loginFormContainer = document.getElementById('loginFormContainer');
+        const showRegisterFormButton = document.getElementById('showRegisterForm');
+        const showLoginFormButton = document.getElementById('showLoginForm');
+
+        showRegisterFormButton.addEventListener('click', () => {
+            loginFormContainer.style.display = 'none';
+            registerFormContainer.style.display = 'block';
+        });
+
+        showLoginFormButton.addEventListener('click', () => {
+            registerFormContainer.style.display = 'none';
+            loginFormContainer.style.display = 'block';
+        });
     </script>
 }
