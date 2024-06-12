@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|c:\\users\\krzysiek\\documents\\github\\ofertarium\\backend\\razor\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|solutionrelative:razor\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|c:\\users\\krzysiek\\documents\\github\\ofertarium\\backend\\razor\\views\\home\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|solutionrelative:razor\\views\\home\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\backend.Data\\Migrations\\20240612092700_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend.Data\\Migrations\\20240612092700_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|c:\\users\\krzysiek\\documents\\github\\ofertarium\\backend\\razor\\views\\home\\cart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|solutionrelative:razor\\views\\home\\cart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|c:\\users\\krzysiek\\documents\\github\\ofertarium\\backend\\razor\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|solutionrelative:razor\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|c:\\users\\krzysiek\\documents\\github\\ofertarium\\backend\\razor\\models\\categoryviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|solutionrelative:razor\\models\\categoryviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|c:\\users\\krzysiek\\documents\\github\\ofertarium\\backend\\razor\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -27,20 +35,12 @@
       "RelativeMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|solutionrelative:razor\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|c:\\users\\krzysiek\\documents\\github\\ofertarium\\backend\\razor\\models\\categoryviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|solutionrelative:razor\\models\\categoryviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{66AA68B2-0CAB-43E0-BBC5-460B2955F803}|backend.Api\\backend.Api.csproj|c:\\users\\krzysiek\\documents\\github\\ofertarium\\backend\\backend.api\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{66AA68B2-0CAB-43E0-BBC5-460B2955F803}|backend.Api\\backend.Api.csproj|solutionrelative:backend.api\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|c:\\users\\krzysiek\\documents\\github\\ofertarium\\backend\\razor\\views\\home\\addproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|solutionrelative:razor\\views\\home\\addproduct.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\backend.Data\\Migrations\\20240612092700_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend.Data\\Migrations\\20240612092700_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{076E4EC2-1281-470C-8D04-43C540A70F4B}|Razor\\Razor.csproj|c:\\users\\krzysiek\\documents\\github\\ofertarium\\backend\\razor\\views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -114,7 +114,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -134,7 +134,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "ProductController.cs",
               "DocumentMoniker": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\backend.Api\\Controllers\\ProductController.cs",
               "RelativeDocumentMoniker": "backend.Api\\Controllers\\ProductController.cs",
@@ -147,7 +147,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 2,
               "Title": "20240612092700_InitialCreate.cs",
               "DocumentMoniker": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\backend.Data\\Migrations\\20240612092700_InitialCreate.cs",
               "RelativeDocumentMoniker": "backend.Data\\Migrations\\20240612092700_InitialCreate.cs",
@@ -160,7 +160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Cart.cshtml",
               "DocumentMoniker": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\Razor\\Views\\Home\\Cart.cshtml",
               "RelativeDocumentMoniker": "Razor\\Views\\Home\\Cart.cshtml",
@@ -173,20 +173,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Profile.cshtml",
               "DocumentMoniker": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\Razor\\Views\\Home\\Profile.cshtml",
               "RelativeDocumentMoniker": "Razor\\Views\\Home\\Profile.cshtml",
               "ToolTip": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\Razor\\Views\\Home\\Profile.cshtml",
               "RelativeToolTip": "Razor\\Views\\Home\\Profile.cshtml",
-              "ViewState": "AQIAAGYAAAAAAAAAAAAqwHoAAAAAAAAA",
+              "ViewState": "AQIAAE4AAAAAAAAAAAAqwGkAAAAmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-06-09T22:45:26.913Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "Privacy.cshtml",
               "DocumentMoniker": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\Razor\\Views\\Home\\Privacy.cshtml",
               "RelativeDocumentMoniker": "Razor\\Views\\Home\\Privacy.cshtml",
@@ -199,20 +199,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\Razor\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "Razor\\Views\\Home\\Index.cshtml",
-              "ToolTip": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\Razor\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "Razor\\Views\\Home\\Index.cshtml",
-              "ViewState": "AQIAADMAAAAAAAAAAAAAACUAAAAAAAAA",
+              "ToolTip": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\Razor\\Views\\Home\\Index.cshtml*",
+              "RelativeToolTip": "Razor\\Views\\Home\\Index.cshtml*",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAIoAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-06-09T22:08:44.653Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
               "Title": "CategoryViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\Razor\\Models\\CategoryViewModel.cs",
               "RelativeDocumentMoniker": "Razor\\Models\\CategoryViewModel.cs",
@@ -225,7 +225,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "ErrorViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\Razor\\Models\\ErrorViewModel.cs",
               "RelativeDocumentMoniker": "Razor\\Models\\ErrorViewModel.cs",
@@ -238,7 +238,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\Razor\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "Razor\\Controllers\\HomeController.cs",
@@ -251,7 +251,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "AddProduct.cshtml",
               "DocumentMoniker": "C:\\Users\\Krzysiek\\Documents\\GitHub\\ofertarium\\backend\\Razor\\Views\\Home\\AddProduct.cshtml",
               "RelativeDocumentMoniker": "Razor\\Views\\Home\\AddProduct.cshtml",

@@ -76,13 +76,28 @@
                         const productDiv = document.createElement('div');
                         productDiv.classList.add("card")
                         productDiv.innerHTML = `
-                                                    <h2>${product.productName}</h2>
-                                                    <p>${product.subtitle}</p>
-                                                    <p>Cena: ${product.price}</p>
-                                                    <p>Ilość: ${product.amountOf}</p>
-                                                    <img src="${product.photos.$values[0]}" alt="${product.productName}" />
-                                                                    ${isLoggedIn ? `<button class="addToCart btn btn-primary" data-product-id="${product.idProduct}">Dodaj do koszyka</button>` : ''}
-                                                `;
+                                    <h2>${product.productName}</h2>
+                                    <p>${product.subtitle}</p>
+                                    <p>Cena: ${product.price}</p>
+                                    <p>Ilość: ${product.amountOf}</p>
+                                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-indicators">
+                                            ${product.photos.$values.map((photo, index) => `<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${index}" ${index === 0 ? 'class="active"' : ''} aria-current="${index === 0}"></button>`).join('')}
+                                        </div>
+                                        <div class="carousel-inner">
+                                            ${product.photos.$values.map((photo, index) => `<div class="carousel-item ${index === 0 ? 'active' : ''}"><img src="${photo}" class="d-block w-100" alt="${product.productName}"></div>`).join('')}
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+                                    ${isLoggedIn ? `<button class="addToCart btn btn-primary" data-product-id="${product.idProduct}">Dodaj do koszyka</button>` : ''}
+                                `;
                         productsDiv.appendChild(productDiv);
                     });
                     if (isLoggedIn) {

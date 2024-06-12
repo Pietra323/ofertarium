@@ -125,7 +125,8 @@ public class ProductRepository : IProductRepository
             // Fetch photos associated with the current product
             var photos = await _ctx.Photos
                 .Where(p => p.ProductId == product.IdProduct)
-                .Select(p => $"{baseUrl}/images/{p.Url}")
+                .Select(p => p.Url.Substring(p.Url.LastIndexOf('/') + 1))
+                .Select(p => $"{baseUrl}/images/{p}")
                 .ToListAsync();
 
             var productDTO = new ProductDTO()
