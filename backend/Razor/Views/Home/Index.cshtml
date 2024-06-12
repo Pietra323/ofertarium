@@ -62,15 +62,15 @@
         const addToCartModal = new bootstrap.Modal(document.getElementById('addToCartModal'));
 
         function displayProducts(categoryId) {
-            let url = 'https://localhost:7235/api/products';
-
+            let url = 'http://localhost:5004/api/products';
             if (categoryId !== 'Wszystkie kategorie') {
-                categoryId += 1;
-                url += '/' + categoryId;
+                url += '/api/products/' + categoryId;
             }
+            console.log("to ja"+url);
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
+                console.log(data);
                     productsDiv.innerHTML = '';
                     data.$values.forEach(product => {
                         const productDiv = document.createElement('div');
@@ -104,7 +104,7 @@
                         document.querySelectorAll('.addToCart').forEach(button => {
                             button.addEventListener('click', () => {
                                 const productId = button.getAttribute('data-product-id');
-                                fetch(`https://localhost:7235/api/Basket/add?productId=${productId}&userId=${userId}`, { method: 'POST' })
+                                fetch(`http://localhost:5004/api/Basket/add?productId=${productId}&userId=${userId}`, { method: 'POST' })
                                     .then(() => {
                                         addToCartModal.show(); // Show the modal after adding a product to the cart
                                     });
@@ -116,6 +116,7 @@
 
         categoryFilter.addEventListener('change', () => {
             const selectedCategory = categoryFilter.value;
+            console.log(selectedCategory);
             displayProducts(selectedCategory);
         });
 
@@ -124,7 +125,7 @@
             displayProducts('Wszystkie kategorie');
         });
 
-        fetch('https://localhost:7235/api/category')
+        fetch('http://localhost:5004/api/category')
             .then(response => response.json())
             .then(data => {
                 data.$values.forEach(category => {
@@ -135,5 +136,6 @@
                 });
                 displayProducts('Wszystkie kategorie');
             });
+            
     </script>
 }

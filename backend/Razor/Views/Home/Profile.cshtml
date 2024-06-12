@@ -6,7 +6,7 @@
     User user = null;
 
     var userId = Context.Session.GetString("UserId");
-    var request = new HttpRequestMessage(HttpMethod.Get, $"https://localhost:7235/api/users/currentUser?userId={userId}");
+    var request = new HttpRequestMessage(HttpMethod.Get, $"http://localhost:5004/api/users/currentUser?userId={userId}");
     var client = _clientFactory.CreateClient();
     var response = await client.SendAsync(request);
 
@@ -69,7 +69,7 @@
         const modal = new bootstrap.Modal(document.getElementById('modal'));
 
         function displayOrders() {
-            fetch(`https://localhost:7235/api/Order/orderhistory?userId=${userId}`)
+            fetch(`http://localhost:5004/api/Order/orderhistory?userId=${userId}`)
                 .then(response => response.json())
                 .then(data => {
                     ordersDiv.innerHTML = ''; // Clear the orders div
@@ -81,7 +81,7 @@
                         data.$values.forEach(order => {
                             var listItem = document.createElement('li');
                             listItem.className = 'list-group-item';
-                            listItem.innerHTML = `<p>Order ID: ${order.orderId}</p><p>Product Name: ${order.productName}</p><p>Order Date: ${order.orderDate}</p><p>Quantity: ${order.quantity}</p><button onclick="window.location.href='https://localhost:7235/pdf?orderid=${order.orderId}'" class="btn btn-primary">Pobierz PDF</button>`;
+                            listItem.innerHTML = `<p>Order ID: ${order.orderId}</p><p>Product Name: ${order.productName}</p><p>Order Date: ${order.orderDate}</p><p>Quantity: ${order.quantity}</p><button onclick="window.location.href='http://localhost:5004/pdf?orderid=${order.orderId}'" class="btn btn-primary">Pobierz PDF</button>`;
                             list.appendChild(listItem);
                         });
                         ordersDiv.appendChild(list);
@@ -101,7 +101,7 @@
                 return;
             }
 
-            fetch(`https://localhost:7235/api/users/UpdatePassword?userId=${userId}&password=${newPassword}`, { method: 'PUT' })
+            fetch(`http://localhost:5004/api/users/UpdatePassword?userId=${userId}&password=${newPassword}`, { method: 'PUT' })
                 .then(response => {
                     if (response.ok) {
                         // Show success modal if password was changed successfully
@@ -124,7 +124,7 @@
         const productsDiv = document.getElementById('products');
 
         function displayProducts() {
-            fetch(`https://localhost:7235/api/products/user/products?userId=${userId}`)
+            fetch(`http://localhost:5004/api/products/user/products?userId=${userId}`)
                 .then(response => response.json())
                 .then(data => {
                     productsDiv.innerHTML = ''; // Clear the products div
@@ -145,7 +145,7 @@
         }
 
         function deleteProduct(productId) {
-            fetch(`https://localhost:7235/api/products/${productId}?userId=${userId}`, { method: 'DELETE' })
+            fetch(`http://localhost:5004/api/products/${productId}?userId=${userId}`, { method: 'DELETE' })
                 .then(response => {
                     if (response.ok) {
                         // Show success modal if product was deleted successfully

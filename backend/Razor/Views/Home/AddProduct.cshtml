@@ -5,7 +5,7 @@ ViewData["AddProduct"] = "Add Product";
 
 <p>Add Product Form</p>
 
-<form id="addProductForm" action="https://localhost:7235/api/products/add_product" method="post" enctype="multipart/form-data">
+<form id="addProductForm" action="http://localhost:5004/api/products/add_product" method="post" enctype="multipart/form-data">
     <label for="productName">Nazwa Produktu:</label><br>
     <input type="text" id="productName" name="productName"><br>
     <label for="subtitle">Podtytuł:</label><br>
@@ -39,7 +39,7 @@ ViewData["AddProduct"] = "Add Product";
         // Set userId from session
         formData.set('UserId', '@Context.Session.GetString("UserId")');
 
-        fetch('https://localhost:7235/api/products/add_product', {
+        fetch('http://localhost:5004/api/products/add_product', {
             method: 'POST',
             body: formData
         })

@@ -36,7 +36,7 @@ namespace backend.Api.Controllers
             _httpClientFactory = httpClientFactory;
         }
         
-        [HttpGet("/products/{categoryId}")]
+        [HttpGet("api/products/{categoryId}")]
         [SwaggerOperation(Summary = "Pobierz wszystkie produkty z danej kategorii")]
         public async Task<IActionResult> GetProductsByCategory(int categoryId)
         {
@@ -289,7 +289,7 @@ namespace backend.Api.Controllers
         }
         
         
-        [HttpGet("{id}")]
+        [HttpGet("cospobierz")]
         [SwaggerOperation(Summary = "Pobierz produkt")]
         public async Task<IActionResult> GetProductById(int id)
         {
